@@ -21,4 +21,7 @@
   .focus-ring {
     @apply ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2
   }
+  .disabled-classes {
+    @apply pointer-events-none cursor-not-allowed opacity-50
+  }
 }
