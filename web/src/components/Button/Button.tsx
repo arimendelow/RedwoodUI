@@ -9,16 +9,16 @@ const buttonVariants = cva(
     variants: {
       colors: {
         primary: [
-          'bg-primary-700',
+          'bg-primary-700 dark:bg-primary-500',
           'text-white',
-          'hover:bg-primary-700/90',
+          'hover:bg-primary-700/90 dark:hover:bg-primary-500/90',
           'focus-ring',
         ],
         secondary: [
-          'bg-white',
-          'hover:bg-neutral-50',
-          'text-neutral-900',
-          'ring-1',
+          'bg-white dark:bg-white/10',
+          'hover:bg-neutral-50 dark:hover:bg-white/20',
+          'text-neutral-900 dark:text-white',
+          'ring-1 dark:ring-0',
           'ring-inset',
           'ring-neutral-300',
         ],
