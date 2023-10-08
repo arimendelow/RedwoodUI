@@ -16,6 +16,7 @@ const buttonVariants = cva(
         ],
         secondary: [
           'bg-white',
+          'hover:bg-neutral-50',
           'text-neutral-900',
           'ring-1',
           'ring-inset',
