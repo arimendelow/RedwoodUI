@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from 'src/lib/utils'
 
 const btnVnts = cva(
-  'rounded-default inline-flex items-center justify-center rounded-md font-medium ring-offset-primary-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'rounded-default inline-flex items-center justify-center font-medium ring-offset-primary-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2 disabled:pointer-events-none disabled: disabled:opacity-50',
   {
     variants: {
       intent: {
