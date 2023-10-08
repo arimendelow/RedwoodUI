@@ -11,3 +11,9 @@
 /**
  * END --- SETUP TAILWINDCSS EDIT
  */
+
+@layer components {
+  .rounded-default {
+    @apply rounded-md;
+  }
+}
