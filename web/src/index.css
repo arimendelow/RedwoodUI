@@ -13,7 +13,12 @@
  */
 
 @layer components {
+  /* START --- Customize these to change how your components look */
   .rounded-default {
     @apply rounded-md;
+  }
+  /* END --- Customize these to change how your components look */
+  .focus-ring {
+    @apply ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2
   }
 }
