@@ -17,13 +17,16 @@ import Button from './Button'
 const meta: Meta<typeof Button> = {
   component: Button,
   argTypes: {
-    intent: {
-      options: ['primary', 'secondary'],
+    colors: {
+      options: ['primary', 'secondary', 'soft'],
       control: { type: 'radio' },
     },
     size: {
-      options: ['sm', 'base'],
+      options: ['xs', 'sm', 'base', 'lg', 'xl'],
       control: { type: 'radio' },
+    },
+    pill: {
+      control: { type: 'boolean' },
     },
     disabled: {
       control: { type: 'boolean' },
@@ -37,13 +40,10 @@ type Story = StoryObj<typeof Button>
 
 export const Primary: Story = {
   args: {
-    intent: 'primary',
+    colors: 'primary',
     size: 'base',
+    pill: false,
     disabled: false,
   },
-  render: ({ intent, size, disabled }) => (
-    <Button intent={intent} size={size} disabled={disabled}>
-      Button
-    </Button>
-  ),
+  render: (props) => <Button {...props}>Button text</Button>,
 }
