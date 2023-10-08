@@ -45,5 +45,5 @@ export const Primary: Story = {
     pill: false,
     disabled: false,
   },
-  render: (props) => <Button {...props}>Button text</Button>,
+  render: (props) => <Button {...props}>Button</Button>,
 }
