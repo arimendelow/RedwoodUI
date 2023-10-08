@@ -23,9 +23,9 @@ const buttonVariants = cva(
           'ring-neutral-300',
         ],
         soft: [
-          'bg-primary-50',
-          'text-primary-600',
-          'hover:bg-primary-100',
+          'bg-primary-50 dark:bg-primary-900/50',
+          'text-primary-600 dark:text-primary-200',
+          'hover:bg-primary-100 dark:hover:bg-primary-900/80',
           'focus-ring',
         ],
       },
