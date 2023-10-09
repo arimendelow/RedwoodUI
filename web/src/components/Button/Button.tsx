@@ -10,21 +10,21 @@ const buttonVariants = cva(
       colors: {
         primary: [
           'bg-primary-700 dark:bg-primary-500',
-          'text-white',
+          'text-light',
           'hover:bg-primary-700/90 dark:hover:bg-primary-500/90',
           'focus-ring',
         ],
         secondary: [
-          'bg-white dark:bg-white/10',
-          'hover:bg-neutral-50 dark:hover:bg-white/20',
-          'text-neutral-900 dark:text-white',
+          'bg-light dark:bg-light/10',
+          'hover:bg-neutral-50 dark:hover:bg-light/20',
+          'text-dark dark:text-light',
           'ring-1 dark:ring-0',
           'ring-inset',
           'ring-neutral-300',
         ],
         soft: [
           'bg-primary-50 dark:bg-primary-900/50',
-          'text-primary-600 dark:text-primary-200',
+          'text-primary-600 dark:text-light/90',
           'hover:bg-primary-100 dark:hover:bg-primary-900/80',
           'focus-ring',
         ],

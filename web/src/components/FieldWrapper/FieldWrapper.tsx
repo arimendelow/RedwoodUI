@@ -52,7 +52,7 @@ const StyledFieldWrapper = ({
       {label && (
         <Label
           name={name}
-          className="block text-sm font-medium text-neutral-700 dark:text-white"
+          className="block text-sm font-medium text-neutral-700 dark:text-light"
           errorClassName="block text-sm font-medium text-red-600"
         >
           {label}

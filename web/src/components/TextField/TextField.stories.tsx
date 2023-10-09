@@ -18,6 +18,14 @@ import TextField from './TextField'
 
 const meta: Meta<typeof TextField> = {
   component: TextField,
+  argTypes: {
+    inline: {
+      control: { type: 'boolean' },
+    },
+    markOptional: {
+      control: { type: 'boolean' },
+    },
+  },
 }
 
 export default meta
@@ -25,7 +33,7 @@ export default meta
 type Story = StoryObj<typeof TextField>
 
 export const Primary: Story = {
-  render: () => {
+  render: ({ inline, markOptional }) => {
     interface ISampleForm {
       username: string
     }
@@ -35,7 +43,8 @@ export const Primary: Story = {
           name="username"
           label="Username"
           placeholder="ari@mendelow.me"
-          markOptional
+          inline={inline}
+          markOptional={markOptional}
         />
       </Form>
     )

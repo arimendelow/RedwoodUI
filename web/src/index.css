@@ -24,16 +24,17 @@
     @apply rounded-md;
   }
   .bg-default {
-    @apply bg-white dark:bg-neutral-900;
+    @apply bg-light dark:bg-dark;
   }
   /* END --- Customize these to change how your components look */
   .focus-ring {
-    @apply ring-offset-white dark:ring-offset-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2;
+    @apply ring-offset-light dark:ring-offset-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2;
   }
   .disabled-classes {
     @apply pointer-events-none cursor-not-allowed opacity-50;
   }
   .input-field {
-    @apply flex h-10 w-full rounded-default border border-neutral-300 bg-default px-3 py-2 text-base   placeholder:text-neutral-500 disabled:disabled-classes focus-ring;
+    @apply flex h-10 w-full rounded-default border border-neutral-300 bg-default px-3 py-2 text-base text-dark dark:text-light placeholder:text-neutral-500 disabled:disabled-classes focus-ring;
   }
 }
+
