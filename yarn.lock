@@ -2552,6 +2552,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@formkit/auto-animate@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "@formkit/auto-animate@npm:0.8.0"
+  checksum: b5bfb2b131b90955cd2b895ce55ee31cfbe6bc99da2d6dd87b75f923927063eda5d813799ace474c6fd87d48bac7d8f95dc0bec2d8d879a00a967de00a05edc0
+  languageName: node
+  linkType: hard
+
 "@graphql-codegen/add@npm:4.0.1":
   version: 4.0.1
   resolution: "@graphql-codegen/add@npm:4.0.1"
@@ -24096,6 +24103,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:web"
   dependencies:
+    "@formkit/auto-animate": ^0.8.0
     "@radix-ui/react-slot": ^1.0.2
     "@redwoodjs/forms": 6.3.1
     "@redwoodjs/router": 6.3.1

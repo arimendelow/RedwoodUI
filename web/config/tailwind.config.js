@@ -9,7 +9,6 @@ module.exports = {
       colors: {
         primary: colors.blue,
         neutral: colors.gray,
-        accent: colors.teal,
       },
     },
   },
