@@ -4,16 +4,16 @@ import { FieldError, InputFieldProps, Label } from '@redwoodjs/forms'
 
 import { cn } from 'src/lib/utils'
 
-/** Use this to type any props that are children of `StyledFieldWrapper` */
+/** Use this to type any props that are children of `InputFieldWrapper` */
 export interface StyledFieldProps
-  extends Omit<StyledFieldWrapperProps, 'children'>,
+  extends Omit<InputFieldWrapperProps, 'children'>,
     InputFieldProps {
   defaultValue?: string | number | readonly string[]
   placeholder?: string
   disabled?: boolean
 }
 
-export interface StyledFieldWrapperProps {
+export interface InputFieldWrapperProps {
   children: JSX.Element
   /** Identifier name for this field */
   name: string
@@ -32,7 +32,7 @@ export interface StyledFieldWrapperProps {
   /** Use this to include a custom component that will be placed inside the input, at the end */
   endComponent?: JSX.Element
 }
-const StyledFieldWrapper = ({
+const InputFieldWrapper = ({
   children,
   name,
   label,
@@ -41,7 +41,7 @@ const StyledFieldWrapper = ({
   inline = false,
   markOptional = false,
   endComponent,
-}: StyledFieldWrapperProps) => {
+}: InputFieldWrapperProps) => {
   // This is used to animate, for example, the appearance of error messages
   const [animationParentRef] = useAutoAnimate()
   return (
@@ -82,4 +82,4 @@ const StyledFieldWrapper = ({
   )
 }
 
-export default StyledFieldWrapper
+export default InputFieldWrapper

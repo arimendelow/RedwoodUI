@@ -1,8 +1,8 @@
 import { TextField as RWTextField } from '@redwoodjs/forms'
 
-import StyledFieldWrapper, {
+import InputFieldWrapper, {
   StyledFieldProps,
-} from 'src/components/FieldWrapper'
+} from 'src/components/forms/InputFieldWrapper'
 import { cn } from 'src/lib/utils'
 
 const TextField = React.forwardRef<HTMLInputElement, StyledFieldProps>(
@@ -28,7 +28,7 @@ const TextField = React.forwardRef<HTMLInputElement, StyledFieldProps>(
     ref
   ) => {
     return (
-      <StyledFieldWrapper
+      <InputFieldWrapper
         label={label}
         name={name}
         maxLength={maxLength}
@@ -49,7 +49,7 @@ const TextField = React.forwardRef<HTMLInputElement, StyledFieldProps>(
           disabled={disabled}
           {...props}
         />
-      </StyledFieldWrapper>
+      </InputFieldWrapper>
     )
   }
 )
