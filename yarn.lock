@@ -5940,6 +5940,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/addons@npm:^7.4.6":
+  version: 7.4.6
+  resolution: "@storybook/addons@npm:7.4.6"
+  dependencies:
+    "@storybook/manager-api": 7.4.6
+    "@storybook/preview-api": 7.4.6
+    "@storybook/types": 7.4.6
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: a2ff1240144b00a1b26aa5ffbd2b2cdcccd6b0574fc10c2e42f394f06407a4739a7622a0d10814f6334fac09b30c4905cb8b9fb9fb6cb0d12c7b89634849eec8
+  languageName: node
+  linkType: hard
+
 "@storybook/api@npm:^7.0.12":
   version: 7.4.6
   resolution: "@storybook/api@npm:7.4.6"
@@ -6605,7 +6619,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/preview-api@npm:^7.0.12":
+"@storybook/preview-api@npm:7.4.6, @storybook/preview-api@npm:^7.0.12":
   version: 7.4.6
   resolution: "@storybook/preview-api@npm:7.4.6"
   dependencies:
@@ -6789,7 +6803,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/theming@npm:7.4.6, @storybook/theming@npm:^7.0.12":
+"@storybook/theming@npm:7.4.6, @storybook/theming@npm:^7.0.12, @storybook/theming@npm:^7.4.6":
   version: 7.4.6
   resolution: "@storybook/theming@npm:7.4.6"
   dependencies:
@@ -24120,6 +24134,8 @@ __metadata:
     "@redwoodjs/vite": 6.3.1
     "@redwoodjs/web": 6.3.1
     "@storybook/addon-styling": ^1.3.7
+    "@storybook/addons": ^7.4.6
+    "@storybook/theming": ^7.4.6
     autoprefixer: ^10.4.16
     class-variance-authority: ^0.7.0
     clsx: ^2.0.0
