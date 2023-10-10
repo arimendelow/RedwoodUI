@@ -23,10 +23,10 @@
   .rounded-default {
     @apply rounded-md;
   }
+  /* END --- Customize these to change how your components look */
   .bg-default {
     @apply bg-light dark:bg-dark;
   }
-  /* END --- Customize these to change how your components look */
   .focus-ring {
     @apply ring-offset-light dark:ring-offset-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2;
   }
