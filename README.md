@@ -2,6 +2,8 @@
 
 This is currently a PoC of using TailwindCSS to create a branding system for bespoke RedwoodJS specific components.
 
+Demo here: [https://youtu.be/r6f7GSTwVBw](https://youtu.be/r6f7GSTwVBw)
+
 View existing components by building this repo and running `yarn rw storybook`.
 
 Alternatively, this Storybook has been published on Chromatic [here](https://6525bb94aba230a3c956f05b-ogxkhkrtib.chromatic.com/).
