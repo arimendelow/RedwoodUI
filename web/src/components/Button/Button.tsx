@@ -4,10 +4,10 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from 'src/lib/utils'
 
 const buttonVariants = cva(
-  'rounded-default inline-flex items-center justify-center font-semibold transition-colors disabled:disabled-classes',
+  'rounded-default inline-flex items-center justify-center font-semibold transition-colorTreatment disabled:disabled-classes',
   {
     variants: {
-      colors: {
+      colorTreatment: {
         primary: [
           'bg-primary-700 dark:bg-primary-500',
           'text-light',
@@ -38,7 +38,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      colors: 'primary',
+      colorTreatment: 'primary',
       size: 'base',
     },
   }
@@ -53,14 +53,21 @@ export interface IButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
   (
-    { colors, size, className, asChild = false, pill = false, ...props },
+    {
+      colorTreatment,
+      size,
+      className,
+      asChild = false,
+      pill = false,
+      ...props
+    },
     ref
   ) => {
     const Comp = asChild ? Slot : 'button'
     return (
       <Comp
         className={cn(
-          buttonVariants({ colors, size, className }),
+          buttonVariants({ colorTreatment, size, className }),
           pill && 'rounded-full'
         )}
         ref={ref}

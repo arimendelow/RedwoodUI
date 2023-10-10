@@ -17,7 +17,7 @@ import Button from './Button'
 const meta: Meta<typeof Button> = {
   component: Button,
   argTypes: {
-    colors: {
+    colorTreatment: {
       options: ['primary', 'secondary', 'soft'],
       control: { type: 'radio' },
     },
@@ -40,7 +40,7 @@ type Story = StoryObj<typeof Button>
 
 export const Primary: Story = {
   args: {
-    colors: 'primary',
+    colorTreatment: 'primary',
     size: 'base',
     pill: false,
     disabled: false,

@@ -14,8 +14,16 @@ import { inputFieldVariants } from '../inputVariants'
 /** Use this to type any props that are children of `InputFieldWrapper` */
 export interface InputFieldProps
   extends Omit<InputFieldWrapperProps, 'children'>,
-    Omit<RWInputFieldProps, 'size'>, // see note below
-    VariantProps<typeof inputFieldVariants> {
+    /**
+     * This is omitted because we have our own 'size' variant.
+     * If you mean to use this directly, we instead map it to 'htmlInputElementSize'.
+     */
+    Omit<RWInputFieldProps, 'size'>,
+    /**
+     * We omit the `colorTreatment` variant because it's meant for internal use,
+     * as it's used to apply the error color treatment, which the field handles automatically.
+     */
+    Omit<VariantProps<typeof inputFieldVariants>, 'colorTreatment'> {
   defaultValue?: string | number | readonly string[]
   placeholder?: string
   disabled?: boolean

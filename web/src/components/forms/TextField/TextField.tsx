@@ -44,6 +44,11 @@ const TextField = React.forwardRef<HTMLInputElement, InputFieldProps>(
           defaultValue={defaultValue}
           placeholder={placeholder}
           className={inputFieldVariants({ size, className })}
+          errorClassName={inputFieldVariants({
+            colorTreatment: 'error',
+            size,
+            className,
+          })}
           validation={optional ? validation : { ...validation, required: true }}
           onChange={onChange}
           onKeyDown={onKeyDown}
