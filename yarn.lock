@@ -3257,6 +3257,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@heroicons/react@npm:^2.0.18":
+  version: 2.0.18
+  resolution: "@heroicons/react@npm:2.0.18"
+  peerDependencies:
+    react: ">= 16"
+  checksum: 3cef7f67c65f8b00dc4f23788e468e661a24bd805f80e3b5514a986d69c91ef05407cf50078691573eced47147db87a9bd00cc165e4fecd2a9657cbaf3eaafb5
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.10":
   version: 0.11.11
   resolution: "@humanwhocodes/config-array@npm:0.11.11"
@@ -24104,6 +24113,7 @@ __metadata:
   resolution: "web@workspace:web"
   dependencies:
     "@formkit/auto-animate": ^0.8.0
+    "@heroicons/react": ^2.0.18
     "@radix-ui/react-slot": ^1.0.2
     "@redwoodjs/forms": 6.3.1
     "@redwoodjs/router": 6.3.1

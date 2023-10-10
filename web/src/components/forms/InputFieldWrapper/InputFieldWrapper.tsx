@@ -84,7 +84,7 @@ const InputFieldWrapper = ({
       )}
       <div className={cn(!!label && 'mt-1', 'rounded-default relative')}>
         {children}
-        <div className="absolute bottom-0 right-2 top-[50%] -translate-y-1/2">
+        <div className="absolute bottom-0 right-2 flex h-full items-center">
           {endComponent}
         </div>
         {maxLength !== undefined && currentLength !== undefined && (

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.0",
+    "@heroicons/react": "^2.0.18",
     "@radix-ui/react-slot": "^1.0.2",
     "@redwoodjs/forms": "6.3.1",
     "@redwoodjs/router": "6.3.1",

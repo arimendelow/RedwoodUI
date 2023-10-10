@@ -4,6 +4,9 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { FormProvider, Form, useForm, useWatch } from '@redwoodjs/forms'
 
+import Button from 'src/components/Button/Button'
+import { RedwoodJSLogo } from 'src/components/logos/RedwoodJSLogo'
+
 import TextField from './TextField'
 
 const meta: Meta<typeof TextField> = {
@@ -19,6 +22,24 @@ const meta: Meta<typeof TextField> = {
       name: 'max input length',
       control: { type: 'number' },
     },
+    endComponent: {
+      options: ['undefined', 'Icon', 'Button'],
+      mapping: {
+        undefined: undefined,
+        Icon: <RedwoodJSLogo className="h-5 w-5" />,
+        Button: (
+          <Button
+            size="xs"
+            onClick={(e) => {
+              e.preventDefault()
+              alert('Hello Redwood!')
+            }}
+          >
+            Click me!
+          </Button>
+        ),
+      },
+    },
   },
 }
 
@@ -31,8 +52,9 @@ export const Primary: Story = {
     inline: false,
     optional: false,
     maxLength: undefined,
+    endComponent: undefined,
   },
-  render: ({ inline, optional, maxLength }) => {
+  render: ({ inline, optional, maxLength, endComponent }) => {
     return (
       <TextField
         label="Username"
@@ -41,6 +63,7 @@ export const Primary: Story = {
         inline={inline}
         optional={optional}
         maxLength={maxLength}
+        endComponent={endComponent}
         // eslint-disable-next-line react-hooks/rules-of-hooks
         currentLength={useWatch({ name: 'username' })?.length || 0}
       />
