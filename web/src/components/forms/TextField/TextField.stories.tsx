@@ -12,11 +12,13 @@ import TextField from './TextField'
 const meta: Meta<typeof TextField> = {
   component: TextField,
   argTypes: {
-    inline: {
-      control: { type: 'boolean' },
-    },
     optional: {
       control: { type: 'boolean' },
+    },
+    inputTextSize: {
+      name: 'input text size',
+      options: ['base', 'grow'],
+      control: { type: 'radio' },
     },
     maxLength: {
       name: 'max input length',
@@ -50,19 +52,19 @@ type Story = StoryObj<typeof TextField>
 
 export const Primary: Story = {
   args: {
-    inline: false,
     optional: false,
+    inputTextSize: 'base',
     maxLength: undefined,
     endComponent: undefined,
   },
-  render: ({ inline, optional, maxLength, endComponent }) => {
+  render: ({ optional, inputTextSize, maxLength, endComponent }) => {
     return (
       <TextField
         label="Username"
         name="username"
-        placeholder="ari@mendelow.me"
-        inline={inline}
+        placeholder="arimendelow"
         optional={optional}
+        inputTextSize={inputTextSize}
         maxLength={maxLength}
         endComponent={endComponent}
         // eslint-disable-next-line react-hooks/rules-of-hooks

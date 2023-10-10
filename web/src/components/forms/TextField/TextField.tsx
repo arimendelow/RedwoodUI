@@ -22,7 +22,7 @@ const TextField = React.forwardRef<HTMLInputElement, InputFieldProps>(
       optional,
       endComponent,
       className,
-      size,
+      inputTextSize,
       htmlInputElementSize,
       ...props
     },
@@ -43,10 +43,10 @@ const TextField = React.forwardRef<HTMLInputElement, InputFieldProps>(
           name={name}
           defaultValue={defaultValue}
           placeholder={placeholder}
-          className={inputFieldVariants({ size, className })}
+          className={inputFieldVariants({ inputTextSize, className })}
           errorClassName={inputFieldVariants({
             colorTreatment: 'error',
-            size,
+            inputTextSize,
             className,
           })}
           validation={optional ? validation : { ...validation, required: true }}
