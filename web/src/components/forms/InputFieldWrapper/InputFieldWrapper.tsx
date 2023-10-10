@@ -1,16 +1,30 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { VariantProps } from 'class-variance-authority'
 
-import { FieldError, InputFieldProps, Label } from '@redwoodjs/forms'
+import {
+  FieldError,
+  InputFieldProps as RWInputFieldProps,
+  Label,
+} from '@redwoodjs/forms'
 
 import { cn } from 'src/lib/utils'
 
+import { inputFieldVariants } from '../inputVariants'
+
 /** Use this to type any props that are children of `InputFieldWrapper` */
-export interface StyledFieldProps
+export interface InputFieldProps
   extends Omit<InputFieldWrapperProps, 'children'>,
-    InputFieldProps {
+    Omit<RWInputFieldProps, 'size'>, // see note below
+    VariantProps<typeof inputFieldVariants> {
   defaultValue?: string | number | readonly string[]
   placeholder?: string
   disabled?: boolean
+  /**
+   * Where the 'size' prop corresponds to the Input's size variants, this prop
+   * corresponds to the HTMLInputElement's size attribute.
+   * See here for usage: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement
+   */
+  htmlInputElementSize?: number
 }
 
 export interface InputFieldWrapperProps {
@@ -21,7 +35,11 @@ export interface InputFieldWrapperProps {
   label?: string
   /** Maximum length of the text in the field */
   maxLength?: number
-  /** Current length of the text in the field. Must include if using maxLength */
+  /**
+   * Current length of the text in the field. Must include if using maxLength.
+   * - You can do this as follows: `currentLength={useWatch({ name: <field name> })?.length || 0}`
+   * - The reason this isn't calculated inside the component is that it would cause unnecessary hook usage when not needed.
+   */
   currentLength?: number
   /** Use this to make the field grow larger on larger screens */
   grow?: boolean
@@ -53,7 +71,7 @@ const InputFieldWrapper = ({
         <Label
           name={name}
           className="block text-sm font-medium text-neutral-700 dark:text-light"
-          errorClassName="block text-sm font-medium text-red-600"
+          errorClassName="block text-sm font-medium text-red-700"
         >
           {label}
           {optional && (
@@ -76,7 +94,7 @@ const InputFieldWrapper = ({
         )}
       </div>
       {!inline && (
-        <FieldError name={name} className="mt-2 text-sm text-red-600" />
+        <FieldError name={name} className="mt-2 text-sm text-red-700" />
       )}
     </div>
   )

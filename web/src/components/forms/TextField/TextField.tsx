@@ -1,11 +1,11 @@
 import { TextField as RWTextField } from '@redwoodjs/forms'
 
 import InputFieldWrapper, {
-  StyledFieldProps,
+  InputFieldProps,
 } from 'src/components/forms/InputFieldWrapper'
-import { cn } from 'src/lib/utils'
+import { inputFieldVariants } from 'src/components/forms/inputVariants'
 
-const TextField = React.forwardRef<HTMLInputElement, StyledFieldProps>(
+const TextField = React.forwardRef<HTMLInputElement, InputFieldProps>(
   (
     {
       name,
@@ -18,11 +18,12 @@ const TextField = React.forwardRef<HTMLInputElement, StyledFieldProps>(
       currentLength,
       placeholder,
       disabled,
-      grow,
       inline = false,
       optional,
       endComponent,
       className,
+      size,
+      htmlInputElementSize,
       ...props
     },
     ref
@@ -32,21 +33,22 @@ const TextField = React.forwardRef<HTMLInputElement, StyledFieldProps>(
         label={label}
         name={name}
         maxLength={maxLength}
-        currentLength={currentLength}
         inline={inline}
         optional={optional}
         endComponent={endComponent}
+        currentLength={currentLength}
       >
         <RWTextField
           ref={ref}
           name={name}
           defaultValue={defaultValue}
           placeholder={placeholder}
-          className={cn('input-field', className, grow && 'md:text-lg')}
+          className={inputFieldVariants({ size, className })}
           validation={optional ? validation : { ...validation, required: true }}
           onChange={onChange}
           onKeyDown={onKeyDown}
           disabled={disabled}
+          size={htmlInputElementSize}
           {...props}
         />
       </InputFieldWrapper>

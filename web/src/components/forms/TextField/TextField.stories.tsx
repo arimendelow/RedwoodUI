@@ -1,18 +1,8 @@
-// Pass props to your component by passing an `args` object to your story
-//
-// ```tsx
-// export const Primary: Story = {
-//  args: {
-//    propName: propValue
-//  }
-// }
-// ```
-//
-// See https://storybook.js.org/docs/react/writing-stories/args.
+import React from 'react'
 
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Form } from '@redwoodjs/forms'
+import { FormProvider, Form, useForm, useWatch } from '@redwoodjs/forms'
 
 import TextField from './TextField'
 
@@ -25,6 +15,10 @@ const meta: Meta<typeof TextField> = {
     optional: {
       control: { type: 'boolean' },
     },
+    maxLength: {
+      name: 'max input length',
+      control: { type: 'number' },
+    },
   },
 }
 
@@ -36,21 +30,38 @@ export const Primary: Story = {
   args: {
     inline: false,
     optional: false,
+    maxLength: undefined,
   },
-  render: ({ inline, optional }) => {
-    interface ISampleForm {
-      username: string
-    }
+  render: ({ inline, optional, maxLength }) => {
     return (
-      <Form<ISampleForm> className="max-w-sm">
-        <TextField
-          name="username"
-          label="Username"
-          placeholder="ari@mendelow.me"
-          inline={inline}
-          optional={optional}
-        />
-      </Form>
+      <TextField
+        label="Username"
+        name="username"
+        placeholder="ari@mendelow.me"
+        inline={inline}
+        optional={optional}
+        maxLength={maxLength}
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        currentLength={useWatch({ name: 'username' })?.length || 0}
+      />
     )
   },
+  decorators: [
+    (Story) => {
+      interface ISampleForm {
+        username: string
+      }
+
+      const methods = useForm<ISampleForm>()
+      const onSubmit = (data: ISampleForm) => console.log(data)
+
+      return (
+        <FormProvider {...methods}>
+          <Form<ISampleForm> className="max-w-sm" onSubmit={onSubmit}>
+            <Story />
+          </Form>
+        </FormProvider>
+      )
+    },
+  ],
 }
