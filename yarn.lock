@@ -10579,6 +10579,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chromatic@npm:^7.3.0":
+  version: 7.3.0
+  resolution: "chromatic@npm:7.3.0"
+  bin:
+    chroma: dist/bin.js
+    chromatic: dist/bin.js
+    chromatic-cli: dist/bin.js
+  checksum: 46ed0a2b9d9bbb0d94245d4694ad3c97cb08cc3227ae378bf10128d257cc5ca3e2c5b3e8049e9ad8406ef541e37055c409d6625bbdf01bc793fa9489154526b0
+  languageName: node
+  linkType: hard
+
 "chrome-trace-event@npm:^1.0.2":
   version: 1.0.3
   resolution: "chrome-trace-event@npm:1.0.3"
@@ -21232,6 +21243,7 @@ __metadata:
   dependencies:
     "@redwoodjs/cli-storybook": 6.3.1
     "@redwoodjs/core": 6.3.1
+    chromatic: ^7.3.0
     prettier-plugin-tailwindcss: 0.4.1
   languageName: unknown
   linkType: soft

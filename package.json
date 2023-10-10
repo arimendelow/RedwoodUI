@@ -9,6 +9,7 @@
   "devDependencies": {
     "@redwoodjs/cli-storybook": "6.3.1",
     "@redwoodjs/core": "6.3.1",
+    "chromatic": "^7.3.0",
     "prettier-plugin-tailwindcss": "0.4.1"
   },
   "eslintConfig": {
@@ -22,5 +23,10 @@
   "prisma": {
     "seed": "yarn rw exec seed"
   },
-  "packageManager": "yarn@3.6.3"
+  "scripts": {},
+  "packageManager": "yarn@3.6.3",
+  "name": "",
+  "version": "",
+  "readme": "ERROR: No README data found!",
+  "_id": "@"
 }
