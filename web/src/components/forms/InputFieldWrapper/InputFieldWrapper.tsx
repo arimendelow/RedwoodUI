@@ -96,7 +96,12 @@ const InputFieldWrapper = ({
           {endComponent}
         </div>
         {maxLength !== undefined && currentLength !== undefined && (
-          <div className="pointer-events-none absolute -inset-y-0 -right-4 flex w-2 items-center text-left text-sm text-neutral-400">
+          <div
+            className={cn(
+              'pointer-events-none absolute -inset-y-0 -right-4 flex w-2 items-center text-left text-sm text-neutral-400',
+              maxLength - currentLength < 0 && 'text-red-700'
+            )}
+          >
             {maxLength - currentLength}
           </div>
         )}

@@ -23,6 +23,7 @@ const meta: Meta<typeof TextField> = {
       control: { type: 'number' },
     },
     endComponent: {
+      name: 'end component',
       options: ['undefined', 'Icon', 'Button'],
       mapping: {
         undefined: undefined,
