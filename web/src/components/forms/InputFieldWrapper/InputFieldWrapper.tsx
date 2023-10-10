@@ -28,7 +28,7 @@ export interface InputFieldWrapperProps {
   /** Use this to make the field inline */
   inline?: boolean
   /** Use this to mark that the field is optional */
-  markOptional?: boolean
+  optional?: boolean
   /** Use this to include a custom component that will be placed inside the input, at the end */
   endComponent?: JSX.Element
 }
@@ -39,7 +39,7 @@ const InputFieldWrapper = ({
   maxLength,
   currentLength,
   inline = false,
-  markOptional = false,
+  optional = false,
   endComponent,
 }: InputFieldWrapperProps) => {
   // This is used to animate, for example, the appearance of error messages
@@ -56,7 +56,7 @@ const InputFieldWrapper = ({
           errorClassName="block text-sm font-medium text-red-600"
         >
           {label}
-          {markOptional && (
+          {optional && (
             <span className="text-xs uppercase text-neutral-400">
               {' '}
               - optional

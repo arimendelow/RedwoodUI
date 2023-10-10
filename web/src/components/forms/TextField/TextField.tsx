@@ -20,7 +20,7 @@ const TextField = React.forwardRef<HTMLInputElement, StyledFieldProps>(
       disabled,
       grow,
       inline = false,
-      markOptional,
+      optional,
       endComponent,
       className,
       ...props
@@ -34,7 +34,7 @@ const TextField = React.forwardRef<HTMLInputElement, StyledFieldProps>(
         maxLength={maxLength}
         currentLength={currentLength}
         inline={inline}
-        markOptional={markOptional}
+        optional={optional}
         endComponent={endComponent}
       >
         <RWTextField
@@ -43,7 +43,7 @@ const TextField = React.forwardRef<HTMLInputElement, StyledFieldProps>(
           defaultValue={defaultValue}
           placeholder={placeholder}
           className={cn('input-field', className, grow && 'md:text-lg')}
-          validation={validation}
+          validation={optional ? validation : { ...validation, required: true }}
           onChange={onChange}
           onKeyDown={onKeyDown}
           disabled={disabled}
