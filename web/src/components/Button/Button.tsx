@@ -53,14 +53,7 @@ export interface IButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
   (
-    {
-      colorTreatment,
-      size,
-      className,
-      asChild = false,
-      pill = false,
-      ...props
-    },
+    { colorTreatment, size, className, asChild = false, pill = false, ...rest },
     ref
   ) => {
     const Comp = asChild ? Slot : 'button'
@@ -71,7 +64,7 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
           pill && 'rounded-full'
         )}
         ref={ref}
-        {...props}
+        {...rest}
       />
     )
   }
