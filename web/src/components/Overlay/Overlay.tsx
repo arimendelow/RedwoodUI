@@ -30,14 +30,14 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
   const [scope, animate] = useAnimate()
   const willChange = useWillChange()
 
-  const h = 250
+  const size = 250
 
   const config = (() => {
     switch (side) {
       case 'bottom':
         return {
-          positionCSS: { top: `calc(100vh - ${h}px)`, left: 0, right: 0 },
-          startValue: h,
+          positionCSS: { top: `calc(100vh - ${size}px)`, left: 0, right: 0 },
+          startValue: size,
           endValue: 0,
           dragConstraints: { top: 0 },
           isClosing: (info: PanInfo) =>
@@ -46,7 +46,7 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
       case 'top':
         return {
           positionCSS: { top: 0, left: 0, right: 0 },
-          startValue: -h,
+          startValue: -size,
           endValue: 0,
           dragConstraints: { bottom: 0 },
           isClosing: (info: PanInfo) =>
@@ -100,7 +100,7 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
                 transition={staticTransition}
                 style={{
                   y,
-                  height: h,
+                  height: size,
                   ...config.positionCSS,
                   ...willChange,
                 }}
