@@ -11,7 +11,6 @@ import Button from 'src/components/Button/Button'
 
 // Wrap Radix Dialog components so they support framer-motion values.
 const Backdrop = motion(DialogPrimitive.Overlay)
-const Content = motion(DialogPrimitive.Content)
 
 const staticTransition = {
   duration: 0.5,
@@ -19,21 +18,16 @@ const staticTransition = {
 }
 
 interface IOverlayProps {
+  /**
+   * The element that will trigger the overlay to open.
+   * You *do not* need to pass `onClick` to this element, it will be handled for you.
+   */
+  openTrigger: React.ReactNode
   children: React.ReactNode
 }
 
-const Overlay = ({ children }: IOverlayProps) => {
+const Overlay = ({ openTrigger, children }: IOverlayProps) => {
   const [open, setOpen] = React.useState(false)
-  const ref = React.useRef<HTMLDivElement | null>(null)
-  React.useEffect(() => {
-    if (ref.current) {
-      const height = ref.current.offsetHeight
-      const width = ref.current.offsetWidth
-
-      console.log('Height:', height)
-      console.log('Width:', width)
-    }
-  }, [])
 
   const h = 300
   const y = useMotionValue(h)
@@ -42,8 +36,8 @@ const Overlay = ({ children }: IOverlayProps) => {
   return (
     // Instead of letting Radix Dialog handle the open/close state, Framer Motion will.
     <DialogPrimitive.Root open={true}>
-      <DialogPrimitive.Trigger asChild>
-        <Button onClick={() => setOpen(true)}>Open overlay</Button>
+      <DialogPrimitive.Trigger asChild onClick={() => setOpen(true)}>
+        {openTrigger}
       </DialogPrimitive.Trigger>
       <AnimatePresence onExitComplete={() => setOpen(false)}>
         {open && (
@@ -54,10 +48,10 @@ const Overlay = ({ children }: IOverlayProps) => {
               style={{ opacity: overlayOpacity as unknown as number }}
               onClick={() => setOpen(false)}
             />
-            <Content key="content" asChild>
+            <DialogPrimitive.Content key="content" asChild>
               <motion.div
                 // h-screen is needed so that you can drag the Overlay away from the edge of the screen without it having an edge.
-                className="absolute bottom-0 left-2 right-2 z-[10000] h-screen rounded-t-xl bg-white shadow-lg"
+                className="bg-default text-default absolute bottom-0 left-2 right-2 z-[10000] h-screen rounded-t-xl shadow-lg"
                 initial={{ y: h }}
                 animate={{ y: 0 }}
                 exit={{ y: h }}
@@ -84,13 +78,13 @@ const Overlay = ({ children }: IOverlayProps) => {
                 }}
               >
                 {/* drag affordance */}
-                <div className="mx-auto mt-2 h-1.5 w-12 cursor-pointer rounded-full bg-gray-400" />
+                <div className="mx-auto mt-2 h-1.5 w-12 cursor-pointer rounded-full bg-neutral-400" />
                 <div className="mr-5 flex justify-end">
                   <Button onClick={() => setOpen(false)}>Done</Button>
                 </div>
-                <div ref={ref}>{children}</div>
+                {children}
               </motion.div>
-            </Content>
+            </DialogPrimitive.Content>
           </>
         )}
       </AnimatePresence>

@@ -15,7 +15,7 @@ type Story = StoryObj<typeof Overlay>
 
 export const Primary: Story = {
   render: () => (
-    <Overlay>
+    <Overlay openTrigger={<Button>Open overlay</Button>}>
       <div className="px-4 pb-4 outline-none">
         <DialogPrimitive.Title className="mb-4 text-3xl font-semibold">
           Modal overlay

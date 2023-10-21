@@ -27,6 +27,9 @@
   .bg-default {
     @apply bg-light dark:bg-dark;
   }
+  .text-default {
+    @apply text-dark dark:text-light;
+  }
   .focus-ring {
     @apply ring-offset-light dark:ring-offset-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2;
   }
