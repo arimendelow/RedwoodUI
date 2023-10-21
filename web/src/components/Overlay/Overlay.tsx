@@ -2,10 +2,10 @@ import * as DialogPrimitive from '@radix-ui/react-dialog'
 import {
   AnimatePresence,
   motion,
-  animate,
   useMotionValue,
   useTransform,
   LayoutGroup,
+  useAnimate,
 } from 'framer-motion'
 
 const staticTransition = {
@@ -24,14 +24,20 @@ interface IOverlayProps {
 
 const Overlay = ({ openTrigger, children }: IOverlayProps) => {
   const [open, setOpen] = React.useState(false)
+  const [scope, animate] = useAnimate()
 
   const h = 300
   const y = useMotionValue(h)
   const overlayOpacity = useTransform(y, [0, h], [1, 0])
 
+  const onClose = async () => {
+    await animate(y, h)
+    setOpen(false)
+  }
+
   return (
     // Instead of letting Radix Dialog handle the open/close state, Framer Motion will.
-    <DialogPrimitive.Root open={true}>
+    <DialogPrimitive.Root open={open}>
       <DialogPrimitive.Trigger asChild onClick={() => setOpen(true)}>
         {openTrigger}
       </DialogPrimitive.Trigger>
@@ -44,11 +50,12 @@ const Overlay = ({ openTrigger, children }: IOverlayProps) => {
                 className="fixed inset-0 z-[9999] bg-neutral-700/80 backdrop-blur-sm"
                 /** Unclear why this casing is needed */
                 style={{ opacity: overlayOpacity as unknown as number }}
-                onClick={() => setOpen(false)}
+                onClick={onClose}
               />
             </DialogPrimitive.Overlay>
             <DialogPrimitive.Content key="content" asChild>
               <motion.div
+                ref={scope}
                 key="content"
                 // h-screen is needed so that you can drag the Overlay away from the edge of the screen without it having an edge.
                 className="bg-default text-default absolute bottom-0 left-2 right-2 z-[10000] h-screen shadow-lg"
@@ -64,7 +71,7 @@ const Overlay = ({ openTrigger, children }: IOverlayProps) => {
                 dragConstraints={{ top: 0 }}
                 onDragEnd={(_e, { offset, velocity }) => {
                   if (offset.y > window.innerHeight * 0.75 || velocity.y > 10) {
-                    setOpen(false)
+                    onClose()
                   } else {
                     animate(y, 0, {
                       type: 'inertia',
