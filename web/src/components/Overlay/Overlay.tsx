@@ -5,7 +5,6 @@ import {
   animate,
   useMotionValue,
   useTransform,
-  transform,
 } from 'framer-motion'
 
 import Button from 'src/components/Button/Button'
