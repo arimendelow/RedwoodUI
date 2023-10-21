@@ -6,6 +6,7 @@ import {
   useTransform,
   LayoutGroup,
   useAnimate,
+  useWillChange,
 } from 'framer-motion'
 
 const staticTransition = {
@@ -25,6 +26,7 @@ interface IOverlayProps {
 const Overlay = ({ openTrigger, children }: IOverlayProps) => {
   const [open, setOpen] = React.useState(false)
   const [scope, animate] = useAnimate()
+  const willChange = useWillChange()
 
   const h = 300
   const y = useMotionValue(h)
@@ -49,7 +51,10 @@ const Overlay = ({ openTrigger, children }: IOverlayProps) => {
               <motion.div
                 className="fixed inset-0 z-[9999] bg-neutral-700/80 backdrop-blur-sm"
                 /** Unclear why this casing is needed */
-                style={{ opacity: overlayOpacity as unknown as number }}
+                style={{
+                  opacity: overlayOpacity as unknown as number,
+                  ...willChange,
+                }}
                 onClick={onClose}
               />
             </DialogPrimitive.Overlay>
@@ -66,6 +71,7 @@ const Overlay = ({ openTrigger, children }: IOverlayProps) => {
                 style={{
                   y,
                   top: `calc(100vh - ${h}px)`,
+                  ...willChange,
                 }}
                 drag="y"
                 dragConstraints={{ top: 0 }}
