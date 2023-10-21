@@ -9,9 +9,6 @@ import {
 
 import Button from 'src/components/Button/Button'
 
-// Wrap Radix Dialog components so they support framer-motion values.
-const Backdrop = motion(DialogPrimitive.Overlay)
-
 const staticTransition = {
   duration: 0.5,
   ease: [0.32, 0.72, 0, 1],
@@ -42,12 +39,14 @@ const Overlay = ({ openTrigger, children }: IOverlayProps) => {
       <AnimatePresence onExitComplete={() => setOpen(false)}>
         {open && (
           <>
-            <Backdrop
-              className="fixed inset-0 z-[9999] bg-neutral-700/80 backdrop-blur-sm"
-              /** Unclear why this casing is needed */
-              style={{ opacity: overlayOpacity as unknown as number }}
-              onClick={() => setOpen(false)}
-            />
+            <DialogPrimitive.Overlay asChild>
+              <motion.div
+                className="fixed inset-0 z-[9999] bg-neutral-700/80 backdrop-blur-sm"
+                /** Unclear why this casing is needed */
+                style={{ opacity: overlayOpacity as unknown as number }}
+                onClick={() => setOpen(false)}
+              />
+            </DialogPrimitive.Overlay>
             <DialogPrimitive.Content key="content" asChild>
               <motion.div
                 // h-screen is needed so that you can drag the Overlay away from the edge of the screen without it having an edge.
