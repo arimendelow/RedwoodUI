@@ -5,6 +5,7 @@ import {
   animate,
   useMotionValue,
   useTransform,
+  LayoutGroup,
 } from 'framer-motion'
 
 const staticTransition = {
@@ -34,9 +35,10 @@ const Overlay = ({ openTrigger, children }: IOverlayProps) => {
       <DialogPrimitive.Trigger asChild onClick={() => setOpen(true)}>
         {openTrigger}
       </DialogPrimitive.Trigger>
+
       <AnimatePresence onExitComplete={() => setOpen(false)}>
         {open && (
-          <>
+          <LayoutGroup>
             <DialogPrimitive.Overlay asChild>
               <motion.div
                 className="fixed inset-0 z-[9999] bg-neutral-700/80 backdrop-blur-sm"
@@ -47,6 +49,7 @@ const Overlay = ({ openTrigger, children }: IOverlayProps) => {
             </DialogPrimitive.Overlay>
             <DialogPrimitive.Content key="content" asChild>
               <motion.div
+                key="content"
                 // h-screen is needed so that you can drag the Overlay away from the edge of the screen without it having an edge.
                 className="bg-default text-default absolute bottom-0 left-2 right-2 z-[10000] h-screen shadow-lg"
                 initial={{ y: h }}
@@ -77,7 +80,7 @@ const Overlay = ({ openTrigger, children }: IOverlayProps) => {
                 {children}
               </motion.div>
             </DialogPrimitive.Content>
-          </>
+          </LayoutGroup>
         )}
       </AnimatePresence>
     </DialogPrimitive.Root>
