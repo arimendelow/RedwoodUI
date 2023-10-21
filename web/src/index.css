@@ -19,11 +19,6 @@
 }
 
 @layer components {
-  /* START --- Customize these to change how your components look */
-  .rounded-default {
-    @apply rounded-md;
-  }
-  /* END --- Customize these to change how your components look */
   .bg-default {
     @apply bg-light dark:bg-dark;
   }

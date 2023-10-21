@@ -51,7 +51,7 @@ const Overlay = ({ openTrigger, children }: IOverlayProps) => {
             <DialogPrimitive.Content key="content" asChild>
               <motion.div
                 // h-screen is needed so that you can drag the Overlay away from the edge of the screen without it having an edge.
-                className="bg-default text-default absolute bottom-0 left-2 right-2 z-[10000] h-screen rounded-t-xl shadow-lg"
+                className="bg-default text-default absolute bottom-0 left-2 right-2 z-[10000] h-screen shadow-lg"
                 initial={{ y: h }}
                 animate={{ y: 0 }}
                 exit={{ y: h }}

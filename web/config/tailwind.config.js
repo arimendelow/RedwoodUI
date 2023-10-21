@@ -1,4 +1,5 @@
 const colors = require('tailwindcss/colors')
+const defaults = require('tailwindcss/defaultConfig')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -35,6 +36,13 @@ module.exports = {
          * Change this to the color you want to use for primary surface in dark mode
          */
         dark: colors.gray[900],
+      },
+      borderRadius: {
+        /**
+         * Change this to the default border radius for your components.
+         * For example, if you want all corners to be sharp, set this to 0.
+         */
+        default: defaults.theme.borderRadius.md,
       },
     },
   },
