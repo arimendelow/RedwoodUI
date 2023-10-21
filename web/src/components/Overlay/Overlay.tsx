@@ -7,8 +7,6 @@ import {
   useTransform,
 } from 'framer-motion'
 
-import Button from 'src/components/Button/Button'
-
 const staticTransition = {
   duration: 0.5,
   ease: [0.32, 0.72, 0, 1],
@@ -76,11 +74,6 @@ const Overlay = ({ openTrigger, children }: IOverlayProps) => {
                   }
                 }}
               >
-                {/* drag affordance */}
-                <div className="mx-auto mt-2 h-1.5 w-12 cursor-pointer rounded-full bg-neutral-400" />
-                <div className="mr-5 flex justify-end">
-                  <Button onClick={() => setOpen(false)}>Done</Button>
-                </div>
                 {children}
               </motion.div>
             </DialogPrimitive.Content>
