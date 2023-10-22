@@ -63,7 +63,14 @@ interface IOverlayProps {
    * The element that will trigger the overlay to open.
    * You *do not* need to pass `onClick` to this element, it will be handled for you.
    */
-  openTrigger: React.ReactNode
+  openButton: React.ReactNode
+  /**
+   * The element that will trigger the overlay to close.
+   * You *do not* need to pass `onClick` to this element, it will be handled for you.
+   * If you do not pass this, no close button will be rendered, and the user will have to click
+   * outside the overlay or swipe it away to close it.
+   */
+  closeButton?: React.ReactNode
   /**
    * The side of the screen that the overlay should open from (and dismiss to).
    */
@@ -75,7 +82,13 @@ interface IOverlayProps {
   children: React.ReactNode
 }
 
-const Overlay = ({ openTrigger, side, className, children }: IOverlayProps) => {
+const Overlay = ({
+  openButton,
+  closeButton,
+  side,
+  className,
+  children,
+}: IOverlayProps) => {
   const [open, setOpen] = React.useState(false)
   const [scope, animate] = useAnimate()
   const willChange = useWillChange()
@@ -151,7 +164,7 @@ const Overlay = ({ openTrigger, side, className, children }: IOverlayProps) => {
     // Instead of letting Radix Dialog handle the open/close state, Framer Motion will.
     <DialogPrimitive.Root open={open}>
       <DialogPrimitive.Trigger asChild onClick={() => setOpen(true)}>
-        {openTrigger}
+        {openButton}
       </DialogPrimitive.Trigger>
 
       <AnimatePresence onExitComplete={() => setOpen(false)}>
@@ -203,6 +216,15 @@ const Overlay = ({ openTrigger, side, className, children }: IOverlayProps) => {
                   }
                 }}
               >
+                {closeButton && (
+                  <DialogPrimitive.Close
+                    className="absolute z-[1001]"
+                    onClick={onClose}
+                    asChild
+                  >
+                    {closeButton}
+                  </DialogPrimitive.Close>
+                )}
                 {/* This extends past the edge of the screen so that if the overlay is dragged away
                 from the edge, it appears to be stretching */}
                 <div

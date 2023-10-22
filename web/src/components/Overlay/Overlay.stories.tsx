@@ -26,7 +26,11 @@ export const Primary: Story = {
     side: 'bottom',
   },
   render: ({ side }) => (
-    <Overlay side={side} openTrigger={<Button>Open overlay</Button>}>
+    <Overlay
+      side={side}
+      openButton={<Button>Open overlay</Button>}
+      closeButton={<Button>Close overlay</Button>}
+    >
       <ChildrenPlaceholder />
       {/* <div className="p-4 outline-none">
         <DialogPrimitive.Title className="mb-4 text-3xl font-semibold">
