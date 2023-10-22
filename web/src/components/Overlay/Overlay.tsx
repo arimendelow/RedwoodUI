@@ -22,7 +22,7 @@ interface IOverlayProps {
    */
   openTrigger: React.ReactNode
   children: React.ReactNode
-  side: 'top' | 'bottom'
+  side: 'top' | 'bottom' | 'left'
 }
 
 const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
@@ -36,7 +36,9 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
     switch (side) {
       case 'bottom':
         return {
+          drag: 'y',
           positionCSS: { top: `calc(100vh - ${size}px)`, left: 0, right: 0 },
+          sizeCSS: { height: size },
           startValue: size,
           endValue: 0,
           dragConstraints: { top: 0 },
@@ -45,25 +47,38 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
         }
       case 'top':
         return {
+          drag: 'y',
           positionCSS: { top: 0, left: 0, right: 0 },
+          sizeCSS: { height: size },
           startValue: -size,
           endValue: 0,
           dragConstraints: { bottom: 0 },
           isClosing: (info: PanInfo) =>
             info.offset.y < window.innerHeight * -0.75 || info.velocity.y < -10,
         }
+      case 'left':
+        return {
+          drag: 'x',
+          positionCSS: { top: 0, left: 0, bottom: 0 },
+          sizeCSS: { width: size, height: '100vh' },
+          startValue: -size,
+          endValue: 0,
+          dragConstraints: { right: 0 },
+          isClosing: (info: PanInfo) =>
+            info.offset.x < window.innerWidth * -0.75 || info.velocity.x < -10,
+        }
     }
   })()
 
-  const y = useMotionValue(config.startValue)
+  const position = useMotionValue(config.startValue)
   const overlayOpacity = useTransform(
-    y,
+    position,
     [config.endValue, config.startValue],
     [1, 0]
   )
 
   const onClose = async () => {
-    await animate(y, config.startValue)
+    await animate(position, config.startValue)
     setOpen(false)
   }
 
@@ -94,23 +109,35 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
                 key="content"
                 // h-screen is needed so that you can drag the Overlay away from the edge of the screen without it having an edge.
                 className="bg-default text-default absolute z-[10000] shadow-lg"
-                initial={{ y: config.startValue }}
-                animate={{ y: config.endValue }}
-                exit={{ y: config.startValue }}
+                initial={
+                  config.drag === 'y'
+                    ? { y: config.startValue }
+                    : { x: config.startValue }
+                }
+                animate={
+                  config.drag === 'y'
+                    ? { y: config.endValue }
+                    : { x: config.endValue }
+                }
+                eixt={
+                  config.drag === 'y'
+                    ? { y: config.startValue }
+                    : { x: config.startValue }
+                }
                 transition={staticTransition}
                 style={{
-                  y,
-                  height: size,
+                  y: position,
+                  ...config.sizeCSS,
                   ...config.positionCSS,
                   ...willChange,
                 }}
-                drag="y"
+                drag={config.drag}
                 dragConstraints={config.dragConstraints}
                 onDragEnd={(_e, info) => {
                   if (config.isClosing(info)) {
                     onClose()
                   } else {
-                    animate(y, config.endValue, {
+                    animate(position, config.endValue, {
                       type: 'inertia',
                       bounceStiffness: 300,
                       bounceDamping: 40,

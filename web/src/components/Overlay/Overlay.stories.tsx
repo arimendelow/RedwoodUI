@@ -9,7 +9,7 @@ const meta: Meta<typeof Overlay> = {
   component: Overlay,
   argTypes: {
     side: {
-      options: ['top', 'bottom'],
+      options: ['top', 'bottom', 'left', 'right'],
       control: { type: 'radio' },
     },
   },
