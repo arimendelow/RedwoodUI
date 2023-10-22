@@ -172,7 +172,6 @@ const Overlay = ({ openTrigger, side, className, children }: IOverlayProps) => {
               <motion.div
                 ref={scope}
                 key="content"
-                // h-screen is needed so that you can drag the Overlay away from the edge of the screen without it having an edge.
                 className={cn(
                   'bg-default text-default absolute z-[1000] shadow-lg',
                   className
