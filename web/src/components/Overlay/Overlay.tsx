@@ -16,6 +16,9 @@ const staticTransition = {
   ease: [0.32, 0.72, 0, 1],
 }
 
+/**
+ * This is used internally by the component to determine what various values should be, based on the `side` prop.
+ */
 interface IOverlayConfig {
   /**
    * The axis in which the overlay can be dragged.
