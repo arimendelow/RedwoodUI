@@ -8,11 +8,43 @@ import {
   useAnimate,
   useWillChange,
   PanInfo,
+  BoundingBox,
 } from 'framer-motion'
 
 const staticTransition = {
   duration: 0.5,
   ease: [0.32, 0.72, 0, 1],
+}
+
+interface IOverlayConfig {
+  /**
+   * The axis in which the overlay can be dragged.
+   */
+  drag: 'y' | 'x'
+  /**
+   * Together with `sizeCSS`, this makes up the CSS properties of the overlay.
+   */
+  positionCSS: React.CSSProperties
+  /**
+   * Together with `positionCSS`, this makes up the CSS properties of the overlay.
+   */
+  sizeCSS: React.CSSProperties
+  /**
+   * The (motion) value that the overlay should start at, ie the value when the overlay is closed.
+   */
+  startValue: number
+  /**
+   * The (motion) value that the overlay should end at, ie the value when the overlay is open.
+   */
+  endValue: number
+  /**
+   * The constraints for where you can drag the overlay.
+   */
+  dragConstraints: Partial<BoundingBox>
+  /**
+   * A function that determines whether the overlay should close based on how the user has dragged it.
+   */
+  isClosing: (info: PanInfo) => boolean
 }
 
 interface IOverlayProps {
@@ -32,7 +64,7 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
 
   const size = 250
 
-  const config = (() => {
+  const config: IOverlayConfig = (() => {
     switch (side) {
       case 'bottom':
         return {
@@ -130,7 +162,7 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
                   ...config.positionCSS,
                   ...willChange,
                 }}
-                drag={config.drag as 'x' | 'y'}
+                drag={config.drag}
                 dragConstraints={config.dragConstraints}
                 onDragEnd={(_e, info) => {
                   if (config.isClosing(info)) {
