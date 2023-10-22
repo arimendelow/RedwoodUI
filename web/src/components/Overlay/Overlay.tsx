@@ -22,7 +22,7 @@ interface IOverlayProps {
    */
   openTrigger: React.ReactNode
   children: React.ReactNode
-  side: 'top' | 'bottom' | 'left'
+  side: 'top' | 'bottom' | 'left' | 'right'
 }
 
 const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
@@ -67,6 +67,17 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
           isClosing: (info: PanInfo) =>
             info.offset.x < window.innerWidth * -0.75 || info.velocity.x < -10,
         }
+      case 'right':
+        return {
+          drag: 'x',
+          positionCSS: { top: 0, right: 0, bottom: 0 },
+          sizeCSS: { width: size, height: '100vh' },
+          startValue: size,
+          endValue: 0,
+          dragConstraints: { left: 0 },
+          isClosing: (info: PanInfo) =>
+            info.offset.x > window.innerWidth * 0.75 || info.velocity.x > 10,
+        }
     }
   })()
 
@@ -109,29 +120,17 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
                 key="content"
                 // h-screen is needed so that you can drag the Overlay away from the edge of the screen without it having an edge.
                 className="bg-default text-default absolute z-[10000] shadow-lg"
-                initial={
-                  config.drag === 'y'
-                    ? { y: config.startValue }
-                    : { x: config.startValue }
-                }
-                animate={
-                  config.drag === 'y'
-                    ? { y: config.endValue }
-                    : { x: config.endValue }
-                }
-                eixt={
-                  config.drag === 'y'
-                    ? { y: config.startValue }
-                    : { x: config.startValue }
-                }
+                initial={{ [config.drag]: config.startValue }}
+                animate={{ [config.drag]: config.endValue }}
+                exit={{ [config.drag]: config.startValue }}
                 transition={staticTransition}
                 style={{
-                  y: position,
+                  [config.drag]: position,
                   ...config.sizeCSS,
                   ...config.positionCSS,
                   ...willChange,
                 }}
-                drag={config.drag}
+                drag={config.drag as 'x' | 'y'}
                 dragConstraints={config.dragConstraints}
                 onDragEnd={(_e, info) => {
                   if (config.isClosing(info)) {
