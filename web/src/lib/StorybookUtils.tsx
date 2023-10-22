@@ -1,7 +1,7 @@
 export const ChildrenPlaceholder = () => (
   <div className="relative h-full w-full overflow-hidden rounded-xl border border-dashed border-neutral-400 opacity-75">
     <svg
-      className="absolute inset-0 h-full w-full stroke-neutral-900/10"
+      className="absolute inset-0 h-full w-full stroke-neutral-900/10 dark:stroke-neutral-50/20"
       fill="none"
     >
       <defs>
@@ -24,7 +24,7 @@ export const ChildrenPlaceholder = () => (
       ></rect>
     </svg>
     <div className="absolute inset-0 flex items-center justify-center">
-      <div className="text-xl font-semibold text-neutral-900">
+      <div className="text-xl font-semibold text-neutral-900 dark:text-neutral-300">
         your content goes here
       </div>
     </div>
