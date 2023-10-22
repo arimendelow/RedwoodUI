@@ -14,7 +14,7 @@
 
 @layer base {
   body {
-    @apply bg-default
+    @apply bg-default min-h-screen
   }
 }
 

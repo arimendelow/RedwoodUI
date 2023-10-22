@@ -11,6 +11,8 @@ import {
   BoundingBox,
 } from 'framer-motion'
 
+import { cn } from 'src/lib/utils'
+
 const staticTransition = {
   duration: 0.5,
   ease: [0.32, 0.72, 0, 1],
@@ -32,6 +34,12 @@ interface IOverlayConfig {
    * Together with `positionCSS`, this makes up the CSS properties of the overlay.
    */
   sizeCSS: React.CSSProperties
+  /**
+   * So that the overlay can be dragged away from the edge of the screen and look
+   * as though it's growing, we have an 'overflow' div that extends past the edge.
+   * This is the side-specific CSS for that div.
+   */
+  overflowCSS?: React.CSSProperties
   /**
    * The (motion) value that the overlay should start at, ie the value when the overlay is closed.
    */
@@ -56,11 +64,18 @@ interface IOverlayProps {
    * You *do not* need to pass `onClick` to this element, it will be handled for you.
    */
   openTrigger: React.ReactNode
-  children: React.ReactNode
+  /**
+   * The side of the screen that the overlay should open from (and dismiss to).
+   */
   side: 'top' | 'bottom' | 'left' | 'right'
+  /**
+   * The class name to apply to the overlay. This will be applied on the element that wraps the children.
+   */
+  className?: string
+  children: React.ReactNode
 }
 
-const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
+const Overlay = ({ openTrigger, side, className, children }: IOverlayProps) => {
   const [open, setOpen] = React.useState(false)
   const [scope, animate] = useAnimate()
   const willChange = useWillChange()
@@ -74,6 +89,7 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
           drag: 'y',
           positionCSS: { top: `calc(100vh - ${size}px)`, left: 0, right: 0 },
           sizeCSS: { height: size },
+          overflowCSS: { top: size, width: '100%', height: '100vh' },
           startValue: size,
           endValue: 0,
           dragConstraints: { top: 0 },
@@ -85,6 +101,7 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
           drag: 'y',
           positionCSS: { top: 0, left: 0, right: 0 },
           sizeCSS: { height: size },
+          overflowCSS: { bottom: size, width: '100%', height: '100vh' },
           startValue: -size,
           endValue: 0,
           dragConstraints: { bottom: 0 },
@@ -95,7 +112,8 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
         return {
           drag: 'x',
           positionCSS: { top: 0, left: 0, bottom: 0 },
-          sizeCSS: { width: size, height: '100vh' },
+          sizeCSS: { width: size },
+          overflowCSS: { right: size, width: '100vh', height: '100%' },
           startValue: -size,
           endValue: 0,
           dragConstraints: { right: 0 },
@@ -106,7 +124,8 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
         return {
           drag: 'x',
           positionCSS: { top: 0, right: 0, bottom: 0 },
-          sizeCSS: { width: size, height: '100vh' },
+          sizeCSS: { width: size },
+          overflowCSS: { left: size, width: '100vh', height: '100%' },
           startValue: size,
           endValue: 0,
           dragConstraints: { left: 0 },
@@ -140,7 +159,7 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
           <LayoutGroup>
             <DialogPrimitive.Overlay asChild>
               <motion.div
-                className="fixed inset-0 z-[9999] bg-neutral-700/80 backdrop-blur-sm"
+                className="fixed inset-0 z-[999] bg-neutral-700/80 backdrop-blur-sm"
                 /** Unclear why this casing is needed */
                 style={{
                   opacity: overlayOpacity as unknown as number,
@@ -154,7 +173,10 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
                 ref={scope}
                 key="content"
                 // h-screen is needed so that you can drag the Overlay away from the edge of the screen without it having an edge.
-                className="bg-default text-default absolute z-[10000] shadow-lg"
+                className={cn(
+                  'bg-default text-default absolute z-[1000] shadow-lg',
+                  className
+                )}
                 initial={{ [config.drag]: config.startValue }}
                 animate={{ [config.drag]: config.endValue }}
                 exit={{ [config.drag]: config.startValue }}
@@ -182,6 +204,12 @@ const Overlay = ({ openTrigger, children, side }: IOverlayProps) => {
                   }
                 }}
               >
+                {/* This extends past the edge of the screen so that if the overlay is dragged away
+                from the edge, it appears to be stretching */}
+                <div
+                  className="bg-default absolute z-[1000]"
+                  style={config.overflowCSS}
+                />
                 {children}
               </motion.div>
             </DialogPrimitive.Content>
