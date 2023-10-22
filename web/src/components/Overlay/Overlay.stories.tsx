@@ -1,6 +1,8 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import type { Meta, StoryObj } from '@storybook/react'
 
+import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
+
 import Button from '../Button/Button'
 
 import Overlay from './Overlay'
@@ -25,7 +27,8 @@ export const Primary: Story = {
   },
   render: ({ side }) => (
     <Overlay side={side} openTrigger={<Button>Open overlay</Button>}>
-      <div className="p-4 outline-none">
+      <ChildrenPlaceholder />
+      {/* <div className="p-4 outline-none">
         <DialogPrimitive.Title className="mb-4 text-3xl font-semibold">
           Modal overlay
         </DialogPrimitive.Title>
@@ -45,7 +48,7 @@ export const Primary: Story = {
           amet nisl blandit, pellentesque eros eu, scelerisque eros. Sed cursus
           urna at nunc lacinia dapibus.
         </DialogPrimitive.Description>
-      </div>
+      </div> */}
     </Overlay>
   ),
 }
