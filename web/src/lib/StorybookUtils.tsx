@@ -1,5 +1,5 @@
 export const ChildrenPlaceholder = () => (
-  <div className="relative h-full w-full overflow-hidden rounded-xl border border-dashed border-neutral-400 opacity-75">
+  <div className="relative h-full w-full overflow-hidden border border-dashed border-neutral-400 opacity-75">
     <svg
       className="absolute inset-0 h-full w-full stroke-neutral-900/10 dark:stroke-neutral-50/20"
       fill="none"

@@ -60,6 +60,11 @@ interface IOverlayConfig {
 
 interface IOverlayProps {
   /**
+   * The size of the overlay, in pixels.
+   * This is the height if the overlay is on the top or bottom, or the width if the overlay is on the left or right.
+   */
+  size: number
+  /**
    * The element that will trigger the overlay to open.
    * You *do not* need to pass `onClick` to this element, it will be handled for you.
    */
@@ -83,6 +88,7 @@ interface IOverlayProps {
 }
 
 const Overlay = ({
+  size,
   openButton,
   closeButton,
   side,
@@ -92,8 +98,6 @@ const Overlay = ({
   const [open, setOpen] = React.useState(false)
   const [scope, animate] = useAnimate()
   const willChange = useWillChange()
-
-  const size = 250
 
   const config: IOverlayConfig = (() => {
     switch (side) {

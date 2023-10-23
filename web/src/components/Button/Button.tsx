@@ -28,6 +28,12 @@ const buttonVariants = cva(
           'hover:bg-primary-100 dark:hover:bg-primary-900/80',
           'focus-ring',
         ],
+        minimal: [
+          'bg-transparent',
+          'text-primary-600 dark:text-light/90',
+          'hover:bg-primary-50 dark:hover:bg-primary-900/80',
+          'focus-ring',
+        ],
       },
       size: {
         xs: ['text-xs', 'py-1', 'px-2'],
