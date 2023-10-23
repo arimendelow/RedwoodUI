@@ -13,11 +13,6 @@ import {
 
 import { cn } from 'src/lib/utils'
 
-const staticTransition = {
-  duration: 0.5,
-  ease: [0.32, 0.72, 0, 1],
-}
-
 /**
  * This is used internally by the component to determine what various values should be, based on the `side` prop.
  */
@@ -98,6 +93,11 @@ const Overlay = ({
   const [open, setOpen] = React.useState(false)
   const [scope, animate] = useAnimate()
   const willChange = useWillChange()
+
+  const staticTransition = {
+    duration: 0.5,
+    ease: [0.32, 0.72, 0, 1],
+  }
 
   const config: IOverlayConfig = (() => {
     switch (side) {
