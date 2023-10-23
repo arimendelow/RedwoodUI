@@ -45,15 +45,15 @@ const meta: Meta<typeof Overlay> = {
         example: (
           <div className="p-4 outline-none">
             <DialogPrimitive.Title className="mb-4 text-3xl font-semibold">
-              Modal overlay
+              ActionSheet
             </DialogPrimitive.Title>
             <DialogPrimitive.Description>
-              This is a dialog with a custom modal overlay built with{' '}
+              This is an Action Sheet built with{' '}
               <a
                 className="text-blue-600"
-                href="https://react-spectrum.adobe.com/react-aria/react-aria-components.html"
+                href="https://www.radix-ui.com/primitives/docs/components/dialog"
               >
-                React Aria Components
+                the RadixUI Dialog
               </a>{' '}
               and{' '}
               <a
@@ -62,9 +62,10 @@ const meta: Meta<typeof Overlay> = {
               >
                 Framer Motion
               </a>
-              . Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-              sit amet nisl blandit, pellentesque eros eu, scelerisque eros. Sed
-              cursus urna at nunc lacinia dapibus.
+              . <br /> You can put any component here. <br /> To dismiss, simply
+              drag the sheet off the screen or click outside of it.
+              <br />
+              Look upon my works, ye mighty, and despair!
             </DialogPrimitive.Description>
           </div>
         ),
@@ -88,7 +89,7 @@ export const Primary: Story = {
     <Overlay
       size={size}
       side={side}
-      openButton={<Button>Open overlay</Button>}
+      openButton={<Button>Open ActionSheet</Button>}
       closeButton={closeButton}
     >
       {children}
