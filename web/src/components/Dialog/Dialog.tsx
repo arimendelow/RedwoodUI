@@ -1,5 +1,5 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { cn } from 'src/lib/utils'
 
@@ -44,6 +44,7 @@ const Dialog = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                transition={{ ease: 'easeInOut' }}
               />
             </DialogPrimitive.Overlay>
             <DialogPrimitive.Content key="content" asChild>
@@ -52,9 +53,10 @@ const Dialog = ({
                   'dialog-content fixed left-[50%] top-[50%] max-w-lg translate-x-[-50%] translate-y-[-50%] overflow-clip rounded-default',
                   className
                 )}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, zoom: 0.9 }}
+                animate={{ opacity: 1, zoom: 1 }}
+                exit={{ opacity: 0, zoom: 0.9 }}
+                transition={{ ease: 'easeInOut' }}
               >
                 {closeButton && (
                   <DialogPrimitive.Close className="absolute z-[1001]" asChild>
