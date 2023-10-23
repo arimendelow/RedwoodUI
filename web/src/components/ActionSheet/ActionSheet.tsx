@@ -161,24 +161,11 @@ const ActionSheet = ({
     [1, 0]
   )
 
-  const closeActionSheet = async () => {
-    await animate(position, config.startValue)
-    setOpen(false)
-  }
-
-  const openActionSheet = async () => {
-    await animate(position, config.endValue)
-    setOpen(true)
-  }
-
   return (
-    <DialogPrimitive.Root
-      open={open}
-      onOpenChange={(open) => (open ? openActionSheet() : closeActionSheet())}
-    >
+    <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
       <DialogPrimitive.Trigger asChild>{openButton}</DialogPrimitive.Trigger>
 
-      <AnimatePresence onExitComplete={() => setOpen(false)}>
+      <AnimatePresence>
         {open && (
           <DialogPrimitive.Portal forceMount>
             <DialogPrimitive.Overlay asChild>
@@ -189,7 +176,6 @@ const ActionSheet = ({
                   opacity: actionSheetOpacity as unknown as number,
                   ...willChange,
                 }}
-                onClick={closeActionSheet}
               />
             </DialogPrimitive.Overlay>
             <DialogPrimitive.Content key="content" asChild>
@@ -211,7 +197,7 @@ const ActionSheet = ({
                 dragConstraints={config.dragConstraints}
                 onDragEnd={(_e, info) => {
                   if (config.isClosing(info)) {
-                    closeActionSheet()
+                    setOpen(false)
                   } else {
                     animate(position, config.endValue, {
                       type: 'inertia',
@@ -227,7 +213,7 @@ const ActionSheet = ({
                 {closeButton && (
                   <DialogPrimitive.Close
                     className="absolute z-[1001]"
-                    onClick={closeActionSheet}
+                    onClick={() => setOpen(false)}
                     asChild
                   >
                     {closeButton}
