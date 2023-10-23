@@ -73,7 +73,9 @@ export const Primary: Story = {
     closeButton: undefined,
     children: 'placeholder',
   },
-  render: ({ children }) => (
-    <Dialog openButton={<Button>Open Dialog</Button>}>{children}</Dialog>
+  render: ({ closeButton, children }) => (
+    <Dialog openButton={<Button>Open Dialog</Button>} closeButton={closeButton}>
+      {children}
+    </Dialog>
   ),
 }
