@@ -6,10 +6,10 @@ import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
 
 import Button from '../Button/Button'
 
-import Overlay from './ActionSheet'
+import ActionSheet from './ActionSheet'
 
-const meta: Meta<typeof Overlay> = {
-  component: Overlay,
+const meta: Meta<typeof ActionSheet> = {
+  component: ActionSheet,
   argTypes: {
     size: {
       control: { type: 'range', min: 200, max: 1000, step: 10 },
@@ -76,7 +76,7 @@ const meta: Meta<typeof Overlay> = {
 
 export default meta
 
-type Story = StoryObj<typeof Overlay>
+type Story = StoryObj<typeof ActionSheet>
 
 export const Primary: Story = {
   args: {
@@ -86,13 +86,13 @@ export const Primary: Story = {
     children: 'placeholder',
   },
   render: ({ size, side, closeButton, children }) => (
-    <Overlay
+    <ActionSheet
       size={size}
       side={side}
       openButton={<Button>Open ActionSheet</Button>}
       closeButton={closeButton}
     >
       {children}
-    </Overlay>
+    </ActionSheet>
   ),
 }

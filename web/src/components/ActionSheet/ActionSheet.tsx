@@ -81,6 +81,18 @@ interface IActionSheetProps {
    * The class name to apply to the actionSheet. This will be applied on the element that wraps the children.
    */
   className?: string
+  /**
+   * Use this to control the open state of the ActionSheet.
+   * If you pass this in, you must also pass in `setOpen`.
+   * If you do not pass this in, the ActionSheet will be uncontrolled and will manage its own open state.
+   */
+  open?: boolean
+  /**
+   * Use this to control the open state of the ActionSheet.
+   * If you pass this in, you must also pass in `open`.
+   * If you do not pass this in, the ActionSheet will be uncontrolled and will manage its own open state.
+   */
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>
   children: React.ReactNode
 }
 
@@ -90,9 +102,20 @@ const ActionSheet = ({
   closeButton,
   side,
   className,
+  open: openControlled,
+  setOpen: setOpenControlled,
   children,
 }: IActionSheetProps) => {
-  const [open, setOpen] = React.useState(false)
+  const [openUncontrolled, setOpenUncontrolled] = React.useState(false)
+  if (
+    (openControlled !== undefined && setOpenControlled === undefined) ||
+    (openControlled === undefined && setOpenControlled !== undefined)
+  ) {
+    throw new Error('You must pass in both `open` and `setOpen`, or neither.')
+  }
+  const open = openControlled ?? openUncontrolled
+  const setOpen = setOpenControlled ?? setOpenUncontrolled
+
   const [scope, animate] = useAnimate()
   const willChange = useWillChange()
 

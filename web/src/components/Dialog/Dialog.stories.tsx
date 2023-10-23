@@ -30,19 +30,22 @@ const meta: Meta<typeof Dialog> = {
         ),
       },
     },
+    heightOnSmallScreen: {
+      control: { type: 'range', min: 200, max: 1000, step: 10 },
+    },
     children: {
       options: ['placeholder', 'example'],
       control: { type: 'radio' },
       mapping: {
         placeholder: (
-          <div className="h-60 w-96">
+          <div className="h-full w-full sm:h-60 sm:w-96">
             <ChildrenPlaceholder />
           </div>
         ),
         example: (
           <div className="p-4 outline-none">
             <DialogPrimitive.Title className="mb-4 text-3xl font-semibold">
-              ActionSheet
+              Dialog
             </DialogPrimitive.Title>
             <DialogPrimitive.Description>
               This is a dialog built with{' '}
@@ -72,9 +75,14 @@ export const Primary: Story = {
   args: {
     closeButton: undefined,
     children: 'placeholder',
+    heightOnSmallScreen: 300,
   },
-  render: ({ closeButton, children }) => (
-    <Dialog openButton={<Button>Open Dialog</Button>} closeButton={closeButton}>
+  render: ({ heightOnSmallScreen, closeButton, children }) => (
+    <Dialog
+      heightOnSmallScreen={heightOnSmallScreen}
+      openButton={<Button>Open Dialog</Button>}
+      closeButton={closeButton}
+    >
       {children}
     </Dialog>
   ),

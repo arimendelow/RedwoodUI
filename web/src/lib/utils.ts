@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import tailwindDefaults from 'tailwindcss/defaultConfig'
 
 /**
  * Combines the features of `clsx` and `twMerge`.
@@ -10,4 +11,36 @@ import { twMerge } from 'tailwind-merge'
  */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+/**
+ * This hook returns true if the screen width is less than or equal to the configured breakpoint
+ */
+export const useSmallScreen = () => {
+  /**
+   * Set the breakpoint, in pixels, for when the screen should be considered "mobile".
+   * This is used by the `useSmallScreen` hook.
+   * By default, this is set to the `sm` breakpoint in Tailwind CSS.
+   */
+  const twSm = (tailwindDefaults.theme?.screens as Record<string, string>)['sm']
+  const MOBILE_BREAKPOINT: number = twSm ? parseInt(twSm) : 640
+
+  const [isSmallScreen, setIsSmallScreen] = React.useState(
+    window.innerWidth <= MOBILE_BREAKPOINT
+  )
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= MOBILE_BREAKPOINT)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  return isSmallScreen
 }
