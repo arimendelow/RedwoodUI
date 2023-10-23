@@ -170,7 +170,6 @@ const ActionSheet = ({
   }
 
   return (
-    // Instead of letting Radix Dialog handle the open/close state, Framer Motion will.
     <DialogPrimitive.Root
       open={open}
       onOpenChange={(open) => (open ? openActionSheet() : closeActionSheet())}
