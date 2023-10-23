@@ -34,5 +34,17 @@
   .input-field {
     @apply flex h-10 w-full rounded-default border border-neutral-300 bg-default px-3 py-2 text-base text-dark dark:text-light placeholder:text-neutral-500 disabled:disabled-classes focus-ring;
   }
+  .dialog-overlay {
+    @apply fixed inset-0 z-[999] bg-neutral-700/80 backdrop-blur-sm
+  }
+  /* Can't put overflow-clip on this or it'll interfere with the deliberate overflow of the ActionSheet */
+  .dialog-content {
+    @apply bg-default text-default absolute z-[1000] shadow-lg
+  }
+  .dialog-overlay-animation {
+    @apply data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0
+  }
+  .dialog-content-animation {
+    @apply data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]
+  }
 }
-

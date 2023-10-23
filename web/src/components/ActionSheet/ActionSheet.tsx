@@ -4,7 +4,6 @@ import {
   motion,
   useMotionValue,
   useTransform,
-  LayoutGroup,
   useAnimate,
   useWillChange,
   PanInfo,
@@ -93,7 +92,7 @@ const ActionSheet = ({
   className,
   children,
 }: IActionSheetProps) => {
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(false)
   const [scope, animate] = useAnimate()
   const willChange = useWillChange()
 
@@ -177,16 +176,14 @@ const ActionSheet = ({
       open={open}
       onOpenChange={(open) => (open ? openActionSheet() : closeActionSheet())}
     >
-      <DialogPrimitive.Trigger asChild onClick={() => setOpen(true)}>
-        {openButton}
-      </DialogPrimitive.Trigger>
+      <DialogPrimitive.Trigger asChild>{openButton}</DialogPrimitive.Trigger>
 
       <AnimatePresence onExitComplete={() => setOpen(false)}>
         {open && (
-          <LayoutGroup>
+          <DialogPrimitive.Portal forceMount>
             <DialogPrimitive.Overlay asChild>
               <motion.div
-                className="fixed inset-0 z-[999] bg-neutral-700/80 backdrop-blur-sm"
+                className="dialog-overlay"
                 /** Unclear why this casing is needed */
                 style={{
                   opacity: actionSheetOpacity as unknown as number,
@@ -199,10 +196,7 @@ const ActionSheet = ({
               <motion.div
                 ref={scope}
                 key="content"
-                className={cn(
-                  'bg-default text-default absolute z-[1000] shadow-lg',
-                  className
-                )}
+                className={cn('dialog-content', className)}
                 initial={{ [config.drag]: config.startValue }}
                 animate={{ [config.drag]: config.endValue }}
                 exit={{ [config.drag]: config.startValue }}
@@ -248,7 +242,7 @@ const ActionSheet = ({
                 {children}
               </motion.div>
             </DialogPrimitive.Content>
-          </LayoutGroup>
+          </DialogPrimitive.Portal>
         )}
       </AnimatePresence>
     </DialogPrimitive.Root>
