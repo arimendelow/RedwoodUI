@@ -33,6 +33,9 @@ interface IActionSheetConfig {
    * So that the actionSheet can be dragged away from the edge of the screen and look
    * as though it's growing, we have an 'overflow' div that extends past the edge.
    * This is the side-specific CSS for that div.
+   *
+   * Note that for positioning, you might want to make it overlap the ActionSheet by 1px so that
+   * there's no visible gap between the two.
    */
   overflowCSS?: React.CSSProperties
   /**
@@ -90,7 +93,7 @@ const ActionSheet = ({
   className,
   children,
 }: IActionSheetProps) => {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(true)
   const [scope, animate] = useAnimate()
   const willChange = useWillChange()
 
@@ -106,7 +109,7 @@ const ActionSheet = ({
           drag: 'y',
           positionCSS: { top: `calc(100vh - ${size}px)`, left: 0, right: 0 },
           sizeCSS: { height: size },
-          overflowCSS: { top: size, width: '100%', height: '100vh' },
+          overflowCSS: { top: size - 1, width: '100%', height: '100vh' },
           startValue: size,
           endValue: 0,
           dragConstraints: { top: 0 },
@@ -118,7 +121,7 @@ const ActionSheet = ({
           drag: 'y',
           positionCSS: { top: 0, left: 0, right: 0 },
           sizeCSS: { height: size },
-          overflowCSS: { bottom: size, width: '100%', height: '100vh' },
+          overflowCSS: { bottom: size - 1, width: '100%', height: '100vh' },
           startValue: -size,
           endValue: 0,
           dragConstraints: { bottom: 0 },
@@ -130,7 +133,7 @@ const ActionSheet = ({
           drag: 'x',
           positionCSS: { top: 0, left: 0, bottom: 0 },
           sizeCSS: { width: size },
-          overflowCSS: { right: size, width: '100vh', height: '100%' },
+          overflowCSS: { right: size - 1, width: '100vh', height: '100%' },
           startValue: -size,
           endValue: 0,
           dragConstraints: { right: 0 },
@@ -142,7 +145,7 @@ const ActionSheet = ({
           drag: 'x',
           positionCSS: { top: 0, right: 0, bottom: 0 },
           sizeCSS: { width: size },
-          overflowCSS: { left: size, width: '100vh', height: '100%' },
+          overflowCSS: { left: size - 1, width: '100vh', height: '100%' },
           startValue: size,
           endValue: 0,
           dragConstraints: { left: 0 },
