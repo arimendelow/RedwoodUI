@@ -16,80 +16,80 @@ import { cn } from 'src/lib/utils'
 /**
  * This is used internally by the component to determine what various values should be, based on the `side` prop.
  */
-interface IOverlayConfig {
+interface IActionSheetConfig {
   /**
-   * The axis in which the overlay can be dragged.
+   * The axis in which the actionSheet can be dragged.
    */
   drag: 'y' | 'x'
   /**
-   * Together with `sizeCSS`, this makes up the CSS properties of the overlay.
+   * Together with `sizeCSS`, this makes up the CSS properties of the actionSheet.
    */
   positionCSS: React.CSSProperties
   /**
-   * Together with `positionCSS`, this makes up the CSS properties of the overlay.
+   * Together with `positionCSS`, this makes up the CSS properties of the actionSheet.
    */
   sizeCSS: React.CSSProperties
   /**
-   * So that the overlay can be dragged away from the edge of the screen and look
+   * So that the actionSheet can be dragged away from the edge of the screen and look
    * as though it's growing, we have an 'overflow' div that extends past the edge.
    * This is the side-specific CSS for that div.
    */
   overflowCSS?: React.CSSProperties
   /**
-   * The (motion) value that the overlay should start at, ie the value when the overlay is closed.
+   * The (motion) value that the actionSheet should start at, ie the value when the actionSheet is closed.
    */
   startValue: number
   /**
-   * The (motion) value that the overlay should end at, ie the value when the overlay is open.
+   * The (motion) value that the actionSheet should end at, ie the value when the actionSheet is open.
    */
   endValue: number
   /**
-   * The constraints for where you can drag the overlay.
+   * The constraints for where you can drag the actionSheet.
    */
   dragConstraints: Partial<BoundingBox>
   /**
-   * A function that determines whether the overlay should close based on how the user has dragged it.
+   * A function that determines whether the actionSheet should close based on how the user has dragged it.
    */
   isClosing: (info: PanInfo) => boolean
 }
 
-interface IOverlayProps {
+interface IActionSheetProps {
   /**
-   * The size of the overlay, in pixels.
-   * This is the height if the overlay is on the top or bottom, or the width if the overlay is on the left or right.
+   * The size of the actionSheet, in pixels.
+   * This is the height if the actionSheet is on the top or bottom, or the width if the actionSheet is on the left or right.
    */
   size: number
   /**
-   * The element that will trigger the overlay to open.
+   * The element that will trigger the actionSheet to open.
    * You *do not* need to pass `onClick` to this element, it will be handled for you.
    */
   openButton: React.ReactNode
   /**
-   * The element that will trigger the overlay to close.
+   * The element that will trigger the actionSheet to close.
    * You *do not* need to pass `onClick` to this element, it will be handled for you.
    * If you do not pass this, no close button will be rendered, and the user will have to click
-   * outside the overlay or swipe it away to close it.
+   * outside the actionSheet or swipe it away to close it.
    */
   closeButton?: React.ReactNode
   /**
-   * The side of the screen that the overlay should open from (and dismiss to).
+   * The side of the screen that the actionSheet should open from (and dismiss to).
    */
   side: 'top' | 'bottom' | 'left' | 'right'
   /**
-   * The class name to apply to the overlay. This will be applied on the element that wraps the children.
+   * The class name to apply to the actionSheet. This will be applied on the element that wraps the children.
    */
   className?: string
   children: React.ReactNode
 }
 
-const Overlay = ({
+const ActionSheet = ({
   size,
   openButton,
   closeButton,
   side,
   className,
   children,
-}: IOverlayProps) => {
+}: IActionSheetProps) => {
   const [open, setOpen] = React.useState(false)
   const [scope, animate] = useAnimate()
   const willChange = useWillChange()
@@ -99,7 +99,7 @@ const Overlay = ({
     ease: [0.32, 0.72, 0, 1],
   }
 
-  const config: IOverlayConfig = (() => {
+  const config: IActionSheetConfig = (() => {
     switch (side) {
       case 'bottom':
         return {
@@ -153,7 +153,7 @@ const Overlay = ({
   })()
 
   const position = useMotionValue(config.startValue)
-  const overlayOpacity = useTransform(
+  const actionSheetOpacity = useTransform(
     position,
     [config.endValue, config.startValue],
     [1, 0]
@@ -179,7 +179,7 @@ const Overlay = ({
                 className="fixed inset-0 z-[999] bg-neutral-700/80 backdrop-blur-sm"
                 /** Unclear why this casing is needed */
                 style={{
-                  opacity: overlayOpacity as unknown as number,
+                  opacity: actionSheetOpacity as unknown as number,
                   ...willChange,
                 }}
                 onClick={onClose}
@@ -229,7 +229,7 @@ const Overlay = ({
                     {closeButton}
                   </DialogPrimitive.Close>
                 )}
-                {/* This extends past the edge of the screen so that if the overlay is dragged away
+                {/* This extends past the edge of the screen so that if the actionSheet is dragged away
                 from the edge, it appears to be stretching */}
                 <div
                   className="bg-default absolute z-[1000]"
@@ -245,4 +245,4 @@ const Overlay = ({
   )
 }
 
-export default Overlay
+export default ActionSheet

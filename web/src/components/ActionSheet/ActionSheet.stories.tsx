@@ -6,7 +6,7 @@ import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
 
 import Button from '../Button/Button'
 
-import Overlay from './Overlay'
+import Overlay from './ActionSheet'
 
 const meta: Meta<typeof Overlay> = {
   component: Overlay,

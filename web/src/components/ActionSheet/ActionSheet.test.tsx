@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import Overlay from './Overlay'
+import ActionSheet from './ActionSheet'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('Overlay', () => {
+describe('ActionSheet', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<Overlay />)
+      render(<ActionSheet />)
     }).not.toThrow()
   })
 })
