@@ -159,14 +159,22 @@ const ActionSheet = ({
     [1, 0]
   )
 
-  const onClose = async () => {
+  const closeActionSheet = async () => {
     await animate(position, config.startValue)
     setOpen(false)
   }
 
+  const openActionSheet = async () => {
+    await animate(position, config.endValue)
+    setOpen(true)
+  }
+
   return (
     // Instead of letting Radix Dialog handle the open/close state, Framer Motion will.
-    <DialogPrimitive.Root open={open}>
+    <DialogPrimitive.Root
+      open={open}
+      onOpenChange={(open) => (open ? openActionSheet() : closeActionSheet())}
+    >
       <DialogPrimitive.Trigger asChild onClick={() => setOpen(true)}>
         {openButton}
       </DialogPrimitive.Trigger>
@@ -182,7 +190,7 @@ const ActionSheet = ({
                   opacity: actionSheetOpacity as unknown as number,
                   ...willChange,
                 }}
-                onClick={onClose}
+                onClick={closeActionSheet}
               />
             </DialogPrimitive.Overlay>
             <DialogPrimitive.Content key="content" asChild>
@@ -207,7 +215,7 @@ const ActionSheet = ({
                 dragConstraints={config.dragConstraints}
                 onDragEnd={(_e, info) => {
                   if (config.isClosing(info)) {
-                    onClose()
+                    closeActionSheet()
                   } else {
                     animate(position, config.endValue, {
                       type: 'inertia',
@@ -223,7 +231,7 @@ const ActionSheet = ({
                 {closeButton && (
                   <DialogPrimitive.Close
                     className="absolute z-[1001]"
-                    onClick={onClose}
+                    onClick={closeActionSheet}
                     asChild
                   >
                     {closeButton}
