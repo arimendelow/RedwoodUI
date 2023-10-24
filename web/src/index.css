@@ -22,8 +22,11 @@
   .bg-default {
     @apply bg-light dark:bg-dark;
   }
-  .text-default {
+  .text-color-default {
     @apply text-dark dark:text-light;
+  }
+  .prose-default {
+    @apply prose dark:prose-invert
   }
   .focus-ring {
     @apply ring-offset-light dark:ring-offset-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2;
@@ -39,7 +42,7 @@
   }
   /* Can't put overflow-clip on this or it'll interfere with the deliberate overflow of the ActionSheet */
   .dialog-content {
-    @apply bg-default text-default absolute z-[1000] shadow-lg
+    @apply bg-default text-color-default absolute z-[1000] shadow-lg
   }
   .dialog-overlay-animation {
     @apply data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0
