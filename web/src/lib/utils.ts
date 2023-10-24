@@ -40,7 +40,7 @@ export const useSmallScreen = () => {
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [])
+  })
 
   return isSmallScreen
 }

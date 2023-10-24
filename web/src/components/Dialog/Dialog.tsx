@@ -66,7 +66,7 @@ const Dialog = ({
   if (isSmallScreen) {
     return (
       <ActionSheet
-        size={300}
+        size={heightOnSmallScreen}
         side="bottom"
         openButton={openButton}
         closeButton={closeButton}
