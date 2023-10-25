@@ -1,9 +1,8 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { AnimatePresence, motion } from 'framer-motion'
 
+import ActionSheet from 'src/components/ActionSheet/ActionSheet'
 import { cn, useSmallScreen } from 'src/lib/utils'
-
-import ActionSheet from '../ActionSheet/ActionSheet'
 
 interface IDialogProps {
   /**
