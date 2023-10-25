@@ -28,15 +28,15 @@ interface IDialogProps {
    */
   className?: string
   /**
-   * Use this to control the open state of the ActionSheet.
+   * Use this to control the open state of the Dialog.
    * If you pass this in, you must also pass in `setOpen`.
-   * If you do not pass this in, the ActionSheet will be uncontrolled and will manage its own open state.
+   * If you do not pass this in, the Dialog will be uncontrolled and will manage its own open state.
    */
   open?: boolean
   /**
-   * Use this to control the open state of the ActionSheet.
+   * Use this to control the open state of the Dialog.
    * If you pass this in, you must also pass in `open`.
-   * If you do not pass this in, the ActionSheet will be uncontrolled and will manage its own open state.
+   * If you do not pass this in, the Dialog will be uncontrolled and will manage its own open state.
    */
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>
   children: React.ReactNode
