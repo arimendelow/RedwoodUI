@@ -12,41 +12,43 @@
 
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { RedwoodJSLogo } from '../logos/RedwoodJSLogo'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from './Accordion'
 
-import { AccordionContainer, AccordionItem } from './Accordion'
-
-const meta: Meta<typeof AccordionContainer> = {
-  component: AccordionContainer,
+const meta: Meta<typeof Accordion> = {
+  component: Accordion,
 }
 
 export default meta
 
-type Story = StoryObj<typeof AccordionContainer>
+type Story = StoryObj<typeof Accordion>
 
 export const Primary: Story = {
   render: () => (
-    <AccordionContainer type="single" collapsible>
-      <AccordionItem
-        value="1"
-        trigger={
-          <span>
-            Trigger text with SVG!{' '}
-            <RedwoodJSLogo className="inline h-full w-4" />
-          </span>
-        }
-        itemContent="Item 1 Content"
-      />
-      <AccordionItem
-        value="2"
-        trigger="Trigger2"
-        itemContent="Item 2 Content"
-      />
-      <AccordionItem
-        value="3"
-        trigger="Trigger3"
-        itemContent="Item 3 Content"
-      />
-    </AccordionContainer>
+    <Accordion type="single" collapsible className="w-full">
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Is it accessible?</AccordionTrigger>
+        <AccordionContent>
+          Yes. It adheres to the WAI-ARIA design pattern, as it's built with Radix UI.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger>Is it styled?</AccordionTrigger>
+        <AccordionContent>
+          Yes! It matches all other components, including built-in dark mode support 😉
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-3">
+        <AccordionTrigger>Is it animated?</AccordionTrigger>
+        <AccordionContent>
+          Yes, with CSS - but you can disable it if you
+          prefer. If you're interested in instead animating with Framer Motion, refer to the docs for why we didn't do that.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   ),
 }

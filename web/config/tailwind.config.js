@@ -44,23 +44,40 @@ module.exports = {
          */
         default: defaults.theme.borderRadius.md,
       },
+      /**
+       * START for accordion component
+       * To instead use Framer Motion, you'd need to use the accordion as a
+       * controlled component, which undermines a lot of what RadixUI does for us.
+       * It's unfeasible to use Framer Motion with the accordion as an uncontrolled
+       * component because of how it sets the height variable - it basically calculates it
+       * based on the height of the content, so you get a weird race condition if you animate the height
+       * using Framer Motion.
+       *
+       * (You'd also need to do `forceMount` on the content, otherwise it removes the content from the DOM when it's closed,
+       * which is where the re-calculation of the height comes from)
+       *
+       * This is the recommended way to animate the accordion, see here:
+       * https://www.radix-ui.com/primitives/docs/components/accordion#animating-content-size
+       */
       keyframes: {
-        keyframes: {
-          'accordion-down': {
-            from: { height: '0' },
-            to: { height: 'var(--radix-accordion-content-height)' },
-          },
-          'accordion-up': {
-            from: { height: 'var(--radix-accordion-content-height)' },
-            to: { height: '0' },
-          },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
-        animation: {
-          'accordion-down': 'accordion-down 0.2s ease-in-out',
-          'accordion-up': 'accordion-up 0.2s ease-in-out',
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
         },
       },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-in-out',
+        'accordion-up': 'accordion-up 0.2s ease-in-out',
+      },
+
+      /**
+       * END for accordion component
+       */
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [require('@tailwindcss/typography'), require('tailwindcss-animate')],
 }

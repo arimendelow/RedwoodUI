@@ -1,101 +1,22 @@
+import * as React from 'react'
+
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import { useAnimate } from 'framer-motion'
 
-import { cn, mergeRefs } from 'src/lib/utils'
+import { cn } from 'src/lib/utils'
 
-const AccordionContainer = AccordionPrimitive.Root
-
-interface IAccordionItemProps
-  extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> {
-  trigger: React.ReactNode
-  itemContent: React.ReactNode
-}
+const Accordion = AccordionPrimitive.Root
 
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
-  IAccordionItemProps
->(({ trigger, itemContent, className, value, ...props }, ref) => {
-  const [animationScope, animate] = useAnimate()
-
-  const updateAnimation = async (state: string, height: string) => {
-    if (state === 'open') {
-      await animate(
-        animationScope.current,
-        {
-          height: height,
-        },
-        { duration: 2 }
-      ).then(() => console.log('opened animation done'))
-    } else {
-      await animate(
-        animationScope.current,
-        {
-          height: '0px',
-        },
-        { duration: 2 }
-      ).then(() => console.log('closed animation done'))
-    }
-  }
-
-  const contentRef = React.useRef<HTMLDivElement>(null)
-  const mutationObserver = new MutationObserver(
-    async (mutations, _observer) => {
-      let state: string | undefined = undefined
-      let height: string | undefined = undefined
-      mutations.forEach(async (mutation) => {
-        if (mutation.attributeName === 'data-state') {
-          state = (mutation.target as HTMLElement).dataset.state as string
-          height = (mutation.target as HTMLElement).offsetHeight + 'px'
-          console.log('state', state)
-          console.log('height', height)
-          await updateAnimation(state, height)
-        }
-        // if (mutation.attributeName === 'style') {
-        //   height = (mutation.target as HTMLElement).style.getPropertyValue(
-        //     '--radix-collapsible-content-height'
-        //   )
-        //   if (state && height) {
-        //   }
-        // }
-      })
-    }
-  )
-
-  React.useEffect(() => {
-    if (contentRef.current) {
-      mutationObserver.observe(contentRef.current, {
-        attributes: true,
-      })
-    }
-    return () => {
-      mutationObserver.disconnect()
-    }
-  })
-
-  return (
-    <AccordionPrimitive.Item
-      ref={ref}
-      className={cn('text-color-default border-b', className)}
-      /**
-       * Instead of requiring a unique value passed in for each item, we'll just generate a random one.
-       */
-      value={value}
-      {...props}
-    >
-      <AccordionTrigger id={value}>{trigger}</AccordionTrigger>
-
-      <AccordionContent
-        ref={mergeRefs([contentRef, animationScope])}
-        key={value}
-        id={value}
-        forceMount
-      >
-        {itemContent}
-      </AccordionContent>
-    </AccordionPrimitive.Item>
-  )
-})
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
+>(({ className, ...props }, ref) => (
+  <AccordionPrimitive.Item
+    ref={ref}
+    className={cn('border-b', className)}
+    {...props}
+  />
+))
 
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
@@ -105,7 +26,7 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        'flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180',
+        'flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-color-default',
         className
       )}
       {...props}
@@ -122,11 +43,14 @@ const AccordionContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Content
     ref={ref}
-    className={cn('prose-default overflow-hidden text-sm', className)}
+    className={cn(
+      'data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden prose-default transition-all',
+      className
+    )}
     {...props}
   >
-    {children}
+    <div className="pb-4 pt-0">{children}</div>
   </AccordionPrimitive.Content>
 ))
 
-export { AccordionContainer, AccordionItem }
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
