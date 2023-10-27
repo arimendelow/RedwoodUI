@@ -5,11 +5,54 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion'
 
 import { cn } from 'src/lib/utils'
 
-const Accordion = AccordionPrimitive.Root
+interface IAccordionSectionProps {
+  /**
+   * The Trigger is the clickable part of the section.
+   * It toggles the collapsed state of the Content.
+   */
+  trigger: React.ReactNode | string
+  /**
+   * The Content is the collapsible part of the section.
+   */
+  content: React.ReactNode | string
+}
 
+/**
+ * The props for the Accordion component, which handles
+ * rendering the entire Accordion, including all sections.
+ *
+ * If you need a simple, easy to use component, use this.
+ * Alternatively, you can use the AccordionRoot, AccordionItem, AccordionTrigger components etc.
+ */
+type AccordionPropsType = AccordionRootPropsType & {
+  sections: IAccordionSectionProps[]
+}
+
+const Accordion = ({sections, ...rootProps}: AccordionPropsType) => {return(<AccordionRoot {...rootProps}>{sections.map((section, index) => {
+  const {trigger, content} = section
+  return (
+    <AccordionItem value={index.toString()}>
+      <AccordionTrigger children={trigger} />
+      <AccordionContent children={content} />
+    </AccordionItem>
+  )
+})}</AccordionRoot>)}
+
+type AccordionRootPropsType = React.ComponentPropsWithRef<typeof AccordionPrimitive.Root>
+const AccordionRoot = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Root>,
+  React.PropsWithoutRef<AccordionRootPropsType>
+>(({ className, ...props }, ref) => (
+  <AccordionPrimitive.Root
+    ref={ref}
+    {...props}
+  />
+))
+
+type AccordionItemPropsType = React.ComponentPropsWithRef<typeof AccordionPrimitive.Item>
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
+  React.PropsWithoutRef<AccordionItemPropsType>
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
@@ -18,9 +61,10 @@ const AccordionItem = React.forwardRef<
   />
 ))
 
+type AccordionTriggerPropsType = React.ComponentPropsWithRef<typeof AccordionPrimitive.Trigger>
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
+  React.PropsWithoutRef<AccordionTriggerPropsType>
 >(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Header className="flex">
     <AccordionPrimitive.Trigger
@@ -37,9 +81,10 @@ const AccordionTrigger = React.forwardRef<
   </AccordionPrimitive.Header>
 ))
 
+type AccordionContentPropsType = React.ComponentPropsWithRef<typeof AccordionPrimitive.Content>
 const AccordionContent = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
+  React.PropsWithoutRef<AccordionContentPropsType>
 >(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Content
     ref={ref}
@@ -53,4 +98,4 @@ const AccordionContent = React.forwardRef<
   </AccordionPrimitive.Content>
 ))
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+export { Accordion, AccordionRoot, AccordionItem, AccordionTrigger, AccordionContent }

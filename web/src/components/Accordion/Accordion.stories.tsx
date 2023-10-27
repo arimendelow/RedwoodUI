@@ -18,9 +18,27 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from './Accordion'
+import { RedwoodJSLogo } from '../logos/RedwoodJSLogo'
+import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
 
 const meta: Meta<typeof Accordion> = {
   component: Accordion,
+  argTypes: {
+    type: {
+      options: ['single', 'multiple'],
+      control: { type: 'radio' },
+    },
+    asChild: {
+      table: {
+        disable: true,
+      },
+    },
+    sections: {
+      table: {
+        disable: true,
+      },
+    }
+  }
 }
 
 export default meta
@@ -28,27 +46,26 @@ export default meta
 type Story = StoryObj<typeof Accordion>
 
 export const Primary: Story = {
-  render: () => (
-    <Accordion type="single" collapsible className="w-full">
-      <AccordionItem value="item-1">
-        <AccordionTrigger>Is it accessible?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern, as it's built with Radix UI.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger>Is it styled?</AccordionTrigger>
-        <AccordionContent>
-          Yes! It matches all other components, including built-in dark mode support 😉
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-3">
-        <AccordionTrigger>Is it animated?</AccordionTrigger>
-        <AccordionContent>
-          Yes, with CSS - but you can disable it if you
-          prefer. If you're interested in instead animating with Framer Motion, refer to the docs for why we didn't do that.
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+  args: {
+    type: 'single',
+  },
+  render: ({type}) => (
+    <Accordion type={type} collapsible sections={[{
+      trigger: "Is it accessible?",
+      content: "Yes. It adheres to the WAI-ARIA design pattern, as it's built with Radix UI.",
+    },
+    {
+      trigger: "Is it styled?",
+      content: "Yes! It matches all other components, including built-in dark mode support 😉",
+    },
+    {
+      trigger: "Is it animated?",
+      content: "Yes, with CSS - but you can disable it if you prefer. If you're interested in instead animating with Framer Motion, refer to the docs for why we didn't do that.",
+    },
+    {
+      trigger: <div>Can I use a component as the trigger and/or content? <RedwoodJSLogo className='inline h-5 w-5'/></div>,
+      content: <div>Yes! You can use either a string or component for either of these.<div className='h-32'><ChildrenPlaceholder /></div></div>
+    },
+  ]}/>
   ),
 }
