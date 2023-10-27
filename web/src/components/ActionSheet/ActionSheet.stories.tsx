@@ -1,10 +1,10 @@
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import * as DialogPrimitive from '@radix-ui/react-dialog'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
 
 import Button from '../Button/Button'
+import { DialogDescription, DialogTitle } from '../Dialog/Dialog'
 
 import ActionSheet from './ActionSheet'
 
@@ -44,10 +44,8 @@ const meta: Meta<typeof ActionSheet> = {
         placeholder: <ChildrenPlaceholder />,
         example: (
           <div className="p-4 outline-none">
-            <DialogPrimitive.Title className="mb-4 text-3xl font-semibold">
-              ActionSheet
-            </DialogPrimitive.Title>
-            <DialogPrimitive.Description>
+            <DialogTitle>ActionSheet</DialogTitle>
+            <DialogDescription>
               This is an Action Sheet built with{' '}
               <a
                 className="text-blue-600"
@@ -66,7 +64,7 @@ const meta: Meta<typeof ActionSheet> = {
               drag the sheet off the screen or click outside of it.
               <br />
               Look upon my works, ye mighty, and despair!
-            </DialogPrimitive.Description>
+            </DialogDescription>
           </div>
         ),
       },

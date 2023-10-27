@@ -129,4 +129,30 @@ const Dialog = ({
   }
 }
 
+const DialogTitle = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Title>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Title
+    ref={ref}
+    className={cn(
+      'mb-2 text-xl font-semibold leading-none tracking-tight',
+      className
+    )}
+    {...props}
+  />
+))
+
+const DialogDescription = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Description>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Description
+    ref={ref}
+    className={cn('prose-default leading-normal', className)}
+    {...props}
+  />
+))
+
 export default Dialog
+export { Dialog, DialogTitle, DialogDescription }

@@ -1,12 +1,11 @@
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import * as DialogPrimitive from '@radix-ui/react-dialog'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
 
 import Button from '../Button/Button'
 
-import Dialog from './Dialog'
+import Dialog, { DialogDescription, DialogTitle } from './Dialog'
 
 const meta: Meta<typeof Dialog> = {
   component: Dialog,
@@ -44,10 +43,8 @@ const meta: Meta<typeof Dialog> = {
         ),
         example: (
           <div className="p-4 outline-none">
-            <DialogPrimitive.Title className="mb-4 text-3xl font-semibold">
-              Dialog
-            </DialogPrimitive.Title>
-            <DialogPrimitive.Description>
+            <DialogTitle>Dialog</DialogTitle>
+            <DialogDescription>
               This is a dialog built with{' '}
               <a
                 className="text-blue-600"
@@ -59,7 +56,7 @@ const meta: Meta<typeof Dialog> = {
               click outside of it.
               <br />
               Look upon my works, ye mighty, and despair!
-            </DialogPrimitive.Description>
+            </DialogDescription>
           </div>
         ),
       },
