@@ -1,14 +1,8 @@
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import {
-  AnimatePresence,
-  motion,
-  useAnimate,
-  useMotionValue,
-  useWillChange,
-} from 'framer-motion'
+import { useAnimate } from 'framer-motion'
 
-import { cn, mergeRefs, useDataStateObserver } from 'src/lib/utils'
+import { cn, mergeRefs } from 'src/lib/utils'
 
 const AccordionContainer = AccordionPrimitive.Root
 
@@ -23,23 +17,21 @@ const AccordionItem = React.forwardRef<
   IAccordionItemProps
 >(({ trigger, itemContent, className, value, ...props }, ref) => {
   const [animationScope, animate] = useAnimate()
-  const contentHeightClosed = '0'
-  const contentHeightOpen = 'var(--radix-accordion-content-height)'
 
-  const updateAnimation = (state: string) => {
+  const updateAnimation = async (state: string, height: string) => {
     if (state === 'open') {
-      animate(
+      await animate(
         animationScope.current,
         {
-          height: contentHeightOpen,
+          height: height,
         },
         { duration: 2 }
       ).then(() => console.log('opened animation done'))
     } else {
-      animate(
+      await animate(
         animationScope.current,
         {
-          height: contentHeightClosed,
+          height: '0px',
         },
         { duration: 2 }
       ).then(() => console.log('closed animation done'))
@@ -49,12 +41,23 @@ const AccordionItem = React.forwardRef<
   const contentRef = React.useRef<HTMLDivElement>(null)
   const mutationObserver = new MutationObserver(
     async (mutations, _observer) => {
-      mutations.forEach((mutation) => {
+      let state: string | undefined = undefined
+      let height: string | undefined = undefined
+      mutations.forEach(async (mutation) => {
         if (mutation.attributeName === 'data-state') {
-          const state = (mutation.target as HTMLElement).dataset.state as string
-          updateAnimation(state)
+          state = (mutation.target as HTMLElement).dataset.state as string
+          height = (mutation.target as HTMLElement).offsetHeight + 'px'
           console.log('state', state)
+          console.log('height', height)
+          await updateAnimation(state, height)
         }
+        // if (mutation.attributeName === 'style') {
+        //   height = (mutation.target as HTMLElement).style.getPropertyValue(
+        //     '--radix-collapsible-content-height'
+        //   )
+        //   if (state && height) {
+        //   }
+        // }
       })
     }
   )
@@ -125,7 +128,5 @@ const AccordionContent = React.forwardRef<
     {children}
   </AccordionPrimitive.Content>
 ))
-
-const AccordionContentWithMotion = motion(AccordionContent)
 
 export { AccordionContainer, AccordionItem }
