@@ -34,6 +34,7 @@ const buttonVariants = cva(
           'hover:bg-primary-50 dark:hover:bg-primary-900/80',
           'focus-ring',
         ],
+        danger: ['bg-red-600', 'text-light', 'hover:bg-red-700', 'focus-ring'],
       },
       size: {
         xs: ['text-xs', 'py-1', 'px-2'],

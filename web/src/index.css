@@ -1,4 +1,4 @@
-/**
+/*
  * START --- SETUP TAILWINDCSS EDIT
  *
  * `yarn rw setup ui tailwindcss` placed these directives here
@@ -8,7 +8,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/**
+/*
  * END --- SETUP TAILWINDCSS EDIT
  */
 
@@ -20,28 +20,37 @@
 
 @layer components {
   .bg-default {
-    @apply bg-light dark:bg-dark;
+    @apply bg-light dark:bg-dark
   }
   .text-color-default {
-    @apply text-dark dark:text-light;
+    @apply text-dark dark:text-light
   }
   .prose-default {
-    @apply prose dark:prose-invert
+    @apply prose dark:prose-invert leading-normal text-sm sm:text-base
   }
   .focus-ring {
-    @apply ring-offset-light dark:ring-offset-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2;
+    @apply ring-offset-light dark:ring-offset-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2
   }
   .disabled-classes {
-    @apply pointer-events-none cursor-not-allowed opacity-50;
+    @apply pointer-events-none cursor-not-allowed opacity-50
   }
   .input-field {
-    @apply flex h-10 w-full rounded-default border border-neutral-300 bg-default px-3 py-2 text-base text-dark dark:text-light placeholder:text-neutral-500 disabled:disabled-classes focus-ring;
+    @apply flex h-10 w-full rounded-default border border-neutral-300 bg-default px-3 py-2 text-base text-dark dark:text-light placeholder:text-neutral-500 disabled:disabled-classes focus-ring
   }
   .dialog-overlay {
     @apply fixed inset-0 z-[999] bg-neutral-700/80 backdrop-blur-sm
   }
-  /* Can't put overflow-clip on this or it'll interfere with the deliberate overflow of the ActionSheet */
+  /*
+   * Used by both Dialog and ActionSheet
+   * Can't put overflow-clip on this or it'll interfere with the deliberate overflow of the ActionSheet
+   */
   .dialog-content {
-    @apply bg-default text-color-default absolute z-[1000] shadow-lg
+    @apply bg-default text-color-default absolute z-[1000] shadow-lg text-center sm:text-left
+  }
+  .dialog-position {
+    @apply fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] overflow-clip rounded-default max-w-lg min-w-[90%] sm:min-w-0
+  }
+  .dialog-title {
+    @apply mb-2 text-xl font-semibold leading-none tracking-tight text-center sm:text-start
   }
 }

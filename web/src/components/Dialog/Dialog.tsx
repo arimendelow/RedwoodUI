@@ -4,7 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import ActionSheet from 'src/components/ActionSheet/ActionSheet'
 import { cn, useSmallScreen } from 'src/lib/utils'
 
-interface IDialogProps {
+// exported for reuse by AlertDialog
+export interface IDialogProps {
   /**
    * The element that will trigger the dialog to open.
    * You *do not* need to pass `onClick` to this element, it will be handled for you.
@@ -77,54 +78,44 @@ const Dialog = ({
     )
   } else {
     return (
-      <>
-        <div className="block sm:hidden"></div>
-        <div className="hidden sm:block">
-          <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
-            <DialogPrimitive.Trigger asChild>
-              {openButton}
-            </DialogPrimitive.Trigger>
+      <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
+        <DialogPrimitive.Trigger asChild>{openButton}</DialogPrimitive.Trigger>
 
-            <AnimatePresence onExitComplete={() => setOpen(false)}>
-              {open && (
-                <DialogPrimitive.Portal forceMount>
-                  <DialogPrimitive.Overlay key="overlay" asChild>
-                    <motion.div
-                      className="dialog-overlay"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ ease: 'easeInOut' }}
-                    />
-                  </DialogPrimitive.Overlay>
-                  <DialogPrimitive.Content key="content" asChild>
-                    <motion.div
-                      className={cn(
-                        'dialog-content fixed left-[50%] top-[50%] max-w-lg translate-x-[-50%] translate-y-[-50%] overflow-clip rounded-default',
-                        className
-                      )}
-                      initial={{ opacity: 0, zoom: 0.9 }}
-                      animate={{ opacity: 1, zoom: 1 }}
-                      exit={{ opacity: 0, zoom: 0.9 }}
-                      transition={{ ease: 'easeInOut' }}
+        <AnimatePresence onExitComplete={() => setOpen(false)}>
+          {open && (
+            <DialogPrimitive.Portal forceMount>
+              <DialogPrimitive.Overlay key="overlay" asChild>
+                <motion.div
+                  className="dialog-overlay"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ ease: 'easeInOut' }}
+                />
+              </DialogPrimitive.Overlay>
+              <DialogPrimitive.Content key="content" asChild>
+                <motion.div
+                  className={cn('dialog-content dialog-position', className)}
+                  initial={{ opacity: 0, zoom: 0.9 }}
+                  animate={{ opacity: 1, zoom: 1 }}
+                  exit={{ opacity: 0, zoom: 0.9 }}
+                  transition={{ ease: 'easeInOut' }}
+                >
+                  {closeButton && (
+                    <DialogPrimitive.Close
+                      className="absolute z-[1001]"
+                      asChild
                     >
-                      {closeButton && (
-                        <DialogPrimitive.Close
-                          className="absolute z-[1001]"
-                          asChild
-                        >
-                          {closeButton}
-                        </DialogPrimitive.Close>
-                      )}
-                      {children}
-                    </motion.div>
-                  </DialogPrimitive.Content>
-                </DialogPrimitive.Portal>
-              )}
-            </AnimatePresence>
-          </DialogPrimitive.Root>
-        </div>
-      </>
+                      {closeButton}
+                    </DialogPrimitive.Close>
+                  )}
+                  {children}
+                </motion.div>
+              </DialogPrimitive.Content>
+            </DialogPrimitive.Portal>
+          )}
+        </AnimatePresence>
+      </DialogPrimitive.Root>
     )
   }
 }
@@ -135,10 +126,7 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn(
-      'mb-2 text-xl font-semibold leading-none tracking-tight',
-      className
-    )}
+    className={cn('dialog-title', className)}
     {...props}
   />
 ))
@@ -149,10 +137,10 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn('prose-default leading-normal', className)}
+    className={cn('prose-default', className)}
     {...props}
   />
 ))
 
 export default Dialog
-export { Dialog, DialogTitle, DialogDescription }
+export { DialogTitle, DialogDescription }
