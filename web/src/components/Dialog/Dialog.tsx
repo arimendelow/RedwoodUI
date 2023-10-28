@@ -11,17 +11,17 @@ interface IDialogProps {
    */
   openButton: React.ReactNode
   /**
+   * On smaller screens, the ActionSheet is rendered instead of the Dialog.
+   * This is the height of the ActionSheet, in pixels.
+   */
+  heightOnSmallScreen: number
+  /**
    * The element that will trigger the dialog to close.
    * You *do not* need to pass `onClick` to this element, it will be handled for you.
    * If you do not pass this, no close button will be rendered, and the user will have to click
    * outside the dialog to close it.
    */
   closeButton?: React.ReactNode
-  /**
-   * On smaller screens, the ActionSheet is rendered instead of the Dialog.
-   * This is the height of the ActionSheet, in pixels.
-   */
-  heightOnSmallScreen: number
   /**
    * The class name to apply to the dialog. This will be applied on the element that wraps the children.
    */
@@ -43,8 +43,8 @@ interface IDialogProps {
 
 const Dialog = ({
   openButton,
-  closeButton,
   heightOnSmallScreen,
+  closeButton,
   className,
   open: openControlled,
   setOpen: setOpenControlled,
