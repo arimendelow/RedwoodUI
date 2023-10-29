@@ -2,19 +2,23 @@ import * as React from 'react'
 
 import { cn } from 'src/lib/utils'
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      'bg-card text-color-default overflow-clip rounded-default border shadow-sm',
-      className
-    )}
-    {...props}
-  />
-))
+interface ICardProps extends React.HTMLAttributes<HTMLDivElement> {
+  loading?: boolean
+}
+
+const Card = React.forwardRef<HTMLDivElement, ICardProps>(
+  ({ loading, className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(
+        'bg-card text-color-default overflow-clip rounded-default border shadow-sm outline-none',
+        loading && 'loading',
+        className
+      )}
+      {...props}
+    />
+  )
+)
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
