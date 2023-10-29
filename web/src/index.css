@@ -41,7 +41,7 @@
     @apply fixed inset-0 z-[999] bg-neutral-700/80 backdrop-blur-sm
   }
   /*
-   * Used by both Dialog and ActionSheet
+   * `dialog-content` is used by both Dialog and ActionSheet
    * Can't put overflow-clip on this or it'll interfere with the deliberate overflow of the ActionSheet
    */
   .dialog-content {
@@ -52,5 +52,8 @@
   }
   .dialog-title {
     @apply mb-2 text-xl font-semibold leading-none tracking-tight text-center sm:text-start
+  }
+  .loading {
+    @apply animate-pulse cursor-wait bg-neutral-200 !text-transparent select-none;
   }
 }

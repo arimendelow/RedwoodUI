@@ -12,18 +12,19 @@
 
 import type { Meta, StoryObj } from '@storybook/react'
 
-import Button from './Button'
+import Button, { buttonColorTreatments, buttonSizeTreatments } from './Button'
 
 const meta: Meta<typeof Button> = {
   component: Button,
   argTypes: {
     colorTreatment: {
-      options: ['primary', 'secondary', 'soft', 'minimal', 'danger'],
-      control: { type: 'radio' },
+      name: 'color treatment',
+      options: Object.keys(buttonColorTreatments),
+      control: { type: 'select' },
     },
     size: {
-      options: ['xs', 'sm', 'base', 'lg', 'xl'],
-      control: { type: 'radio' },
+      options: Object.keys(buttonSizeTreatments),
+      control: { type: 'select' },
     },
     pill: {
       control: { type: 'boolean' },
