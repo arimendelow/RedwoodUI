@@ -149,7 +149,7 @@ const AlertContentWithActions = ({
     <div className="max-w-sm">
       <AlertDialogTitle>{title}</AlertDialogTitle>
       <AlertDialogDescription>{description}</AlertDialogDescription>
-      <div className="mt-3 flex flex-col justify-start gap-2 sm:flex-row-reverse">
+      <div className="mt-5 flex flex-col justify-start gap-2 sm:flex-row-reverse">
         <AlertDialogPrimitive.Action onClick={onConfirm} asChild>
           <Button colorTreatment="danger" size="lg">
             {actionText}
