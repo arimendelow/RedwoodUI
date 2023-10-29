@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from 'src/lib/utils'
 
 const buttonVariants = cva(
-  'rounded-default inline-flex items-center justify-center font-semibold transition-colorTreatment disabled:disabled-classes',
+  'rounded-default inline-flex items-center justify-center font-semibold transition-colors duration-200 disabled:disabled-classes',
   {
     variants: {
       colorTreatment: {
