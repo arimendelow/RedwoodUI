@@ -18,7 +18,7 @@ const meta: Meta<typeof Button> = {
   component: Button,
   argTypes: {
     colorTreatment: {
-      options: ['primary', 'secondary', 'soft', 'minimal'],
+      options: ['primary', 'secondary', 'soft', 'minimal', 'danger'],
       control: { type: 'radio' },
     },
     size: {

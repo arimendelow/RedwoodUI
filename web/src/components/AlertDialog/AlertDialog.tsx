@@ -58,9 +58,18 @@ const AlertDialog = ({
             <AlertDialogPrimitive.Content key="content" asChild>
               <motion.div
                 className={cn('dialog-content dialog-position', className)}
-                initial={{ opacity: 0, zoom: 0.9 }}
-                animate={{ opacity: 1, zoom: 1 }}
-                exit={{ opacity: 0, zoom: 0.9 }}
+                initial={{
+                  opacity: 0,
+                  transform: 'scale(0.9)',
+                }}
+                animate={{
+                  opacity: 1,
+                  transform: 'scale(1)',
+                }}
+                exit={{
+                  opacity: 0,
+                  transform: 'scale(0.9)',
+                }}
                 transition={{ ease: 'easeInOut' }}
               >
                 {children}
@@ -137,20 +146,22 @@ const AlertContentWithActions = ({
     setTimeout(() => cancelBtnRef.current?.focus())
   }, [cancelBtnRef])
   return (
-    <>
+    <div className="max-w-sm">
       <AlertDialogTitle>{title}</AlertDialogTitle>
       <AlertDialogDescription>{description}</AlertDialogDescription>
-      <div className="mt-3 flex flex-col justify-end gap-2 sm:flex-row">
+      <div className="mt-3 flex flex-col justify-start gap-2 sm:flex-row-reverse">
+        <AlertDialogPrimitive.Action onClick={onConfirm} asChild>
+          <Button colorTreatment="danger" size="lg">
+            {actionText}
+          </Button>
+        </AlertDialogPrimitive.Action>
         <AlertDialogPrimitive.Cancel asChild>
-          <Button ref={cancelBtnRef} colorTreatment="secondary">
+          <Button ref={cancelBtnRef} colorTreatment="secondary" size="lg">
             {cancelText}
           </Button>
         </AlertDialogPrimitive.Cancel>
-        <AlertDialogPrimitive.Action onClick={onConfirm} asChild>
-          <Button colorTreatment="danger">{actionText}</Button>
-        </AlertDialogPrimitive.Action>
       </div>
-    </>
+    </div>
   )
 }
 

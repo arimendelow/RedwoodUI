@@ -48,7 +48,7 @@
     @apply bg-default text-color-default absolute z-[1000] shadow-lg text-center sm:text-left
   }
   .dialog-position {
-    @apply fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] overflow-clip rounded-default max-w-lg min-w-[90%] sm:min-w-0
+    @apply fixed overflow-clip rounded-default sm:min-w-0 inset-x-5 inset-y-0 m-auto flex max-h-fit max-w-fit flex-col justify-center
   }
   .dialog-title {
     @apply mb-2 text-xl font-semibold leading-none tracking-tight text-center sm:text-start

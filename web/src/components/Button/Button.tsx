@@ -15,12 +15,10 @@ const buttonVariants = cva(
           'focus-ring',
         ],
         secondary: [
-          'bg-light dark:bg-light/10',
-          'hover:bg-neutral-50 dark:hover:bg-light/20',
+          'bg-dark/10 dark:bg-light/10',
+          'hover:bg-dark/20 dark:hover:bg-light/20',
           'text-dark dark:text-light',
-          'ring-1 dark:ring-0',
-          'ring-inset',
-          'ring-neutral-300',
+          'focus-ring',
         ],
         soft: [
           'bg-primary-50 dark:bg-primary-900/50',
@@ -34,7 +32,12 @@ const buttonVariants = cva(
           'hover:bg-primary-50 dark:hover:bg-primary-900/80',
           'focus-ring',
         ],
-        danger: ['bg-red-600', 'text-light', 'hover:bg-red-700', 'focus-ring'],
+        danger: [
+          'bg-red-600 dark:bg-red-700',
+          'text-light',
+          'hover:bg-red-700 dark:hover:bg-red-800',
+          'focus-ring',
+        ],
       },
       size: {
         xs: ['text-xs', 'py-1', 'px-2'],
