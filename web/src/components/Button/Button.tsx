@@ -34,6 +34,7 @@ const buttonColorTreatments = {
     'hover:bg-red-700 dark:hover:bg-red-800',
     'focus-ring',
   ],
+  loading: ['loading'],
 }
 
 const buttonSizeTreatments = {
