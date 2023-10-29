@@ -70,8 +70,8 @@ type Story = StoryObj<typeof Dialog>
 
 export const Primary: Story = {
   args: {
-    closeButton: undefined,
-    children: 'placeholder',
+    closeButton: 'button',
+    children: 'example',
     heightOnSmallScreen: 300,
   },
   render: ({ heightOnSmallScreen, closeButton, children }) => (
