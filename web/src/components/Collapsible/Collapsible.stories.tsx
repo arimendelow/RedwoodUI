@@ -10,7 +10,6 @@
 //
 // See https://storybook.js.org/docs/react/writing-stories/args.
 
-import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
@@ -29,15 +28,14 @@ export const Primary: Story = {
   render: () => (
     <Collapsible
       title="@arimendelow starred 3 repositories"
-      trigger={<ChevronUpDownIcon className="h-5 w-5" />}
-      unCollapsedContent={
+      staticContent={
         <div className="h-20 w-full">
-          <ChildrenPlaceholder />
+          <ChildrenPlaceholder text="static content" />
         </div>
       }
       collapsibleContent={
         <div className="h-52 w-full">
-          <ChildrenPlaceholder />
+          <ChildrenPlaceholder text="collapsible content" />
         </div>
       }
     />

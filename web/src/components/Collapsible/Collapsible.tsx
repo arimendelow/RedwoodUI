@@ -1,27 +1,43 @@
+import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
 
+import Button from 'src/components/Button'
 import { cn } from 'src/lib/utils'
 
 type CollapsiblePropsType = CollapsibleRootPropsType & {
+  /**
+   * The title text to show in the header of the collapsible.
+   */
   title: string
-  trigger: React.ReactNode
-  unCollapsedContent: React.ReactNode
+  /**
+   * The content to show when the Collapsible is collapsed.
+   * This content will always be visible.
+   */
+  staticContent: React.ReactNode
+  /**
+   * The content to show when the Collapsible is expanded.
+   * This content will be hidden when the Collapsible is collapsed.
+   */
   collapsibleContent: React.ReactNode
 }
 const Collapsible = ({
   title,
-  trigger,
-  unCollapsedContent,
+
+  staticContent,
   collapsibleContent,
   ...rootProps
 }: CollapsiblePropsType) => {
   return (
     <CollapsibleRoot {...rootProps}>
-      <div className="flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between">
         <span className="text-color-default">{title}</span>
-        <CollapsibleTrigger>{trigger}</CollapsibleTrigger>
+        <CollapsibleTrigger>
+          <Button colorTreatment="minimal">
+            <ChevronUpDownIcon className="h-5 w-5" />
+          </Button>
+        </CollapsibleTrigger>
       </div>
-      {unCollapsedContent}
+      {staticContent}
       <CollapsibleContent>{collapsibleContent}</CollapsibleContent>
     </CollapsibleRoot>
   )
