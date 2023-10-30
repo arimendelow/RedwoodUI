@@ -44,7 +44,7 @@ const Checkbox = React.forwardRef<
         ref={ref}
         className={cn(
           'focus-ring disabled:disabled-classes flex h-5 w-5 shrink-0 items-center justify-center rounded-default border shadow-sm transition-colors duration-500',
-          'border-neutral-300 bg-light text-light data-[state=checked]:border-primary-700 data-[state=checked]:bg-primary-700 data-[state=checked]:active:bg-primary-950 data-[state=unchecked]:active:bg-neutral-200',
+          'border-neutral-300 bg-light text-light data-[state=checked]:border-primary-700 data-[state=checked]:bg-primary-700 data-[state=checked]:active:bg-primary-900 data-[state=unchecked]:active:bg-neutral-200',
           className
         )}
         checked={checked}
