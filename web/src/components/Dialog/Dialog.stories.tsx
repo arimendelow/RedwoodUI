@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
 
-import Button from '../Button/Button'
+import Button from 'src/components/Button'
 
 import Dialog, { DialogDescription, DialogTitle } from './Dialog'
 

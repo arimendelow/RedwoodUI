@@ -7,9 +7,8 @@ import {
   Label,
 } from '@redwoodjs/forms'
 
+import { inputFieldVariants } from 'src/components/forms/inputVariants'
 import { cn } from 'src/lib/utils'
-
-import { inputFieldVariants } from '../inputVariants'
 
 /** Use this to type any props that are children of `InputFieldWrapper` */
 export interface InputFieldProps
@@ -90,7 +89,7 @@ const InputFieldWrapper = ({
           )}
         </Label>
       )}
-      <div className={cn(!!label && 'mt-1', 'rounded-default relative')}>
+      <div className={cn(!!label && 'mt-1', 'relative rounded-default')}>
         {children}
         <div className="absolute bottom-0 right-2 flex h-full items-center">
           {endComponent}

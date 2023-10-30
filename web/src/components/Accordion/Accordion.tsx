@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 
@@ -100,7 +98,7 @@ const AccordionContent = React.forwardRef<
   <AccordionPrimitive.Content
     ref={ref}
     className={cn(
-      'prose-default overflow-hidden transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down',
+      'prose-default overflow-hidden transition-all data-[state=closed]:animate-slide-up data-[state=open]:animate-slide-down',
       className
     )}
     {...props}

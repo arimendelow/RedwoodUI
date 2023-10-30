@@ -12,9 +12,8 @@
 
 import type { Meta, StoryObj } from '@storybook/react'
 
+import { RedwoodJSLogo } from 'src/components/logos/RedwoodJSLogo'
 import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
-
-import { RedwoodJSLogo } from '../logos/RedwoodJSLogo'
 
 import { Accordion } from './Accordion'
 

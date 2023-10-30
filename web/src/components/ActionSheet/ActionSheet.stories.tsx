@@ -1,10 +1,9 @@
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import type { Meta, StoryObj } from '@storybook/react'
 
+import Button from 'src/components/Button'
+import { DialogDescription, DialogTitle } from 'src/components/Dialog'
 import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
-
-import Button from '../Button/Button'
-import { DialogDescription, DialogTitle } from '../Dialog/Dialog'
 
 import ActionSheet from './ActionSheet'
 
