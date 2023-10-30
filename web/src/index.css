@@ -29,7 +29,7 @@
     @apply prose dark:prose-invert leading-normal text-sm sm:text-base
   }
   .focus-ring {
-    @apply ring-offset-light dark:ring-offset-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2
+    @apply ring-offset-light dark:ring-offset-dark focus-visible:outline-none ring-2 focus-visible:ring-primary-700 ring-offset-2 ring-transparent
   }
   .disabled-classes {
     @apply pointer-events-none cursor-not-allowed opacity-50
