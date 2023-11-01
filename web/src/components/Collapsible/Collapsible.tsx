@@ -20,6 +20,11 @@ type CollapsiblePropsType = CollapsibleRootPropsType & {
    */
   collapsibleContent: React.ReactNode
 }
+/**
+ * An easily used Collapsible component that assembles all the pieces together for you.
+ * If you instead prefer to assemble the pieces yourself, you can use the `CollapsibleRoot`,
+ * `CollapsibleTrigger`, and `CollapsibleContent` components directly.
+ */
 const Collapsible = ({
   title,
 
