@@ -19,34 +19,67 @@ interface IComboboxOption<TValue> {
   renderOption: (props: OptionRenderPropArg & { value: TValue }) => JSX.Element
 }
 
+/**
+ * (onChange is omitted because it's handled by the onValueChange prop)
+ */
 type ComboboxPropsType<TValue> = Omit<ComboboxRootPropsType, 'onChange'> & {
+  options: IComboboxOption<TValue>[]
+  initSelectedValue?: TValue
+  selectedValue?: TValue
+  setSelectedValue?: (value: TValue) => void
   /**
    * The callback that is fired when the input changes.
-   * This should be used to filter the options.
+   * This should be used to filter the options parameter.
    */
-  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   /**
    * The callback that is fired when an option is selected.
    */
-  onValueChange: (value: TValue) => void
-  options: IComboboxOption<TValue>[]
+  onValueChange?: (value: TValue) => void
 }
-const Combobox = <TValue,>({
-  onInputChange,
-  onValueChange,
+function Combobox<TValue = string>({
   options,
+  initSelectedValue,
+  selectedValue: selectedValueControlled,
+  onInputChange: onInputChangeControlled,
+  onValueChange: onValueChangeControlled,
   ...props
-}: ComboboxPropsType<TValue>) => {
+}: ComboboxPropsType<TValue>) {
+  const [selectedValueUncontrolled, setSelectedValueUncontrolled] =
+    React.useState(initSelectedValue || options[0].value)
+  const [queryUncontrolled, setQueryUncontrolled] = React.useState('')
+  const onInputChangeUncontrolled = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setQueryUncontrolled(event.target.value)
+  }
+
+  const filteredOptionsUncontrolled =
+    queryUncontrolled === ''
+      ? options
+      : options.filter((option) => {
+          return (option.value as string)
+            .toLowerCase()
+            .includes(queryUncontrolled.toLowerCase())
+        })
+
+  const selectedValue = selectedValueControlled ?? selectedValueUncontrolled
+
+  const onValueChange = onValueChangeControlled ?? setSelectedValueUncontrolled
+  const onInputChange = onInputChangeControlled ?? onInputChangeUncontrolled
+
   return (
-    <ComboboxRoot onChange={onValueChange} {...props}>
+    <ComboboxRoot onChange={onValueChange} value={selectedValue} {...props}>
       <ComboboxInput onChange={onInputChange} />
       <ComboboxButton />
       <ComboboxOptions>
-        {options.map(({ value, renderOption }, index) => (
-          <ComboboxOption key={index} value={value}>
-            {(props) => renderOption({ ...props, value })}
-          </ComboboxOption>
-        ))}
+        {(onInputChangeControlled ? options : filteredOptionsUncontrolled).map(
+          ({ value, renderOption }, index) => (
+            <ComboboxOption key={index} value={value}>
+              {(props) => renderOption({ ...props, value })}
+            </ComboboxOption>
+          )
+        )}
       </ComboboxOptions>
     </ComboboxRoot>
   )

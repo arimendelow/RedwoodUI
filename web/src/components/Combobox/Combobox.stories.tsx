@@ -32,21 +32,9 @@ export const Primary: Story = {
       'Katelyn Rohan',
     ]
 
-    const [selectedOption, setSelectedOption] = React.useState(options[0])
-    const [query, setQuery] = React.useState('')
-
-    const filteredOptions =
-      query === ''
-        ? options
-        : options.filter((option) => {
-            return option.toLowerCase().includes(query.toLowerCase())
-          })
     return (
-      <Combobox<string>
-        value={selectedOption}
-        onValueChange={setSelectedOption}
-        onInputChange={(event) => setQuery(event.target.value)}
-        options={filteredOptions.map((option) => ({
+      <Combobox
+        options={options.map((option) => ({
           value: option,
           renderOption: ({ active, selected, disabled, value }) => (
             <div>{value}</div>
