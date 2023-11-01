@@ -12,7 +12,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react'
 
-import Combobox from './Combobox'
+import Combobox, { SimpleOptionRendererWithCheckmark } from './Combobox'
 
 const meta: Meta<typeof Combobox> = {
   component: Combobox,
@@ -36,9 +36,7 @@ export const Primary: Story = {
       <Combobox
         options={options.map((option) => ({
           value: option,
-          renderOption: ({ active, selected, disabled, value }) => (
-            <div>{value}</div>
-          ),
+          renderOption: SimpleOptionRendererWithCheckmark,
         }))}
       />
     )

@@ -4,6 +4,13 @@
  */
 import { Combobox as ComboboxPrimitive } from '@headlessui/react'
 
+const SimpleOptionRendererWithCheckmark: RenderOptionType<string> = ({
+  active,
+  selected,
+  disabled,
+  value,
+}) => <div>{value}</div>
+
 /**
  * This is redefined as it's not exported by HeadlessUI, but you can find it in
  * https://github.com/tailwindlabs/headlessui/blob/1469b85c36802265c2409f443f926e1bb02230d4/packages/%40headlessui-react/src/components/combobox/combobox.tsx#L1652
@@ -14,15 +21,22 @@ interface OptionRenderPropArg {
   disabled: boolean
 }
 
-interface IComboboxOption<TValue> {
+type RenderOptionType<TValue extends React.ReactNode = string> = (
+  props: OptionRenderPropArg & { value: TValue }
+) => JSX.Element
+
+interface IComboboxOption<TValue extends React.ReactNode = string> {
   value: TValue
-  renderOption: (props: OptionRenderPropArg & { value: TValue }) => JSX.Element
+  renderOption: RenderOptionType<TValue>
 }
 
 /**
  * (onChange is omitted because it's handled by the onValueChange prop)
  */
-type ComboboxPropsType<TValue> = Omit<ComboboxRootPropsType, 'onChange'> & {
+type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
+  ComboboxRootPropsType,
+  'onChange'
+> & {
   options: IComboboxOption<TValue>[]
   initSelectedValue?: TValue
   selectedValue?: TValue
@@ -37,7 +51,7 @@ type ComboboxPropsType<TValue> = Omit<ComboboxRootPropsType, 'onChange'> & {
    */
   onValueChange?: (value: TValue) => void
 }
-function Combobox<TValue = string>({
+function Combobox<TValue extends React.ReactNode = string>({
   options,
   initSelectedValue,
   selectedValue: selectedValueControlled,
@@ -172,3 +186,5 @@ export {
   ComboboxOptions,
   ComboboxOption,
 }
+
+export { SimpleOptionRendererWithCheckmark }
