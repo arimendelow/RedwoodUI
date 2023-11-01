@@ -3,6 +3,12 @@
  * Track progress on RadixUI combobox here: https://github.com/radix-ui/primitives/issues/1342
  */
 import { Combobox as ComboboxPrimitive } from '@headlessui/react'
+import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
+
+import InputFieldWrapper, {
+  InputFieldWrapperProps,
+} from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
+import { cn } from 'src/lib/utils'
 
 const SimpleOptionRendererWithCheckmark: RenderOptionType<string> = ({
   active,
@@ -28,6 +34,7 @@ type RenderOptionType<TValue extends React.ReactNode = string> = (
 interface IComboboxOption<TValue extends React.ReactNode = string> {
   value: TValue
   renderOption: RenderOptionType<TValue>
+  disabled?: boolean
 }
 
 /**
@@ -36,27 +43,40 @@ interface IComboboxOption<TValue extends React.ReactNode = string> {
 type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
   ComboboxRootPropsType,
   'onChange'
-> & {
-  options: IComboboxOption<TValue>[]
-  initSelectedValue?: TValue
-  selectedValue?: TValue
-  setSelectedValue?: (value: TValue) => void
-  /**
-   * The callback that is fired when the input changes.
-   * This should be used to filter the options parameter.
-   */
-  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
-  /**
-   * The callback that is fired when an option is selected.
-   */
-  onValueChange?: (value: TValue) => void
-}
+> &
+  /** Omit endComponent as we're putting the ComboboxButton there */
+  Omit<InputFieldWrapperProps, 'endComponent'> & {
+    options: IComboboxOption<TValue>[]
+    initSelectedValue?: TValue
+    selectedValue?: TValue
+    setSelectedValue?: (value: TValue) => void
+    /**
+     * The callback that is fired when the input changes.
+     * This should be used to filter the options parameter.
+     */
+    onInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+    /**
+     * The callback that is fired when an option is selected.
+     */
+    onValueChange?: (value: TValue) => void
+  }
+
 function Combobox<TValue extends React.ReactNode = string>({
+  /** START props for combobox */
   options,
   initSelectedValue,
   selectedValue: selectedValueControlled,
   onInputChange: onInputChangeControlled,
   onValueChange: onValueChangeControlled,
+  /** END props for combobox */
+  /** START props for field wrapper */
+  name,
+  label,
+  maxLength,
+  currentLength,
+  inline,
+  optional,
+  /** END props for field wrapper */
   ...props
 }: ComboboxPropsType<TValue>) {
   const [selectedValueUncontrolled, setSelectedValueUncontrolled] =
@@ -83,13 +103,28 @@ function Combobox<TValue extends React.ReactNode = string>({
   const onInputChange = onInputChangeControlled ?? onInputChangeUncontrolled
 
   return (
-    <ComboboxRoot onChange={onValueChange} value={selectedValue} {...props}>
-      <ComboboxInput onChange={onInputChange} />
-      <ComboboxButton />
+    <ComboboxRoot
+      name={name}
+      onChange={onValueChange}
+      value={selectedValue}
+      {...props}
+    >
+      <InputFieldWrapper
+        name={name}
+        label={label}
+        maxLength={maxLength}
+        currentLength={currentLength}
+        inline={inline}
+        optional={optional}
+        endComponent={<ComboboxButton />}
+      >
+        <ComboboxInput onChange={onInputChange} />
+      </InputFieldWrapper>
+
       <ComboboxOptions>
         {(onInputChangeControlled ? options : filteredOptionsUncontrolled).map(
-          ({ value, renderOption }, index) => (
-            <ComboboxOption key={index} value={value}>
+          ({ value, renderOption, disabled }, index) => (
+            <ComboboxOption key={index} value={value} disabled={disabled}>
               {(props) => renderOption({ ...props, value })}
             </ComboboxOption>
           )
@@ -108,7 +143,11 @@ type ComboboxRootPropsType = React.ComponentPropsWithRef<
 const ComboboxRoot = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive>,
   React.PropsWithoutRef<ComboboxRootPropsType>
->(({ ...props }, ref) => <ComboboxPrimitive ref={ref} {...props} />)
+>(({ children, ...props }, ref) => (
+  <ComboboxPrimitive ref={ref} {...props}>
+    <div className="relative">{children as React.ReactNode}</div>
+  </ComboboxPrimitive>
+))
 
 type ComboboxInputPropsType = React.ComponentPropsWithRef<
   typeof ComboboxPrimitive.Input
@@ -120,7 +159,11 @@ const ComboboxInput = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.Input>,
   React.PropsWithoutRef<ComboboxInputPropsType>
 >(({ className, ...props }, ref) => (
-  <ComboboxPrimitive.Input ref={ref} className={className} {...props} />
+  <ComboboxPrimitive.Input
+    ref={ref}
+    className={cn('input-field', className)}
+    {...props}
+  />
 ))
 
 type ComboboxButtonPropsType = React.ComponentPropsWithRef<
@@ -133,7 +176,16 @@ const ComboboxButton = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.Button>,
   React.PropsWithoutRef<ComboboxButtonPropsType>
 >(({ className, ...props }, ref) => (
-  <ComboboxPrimitive.Button ref={ref} className={className} {...props} />
+  <ComboboxPrimitive.Button
+    ref={ref}
+    className={cn(
+      'absolute inset-y-0 right-0 flex items-center pr-2',
+      className
+    )}
+    {...props}
+  >
+    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+  </ComboboxPrimitive.Button>
 ))
 
 type ComboboxLabelPropsType = React.ComponentPropsWithRef<

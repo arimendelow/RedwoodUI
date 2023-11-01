@@ -48,8 +48,6 @@ export interface InputFieldWrapperProps {
    * - The reason this isn't calculated inside the component is that it would cause unnecessary hook usage when not needed.
    */
   currentLength?: number
-  /** Use this to make the field grow larger on larger screens */
-  grow?: boolean
   /** Use this to make the field inline */
   inline?: boolean
   /** Use this to mark that the field is optional */
