@@ -20,8 +20,8 @@ const SimpleOptionRendererWithCheckmark: RenderOptionType<string> = ({
 }) => (
   <div
     className={cn(
-      'relative select-none py-2 pl-3 pr-9',
-      active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+      'text-color-default relative select-none py-2 pl-3 pr-9',
+      active && 'bg-primary-600',
       disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
     )}
   >
@@ -32,7 +32,7 @@ const SimpleOptionRendererWithCheckmark: RenderOptionType<string> = ({
       <span
         className={cn(
           'absolute inset-y-0 right-0 flex items-center pr-4',
-          active ? 'text-white' : 'text-indigo-600'
+          active ? 'text-color-default' : 'text-primary-600'
         )}
       >
         <CheckIcon className="h-5 w-5" aria-hidden="true" />
@@ -221,7 +221,10 @@ const ComboboxButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+    <ChevronUpDownIcon
+      className="h-5 w-5 text-neutral-400"
+      aria-hidden="true"
+    />
   </ComboboxPrimitive.Button>
 ))
 
@@ -253,7 +256,7 @@ const ComboboxOptions = React.forwardRef<
   <ComboboxPrimitive.Options
     ref={ref}
     className={cn(
-      'absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+      'bg-default absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-default py-1 text-base ring-1 ring-neutral-300 focus:outline-none sm:text-sm',
       className
     )}
     {...props}
