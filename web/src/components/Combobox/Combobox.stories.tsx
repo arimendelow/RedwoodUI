@@ -1,15 +1,3 @@
-// Pass props to your component by passing an `args` object to your story
-//
-// ```tsx
-// export const Primary: Story = {
-//  args: {
-//    propName: propValue
-//  }
-// }
-// ```
-//
-// See https://storybook.js.org/docs/react/writing-stories/args.
-
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { FormProvider, Form, useForm } from '@redwoodjs/forms'
@@ -36,6 +24,7 @@ export const Primary: Story = {
 
     return (
       <Combobox
+        name="person"
         options={options.map((option) => ({
           value: option,
           renderOption: SimpleOptionRendererWithCheckmark,
@@ -46,11 +35,13 @@ export const Primary: Story = {
   decorators: [
     (Story) => {
       interface ISampleForm {
-        password: string
+        person: string
       }
 
       const methods = useForm<ISampleForm>()
-      const onSubmit = (data: ISampleForm) => console.log(data)
+      const onSubmit = (data: ISampleForm) => {
+        console.log(data)
+      }
 
       return (
         <FormProvider {...methods}>

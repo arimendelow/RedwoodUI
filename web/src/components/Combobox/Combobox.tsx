@@ -5,6 +5,8 @@
 import { Combobox as ComboboxPrimitive } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 
+import { useController, useFormContext, useRegister } from '@redwoodjs/forms'
+
 import InputFieldWrapper, {
   InputFieldWrapperProps,
 } from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
@@ -45,7 +47,7 @@ type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
   'onChange'
 > &
   /** Omit endComponent as we're putting the ComboboxButton there */
-  Omit<InputFieldWrapperProps, 'endComponent'> & {
+  Omit<InputFieldWrapperProps, 'endComponent' | 'children'> & {
     options: IComboboxOption<TValue>[]
     initSelectedValue?: TValue
     selectedValue?: TValue
@@ -102,10 +104,17 @@ function Combobox<TValue extends React.ReactNode = string>({
   const onValueChange = onValueChangeControlled ?? setSelectedValueUncontrolled
   const onInputChange = onInputChangeControlled ?? onInputChangeUncontrolled
 
+  const { field } = useController({ name, defaultValue: selectedValue })
+  const { onChange: rhfOnChange, onBlur, ref } = field
+
   return (
     <ComboboxRoot
+      as="div"
       name={name}
-      onChange={onValueChange}
+      onChange={(value) => {
+        onValueChange(value as TValue)
+        rhfOnChange(value)
+      }}
       value={selectedValue}
       {...props}
     >
@@ -118,7 +127,7 @@ function Combobox<TValue extends React.ReactNode = string>({
         optional={optional}
         endComponent={<ComboboxButton />}
       >
-        <ComboboxInput onChange={onInputChange} />
+        <ComboboxInput ref={ref} onBlur={onBlur} onChange={onInputChange} />
       </InputFieldWrapper>
 
       <ComboboxOptions>
@@ -143,11 +152,7 @@ type ComboboxRootPropsType = React.ComponentPropsWithRef<
 const ComboboxRoot = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive>,
   React.PropsWithoutRef<ComboboxRootPropsType>
->(({ children, ...props }, ref) => (
-  <ComboboxPrimitive ref={ref} {...props}>
-    <div className="relative">{children as React.ReactNode}</div>
-  </ComboboxPrimitive>
-))
+>(({ ...props }, ref) => <ComboboxPrimitive ref={ref} {...props} />)
 
 type ComboboxInputPropsType = React.ComponentPropsWithRef<
   typeof ComboboxPrimitive.Input
