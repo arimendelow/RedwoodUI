@@ -3,9 +3,9 @@
  * Track progress on RadixUI combobox here: https://github.com/radix-ui/primitives/issues/1342
  */
 import { Combobox as ComboboxPrimitive } from '@headlessui/react'
-import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
+import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/20/solid'
 
-import { useController, useFormContext, useRegister } from '@redwoodjs/forms'
+import { useController } from '@redwoodjs/forms'
 
 import InputFieldWrapper, {
   InputFieldWrapperProps,
@@ -17,7 +17,29 @@ const SimpleOptionRendererWithCheckmark: RenderOptionType<string> = ({
   selected,
   disabled,
   value,
-}) => <div>{value}</div>
+}) => (
+  <div
+    className={cn(
+      'relative select-none py-2 pl-3 pr-9',
+      active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+      disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+    )}
+  >
+    <span className={cn('block truncate', selected && 'font-semibold')}>
+      {value}
+    </span>
+    {selected && (
+      <span
+        className={cn(
+          'absolute inset-y-0 right-0 flex items-center pr-4',
+          active ? 'text-white' : 'text-indigo-600'
+        )}
+      >
+        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+      </span>
+    )}
+  </div>
+)
 
 /**
  * This is redefined as it's not exported by HeadlessUI, but you can find it in
@@ -109,7 +131,6 @@ function Combobox<TValue extends React.ReactNode = string>({
 
   return (
     <ComboboxRoot
-      as="div"
       name={name}
       onChange={(value) => {
         onValueChange(value as TValue)
@@ -127,18 +148,20 @@ function Combobox<TValue extends React.ReactNode = string>({
         optional={optional}
         endComponent={<ComboboxButton />}
       >
-        <ComboboxInput ref={ref} onBlur={onBlur} onChange={onInputChange} />
+        <>
+          <ComboboxInput ref={ref} onBlur={onBlur} onChange={onInputChange} />
+          <ComboboxOptions>
+            {(onInputChangeControlled
+              ? options
+              : filteredOptionsUncontrolled
+            ).map(({ value, renderOption, disabled }, index) => (
+              <ComboboxOption key={index} value={value} disabled={disabled}>
+                {(props) => renderOption({ ...props, value })}
+              </ComboboxOption>
+            ))}
+          </ComboboxOptions>
+        </>
       </InputFieldWrapper>
-
-      <ComboboxOptions>
-        {(onInputChangeControlled ? options : filteredOptionsUncontrolled).map(
-          ({ value, renderOption, disabled }, index) => (
-            <ComboboxOption key={index} value={value} disabled={disabled}>
-              {(props) => renderOption({ ...props, value })}
-            </ComboboxOption>
-          )
-        )}
-      </ComboboxOptions>
     </ComboboxRoot>
   )
 }
@@ -152,7 +175,7 @@ type ComboboxRootPropsType = React.ComponentPropsWithRef<
 const ComboboxRoot = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive>,
   React.PropsWithoutRef<ComboboxRootPropsType>
->(({ ...props }, ref) => <ComboboxPrimitive ref={ref} {...props} />)
+>(({ ...props }, ref) => <ComboboxPrimitive ref={ref} as="div" {...props} />)
 
 type ComboboxInputPropsType = React.ComponentPropsWithRef<
   typeof ComboboxPrimitive.Input
@@ -218,7 +241,14 @@ const ComboboxOptions = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.Options>,
   React.PropsWithoutRef<ComboboxOptionsPropsType>
 >(({ className, ...props }, ref) => (
-  <ComboboxPrimitive.Options ref={ref} className={className} {...props} />
+  <ComboboxPrimitive.Options
+    ref={ref}
+    className={cn(
+      'absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+      className
+    )}
+    {...props}
+  />
 ))
 
 type ComboboxOptionPropsType = React.ComponentPropsWithRef<

@@ -14,19 +14,32 @@ type Story = StoryObj<typeof Combobox>
 
 export const Primary: Story = {
   render: () => {
-    const options = [
-      'Durward Reynolds',
-      'Kenton Towne',
-      'Therese Wunsch',
-      'Benedict Kessler',
-      'Katelyn Rohan',
+    const options: { value: string; disabled?: boolean }[] = [
+      { value: 'Durward Reynolds' },
+      { value: 'Kenton Towne' },
+      { value: 'Therese Wunsch', disabled: true },
+      { value: 'Benedict Kessler' },
+      { value: 'Katelyn Rohan' },
+      { value: 'Gavin Rohan' },
+      { value: 'Keshaun McCullough' },
+      { value: 'Virginia Tromp' },
+      { value: 'Luigi Herman' },
+      { value: 'Gina Abernathy' },
+      { value: 'Maybelle Lehner' },
+      { value: 'Arlo Bartoletti' },
+      { value: 'Alvera An' },
+      { value: 'Orville Dibbert' },
+      { value: 'Laverna Denesik' },
+      { value: 'Ferne Franecki' },
+      { value: 'Parker Stiedemann' },
     ]
 
     return (
       <Combobox
         name="person"
-        options={options.map((option) => ({
-          value: option,
+        options={options.map(({ value, disabled }) => ({
+          value,
+          disabled,
           renderOption: SimpleOptionRendererWithCheckmark,
         }))}
       />
@@ -45,7 +58,10 @@ export const Primary: Story = {
 
       return (
         <FormProvider {...methods}>
-          <Form<ISampleForm> className="max-w-sm" onSubmit={onSubmit}>
+          <Form<ISampleForm>
+            className="mx-auto w-full max-w-xs"
+            onSubmit={onSubmit}
+          >
             <Story />
           </Form>
         </FormProvider>
