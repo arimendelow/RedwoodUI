@@ -21,7 +21,7 @@ const SimpleOptionRendererWithCheckmark: RenderOptionType<string> = ({
   <div
     className={cn(
       'text-color-default relative select-none py-2 pl-3 pr-9',
-      active && 'bg-primary-600',
+      active && 'text-color-default-invert bg-primary-600',
       disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
     )}
   >
@@ -32,7 +32,7 @@ const SimpleOptionRendererWithCheckmark: RenderOptionType<string> = ({
       <span
         className={cn(
           'absolute inset-y-0 right-0 flex items-center pr-4',
-          active ? 'text-color-default' : 'text-primary-600'
+          active ? 'text-color-default-invert' : 'text-primary-600'
         )}
       >
         <CheckIcon className="h-5 w-5" aria-hidden="true" />
@@ -159,7 +159,7 @@ function Combobox<TValue extends React.ReactNode = string>({
       >
         <>
           <ComboboxInput ref={ref} onBlur={onBlur} onChange={onInputChange} />
-          <ComboboxOptions>
+          <ComboboxOptions static>
             {(onInputChangeControlled
               ? options
               : filteredOptionsUncontrolled

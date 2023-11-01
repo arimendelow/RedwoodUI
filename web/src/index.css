@@ -25,6 +25,9 @@
   .text-color-default {
     @apply text-dark dark:text-light
   }
+  .text-color-default-invert {
+    @apply text-light dark:text-dark
+  }
   .prose-default {
     @apply prose dark:prose-invert leading-normal text-sm sm:text-base
   }
