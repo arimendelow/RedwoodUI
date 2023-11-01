@@ -4,6 +4,7 @@
  */
 import { Combobox as ComboboxPrimitive } from '@headlessui/react'
 import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/20/solid'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { useController } from '@redwoodjs/forms'
 
@@ -148,29 +149,55 @@ function Combobox<TValue extends React.ReactNode = string>({
       value={selectedValue}
       {...props}
     >
-      <InputFieldWrapper
-        name={name}
-        label={label}
-        maxLength={maxLength}
-        currentLength={currentLength}
-        inline={inline}
-        optional={optional}
-        endComponent={<ComboboxButton />}
-      >
-        <>
-          <ComboboxInput ref={ref} onBlur={onBlur} onChange={onInputChange} />
-          <ComboboxOptions static>
-            {(onInputChangeControlled
-              ? options
-              : filteredOptionsUncontrolled
-            ).map(({ value, renderOption, disabled }, index) => (
-              <ComboboxOption key={index} value={value} disabled={disabled}>
-                {(props) => renderOption({ ...props, value })}
-              </ComboboxOption>
-            ))}
-          </ComboboxOptions>
-        </>
-      </InputFieldWrapper>
+      {({ open }) => (
+        <InputFieldWrapper
+          name={name}
+          label={label}
+          maxLength={maxLength}
+          currentLength={currentLength}
+          inline={inline}
+          optional={optional}
+          endComponent={<ComboboxButton />}
+        >
+          <>
+            <ComboboxInput ref={ref} onBlur={onBlur} onChange={onInputChange} />
+            <AnimatePresence>
+              {open && (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    transform: 'scale(0.9)',
+                  }}
+                  animate={{
+                    opacity: 1,
+                    transform: 'scale(1)',
+                  }}
+                  exit={{
+                    opacity: 0,
+                    transform: 'scale(0.9)',
+                  }}
+                  transition={{ ease: 'easeInOut', duration: 0.1 }}
+                >
+                  <ComboboxOptions static>
+                    {(onInputChangeControlled
+                      ? options
+                      : filteredOptionsUncontrolled
+                    ).map(({ value, renderOption, disabled }, index) => (
+                      <ComboboxOption
+                        key={index}
+                        value={value}
+                        disabled={disabled}
+                      >
+                        {(props) => renderOption({ ...props, value })}
+                      </ComboboxOption>
+                    ))}
+                  </ComboboxOptions>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
+        </InputFieldWrapper>
+      )}
     </ComboboxRoot>
   )
 }
