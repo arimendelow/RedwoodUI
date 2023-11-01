@@ -85,6 +85,15 @@ type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
     onValueChange?: (value: TValue) => void
   }
 
+/**
+ * An easily used Combobox component that assembles all the pieces together for you to
+ * create a combobox that fits nicely into a form.
+ * As such, it must be used within a FormProvider (or directly as a child to a Form component).
+ *
+ * If you instead prefer to assemble the pieces yourself, you can use the `ComboboxRoot`,
+ * `ComboboxButton`, `ComboboxInput`, `ComboboxOptions`, and `ComboboxOption` components directly.
+ * Use this component as an example of how to use those components.
+ */
 function Combobox<TValue extends React.ReactNode = string>({
   /** START props for combobox */
   options,
