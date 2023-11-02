@@ -81,7 +81,10 @@ export const Primary: Story = {
 
       return (
         <FormProvider {...methods}>
-          <Form<ISampleForm> className="max-w-sm" onSubmit={onSubmit}>
+          <Form<ISampleForm>
+            className="mx-auto w-full max-w-xs"
+            onSubmit={onSubmit}
+          >
             <Story />
           </Form>
         </FormProvider>
