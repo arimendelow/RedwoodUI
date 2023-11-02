@@ -2,6 +2,7 @@ name: Chromatic
 
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   chromatic-deployment:
