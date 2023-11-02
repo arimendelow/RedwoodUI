@@ -15,7 +15,7 @@ import InputFieldWrapper, {
 import { inputFieldVariants } from 'src/components/forms/inputVariants'
 import { cn } from 'src/lib/utils'
 
-const SimpleOptionRendererWithCheckmark: RenderOptionType<string> = ({
+const SimpleOptionRendererWithRightCheckmark: RenderOptionType<string> = ({
   active,
   selected,
   disabled,
@@ -41,6 +41,35 @@ const SimpleOptionRendererWithCheckmark: RenderOptionType<string> = ({
         <CheckIcon className="h-5 w-5" aria-hidden="true" />
       </span>
     )}
+  </div>
+)
+
+const SimpleOptionRendererWithLeftCheckmark: RenderOptionType<string> = ({
+  active,
+  selected,
+  disabled,
+  value,
+}) => (
+  <div
+    className={cn(
+      'text-color-default relative select-none py-2 pl-3 pr-9',
+      active && 'text-color-default-invert bg-primary-600',
+      disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+    )}
+  >
+    {selected && (
+      <span
+        className={cn(
+          'absolute inset-y-0 left-0 flex items-center pl-2',
+          active ? 'text-color-default-invert' : 'text-primary-600'
+        )}
+      >
+        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+      </span>
+    )}
+    <span className={cn('block truncate pl-6', selected && 'font-semibold')}>
+      {value}
+    </span>
   </div>
 )
 
@@ -113,7 +142,7 @@ function Combobox<TValue extends React.ReactNode = string>({
   placeholder,
   buttonIcon = (
     <ChevronUpDownIcon
-      className="h-5 w-5 text-neutral-400"
+      className="bg-default h-5 w-5 text-neutral-400"
       aria-hidden="true"
     />
   ),
@@ -325,10 +354,7 @@ const ComboboxButton = React.forwardRef<
 >(({ icon, className, ...props }, ref) => (
   <ComboboxPrimitive.Button
     ref={ref}
-    className={cn(
-      'absolute inset-y-0 right-0 flex items-center pr-2',
-      className
-    )}
+    className={cn('absolute inset-y-0 right-0 flex items-center', className)}
     {...props}
   >
     {icon}
@@ -393,4 +419,7 @@ export {
   ComboboxOption,
 }
 
-export { SimpleOptionRendererWithCheckmark }
+export {
+  SimpleOptionRendererWithRightCheckmark,
+  SimpleOptionRendererWithLeftCheckmark,
+}

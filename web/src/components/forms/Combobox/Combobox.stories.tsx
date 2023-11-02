@@ -5,7 +5,8 @@ import { FormProvider, Form, useForm } from '@redwoodjs/forms'
 
 import Combobox, {
   IComboboxOption,
-  SimpleOptionRendererWithCheckmark,
+  SimpleOptionRendererWithLeftCheckmark,
+  SimpleOptionRendererWithRightCheckmark,
 } from './Combobox'
 
 const meta: Meta<typeof Combobox> = {
@@ -24,6 +25,7 @@ const meta: Meta<typeof Combobox> = {
       control: { type: 'text' },
     },
     placeholder: {
+      description: 'The placeholder text',
       control: { type: 'text' },
     },
     optional: {
@@ -41,6 +43,21 @@ const meta: Meta<typeof Combobox> = {
             aria-hidden="true"
           />
         ),
+      },
+    },
+    // @ts-expect-error - this is not a direct prop on the component, but is used in the render function
+    renderOption: {
+      name: 'render option',
+      control: { type: 'radio' },
+      options: [
+        'simple option renderer with left checkmark',
+        'simple option renderer with right checkmark',
+      ],
+      mapping: {
+        'simple option renderer with left checkmark':
+          SimpleOptionRendererWithLeftCheckmark,
+        'simple option renderer with right checkmark':
+          SimpleOptionRendererWithRightCheckmark,
       },
     },
     form: {
@@ -154,6 +171,8 @@ export const Primary: Story = {
     placeholder: 'Select person...',
     buttonIcon: 'undefined',
     optional: false,
+    // @ts-expect-error - this is not a direct prop on the component, but is used in the render function
+    renderOption: 'simple option renderer with left checkmark',
   },
   render: ({
     nullable,
@@ -163,10 +182,12 @@ export const Primary: Story = {
     placeholder,
     buttonIcon,
     optional,
+    // @ts-expect-error - this is not a direct prop on the component, but is used in the render function
+    renderOption,
   }) => {
     // renderOption is added below
     const options: Omit<IComboboxOption, 'renderOption'>[] = [
-      { value: 'Durward Reynolds', displayValue: 'testing123' },
+      { value: 'Durward Reynolds' },
       { value: 'Kenton Towne' },
       { value: 'Therese Wunsch', disabled: true },
       { value: 'Benedict Kessler' },
@@ -192,7 +213,7 @@ export const Primary: Story = {
           value,
           displayValue,
           disabled,
-          renderOption: SimpleOptionRendererWithCheckmark,
+          renderOption,
         }))}
         nullable={nullable}
         multiple={multiple}
