@@ -1,3 +1,4 @@
+import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { FormProvider, Form, useForm } from '@redwoodjs/forms'
@@ -24,6 +25,20 @@ const meta: Meta<typeof Combobox> = {
     },
     optional: {
       control: { type: 'boolean' },
+    },
+    buttonIcon: {
+      name: 'button icon',
+      control: { type: 'radio' },
+      options: ['undefined', 'magnifying glass'],
+      mapping: {
+        undefined: undefined,
+        'magnifying glass': (
+          <MagnifyingGlassIcon
+            className="h-5 w-5 text-neutral-400"
+            aria-hidden="true"
+          />
+        ),
+      },
     },
     form: {
       table: {
@@ -134,9 +149,18 @@ export const Primary: Story = {
     disabled: false,
     label: 'Person',
     placeholder: 'Select person...',
+    buttonIcon: 'undefined',
     optional: false,
   },
-  render: ({ nullable, multiple, disabled, label, placeholder, optional }) => {
+  render: ({
+    nullable,
+    multiple,
+    disabled,
+    label,
+    placeholder,
+    buttonIcon,
+    optional,
+  }) => {
     const options: { value: string; disabled?: boolean }[] = [
       { value: 'Durward Reynolds' },
       { value: 'Kenton Towne' },
@@ -170,6 +194,7 @@ export const Primary: Story = {
         disabled={disabled}
         label={label}
         placeholder={placeholder}
+        buttonIcon={buttonIcon}
         optional={optional}
       />
     )

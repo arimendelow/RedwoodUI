@@ -71,10 +71,14 @@ type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
   ComboboxRootPropsType,
   'onChange'
 > &
-  /** Omit endComponent as we're putting the ComboboxButton there */
+  /**
+   * We remove endComponent as it's always the ComboboxButton. The icon used in the button
+   * is controlled by the buttonIcon prop.
+   */
   Omit<InputFieldWrapperProps, 'endComponent' | 'children'> & {
     options: IComboboxOption<TValue>[]
     placeholder?: string
+    buttonIcon?: React.ReactNode
     initSelectedValueUncontrolled?: TValue
     selectedValue?: TValue
     setSelectedValue?: (value: TValue) => void
@@ -102,6 +106,12 @@ function Combobox<TValue extends React.ReactNode = string>({
   /** START props for combobox */
   options,
   placeholder,
+  buttonIcon = (
+    <ChevronUpDownIcon
+      className="h-5 w-5 text-neutral-400"
+      aria-hidden="true"
+    />
+  ),
   initSelectedValueUncontrolled,
   selectedValue: selectedValueControlled,
   onInputChange: onInputChangeControlled,
@@ -168,7 +178,7 @@ function Combobox<TValue extends React.ReactNode = string>({
           currentLength={currentLength}
           inline={inline}
           optional={optional}
-          endComponent={<ComboboxButton />}
+          endComponent={<ComboboxButton icon={buttonIcon} />}
         >
           <>
             <ComboboxInput
@@ -260,14 +270,16 @@ const ComboboxInput = React.forwardRef<
 
 type ComboboxButtonPropsType = React.ComponentPropsWithRef<
   typeof ComboboxPrimitive.Button
->
+> & {
+  icon: React.ReactNode
+}
 /**
  * The Combobox's button.
  */
 const ComboboxButton = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.Button>,
   React.PropsWithoutRef<ComboboxButtonPropsType>
->(({ className, ...props }, ref) => (
+>(({ icon, className, ...props }, ref) => (
   <ComboboxPrimitive.Button
     ref={ref}
     className={cn(
@@ -276,10 +288,7 @@ const ComboboxButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronUpDownIcon
-      className="h-5 w-5 text-neutral-400"
-      aria-hidden="true"
-    />
+    {icon}
   </ComboboxPrimitive.Button>
 ))
 
