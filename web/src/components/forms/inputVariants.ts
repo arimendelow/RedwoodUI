@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority'
  * This is a list of all the variants that is applied to all input fields
  */
 export const inputFieldVariants = cva(
-  'flex w-full rounded-default border bg-default px-3 py-2 placeholder:text-neutral-500 disabled:disabled-classes focus-ring',
+  'flex w-full rounded-default border bg-default px-3 py-2 placeholder:text-neutral-500 disabled:disabled-classes focus-ring transition-colors',
   {
     variants: {
       colorTreatment: {
