@@ -23,7 +23,9 @@
   "prisma": {
     "seed": "yarn rw exec seed"
   },
-  "scripts": {},
+  "scripts": {
+    "placeholder": "echo \"This is a test package.json script.\""
+  },
   "packageManager": "yarn@3.6.3",
   "version": "",
   "readme": "ERROR: No README data found!",
