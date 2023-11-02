@@ -58,9 +58,14 @@ type RenderOptionType<TValue extends React.ReactNode = string> = (
   props: OptionRenderPropArg & { value: TValue }
 ) => JSX.Element
 
-interface IComboboxOption<TValue extends React.ReactNode = string> {
+export interface IComboboxOption<TValue extends React.ReactNode = string> {
   value: TValue
   renderOption: RenderOptionType<TValue>
+  /**
+   * What to display in the input when this option is selected.
+   * If this is omitted, the value will be cast to a string and used as the display value.
+   */
+  displayValue?: string
   disabled?: boolean
 }
 
@@ -81,7 +86,7 @@ type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
     buttonIcon?: React.ReactNode
     initSelectedValueUncontrolled?: TValue
     selectedValue?: TValue
-    setSelectedValue?: (value: TValue) => void
+    setSelectedValue?: (value: TValue | TValue[]) => void
     /**
      * The callback that is fired when the input changes.
      * This should be used to filter the options parameter.
@@ -90,7 +95,7 @@ type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
     /**
      * The callback that is fired when an option is selected.
      */
-    onValueChange?: (value: TValue) => void
+    onValueChange?: (value: TValue | TValue[]) => void
   }
 
 /**
@@ -125,10 +130,13 @@ function Combobox<TValue extends React.ReactNode = string>({
   inline,
   optional,
   /** END props for field wrapper */
+  multiple,
   ...props
 }: ComboboxPropsType<TValue>) {
   const [selectedValueUncontrolled, setSelectedValueUncontrolled] =
-    React.useState<TValue | null>(initSelectedValueUncontrolled || null)
+    React.useState<TValue | null | TValue[]>(
+      initSelectedValueUncontrolled || multiple ? [] : null
+    )
   const [queryUncontrolled, setQueryUncontrolled] = React.useState('')
   const onInputChangeUncontrolled = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -160,6 +168,21 @@ function Combobox<TValue extends React.ReactNode = string>({
   })
   const { onChange: rhfOnChange, onBlur, ref } = field
 
+  const getDisplayValue = (item: TValue | TValue[]) => {
+    // If `multiple` is true, then `item` will be an array.
+    if (Array.isArray(item)) {
+      return item
+        .map((value) => {
+          const option = options.find((option) => option.value === value)
+          return option?.displayValue ?? String(value)
+        })
+        .join(', ')
+    } else {
+      const option = options.find((option) => option.value === item)
+      return option?.displayValue ?? String(item)
+    }
+  }
+
   return (
     <ComboboxRoot
       name={name}
@@ -169,6 +192,7 @@ function Combobox<TValue extends React.ReactNode = string>({
       }}
       value={selectedValue}
       {...props}
+      multiple={multiple}
     >
       {({ open }) => (
         <InputFieldWrapper
@@ -182,6 +206,7 @@ function Combobox<TValue extends React.ReactNode = string>({
         >
           <>
             <ComboboxInput
+              displayValue={selectedValue ? getDisplayValue : undefined}
               placeholder={placeholder}
               ref={ref}
               onBlur={onBlur}
@@ -229,16 +254,34 @@ function Combobox<TValue extends React.ReactNode = string>({
   )
 }
 
-type ComboboxRootPropsType = React.ComponentPropsWithRef<
-  typeof ComboboxPrimitive
->
+/**
+ * there's some weird type-trickery with props,
+ * so it thinks multiple is either `false` or `undefined` (because sometimes that is the case),
+ * but it's actually `boolean` or `undefined`.
+ *
+ * Therefore, we redefine the `multiple` prop.
+ */
+type ComboboxRootPropsType = Omit<
+  React.ComponentPropsWithRef<typeof ComboboxPrimitive>,
+  'multiple'
+> & {
+  multiple?: boolean
+}
 /**
  * The main Combobox component.
  */
 const ComboboxRoot = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive>,
   React.PropsWithoutRef<ComboboxRootPropsType>
->(({ ...props }, ref) => <ComboboxPrimitive ref={ref} as="div" {...props} />)
+>(({ multiple, ...props }, ref) => (
+  <ComboboxPrimitive
+    ref={ref}
+    as="div"
+    // @ts-expect-error (see comment on ComboboxRootPropsType)
+    multiple={multiple}
+    {...props}
+  />
+))
 
 type ComboboxInputPropsType = React.ComponentPropsWithRef<
   typeof ComboboxPrimitive.Input

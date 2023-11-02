@@ -3,7 +3,10 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { FormProvider, Form, useForm } from '@redwoodjs/forms'
 
-import Combobox, { SimpleOptionRendererWithCheckmark } from './Combobox'
+import Combobox, {
+  IComboboxOption,
+  SimpleOptionRendererWithCheckmark,
+} from './Combobox'
 
 const meta: Meta<typeof Combobox> = {
   component: Combobox,
@@ -161,8 +164,9 @@ export const Primary: Story = {
     buttonIcon,
     optional,
   }) => {
-    const options: { value: string; disabled?: boolean }[] = [
-      { value: 'Durward Reynolds' },
+    // renderOption is added below
+    const options: Omit<IComboboxOption, 'renderOption'>[] = [
+      { value: 'Durward Reynolds', displayValue: 'testing123' },
       { value: 'Kenton Towne' },
       { value: 'Therese Wunsch', disabled: true },
       { value: 'Benedict Kessler' },
@@ -184,8 +188,9 @@ export const Primary: Story = {
     return (
       <Combobox
         name="person"
-        options={options.map(({ value, disabled }) => ({
+        options={options.map(({ value, displayValue, disabled }) => ({
           value,
+          displayValue,
           disabled,
           renderOption: SimpleOptionRendererWithCheckmark,
         }))}
