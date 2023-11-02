@@ -37,9 +37,6 @@
   .disabled-classes {
     @apply pointer-events-none cursor-not-allowed opacity-50
   }
-  .input-field {
-    @apply flex h-10 w-full rounded-default border border-neutral-300 bg-default px-3 py-2 text-base text-dark dark:text-light placeholder:text-neutral-500 disabled:disabled-classes focus-ring
-  }
   .dialog-overlay {
     @apply fixed inset-0 z-[999] bg-neutral-700/80 backdrop-blur-sm
   }

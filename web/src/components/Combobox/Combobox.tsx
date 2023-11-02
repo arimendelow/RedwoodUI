@@ -4,6 +4,7 @@
  */
 import { Combobox as ComboboxPrimitive } from '@headlessui/react'
 import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/20/solid'
+import { VariantProps } from 'class-variance-authority'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { useController } from '@redwoodjs/forms'
@@ -11,6 +12,7 @@ import { useController } from '@redwoodjs/forms'
 import InputFieldWrapper, {
   InputFieldWrapperProps,
 } from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
+import { inputFieldVariants } from 'src/components/forms/inputVariants'
 import { cn } from 'src/lib/utils'
 
 const SimpleOptionRendererWithCheckmark: RenderOptionType<string> = ({
@@ -72,7 +74,8 @@ type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
   /** Omit endComponent as we're putting the ComboboxButton there */
   Omit<InputFieldWrapperProps, 'endComponent' | 'children'> & {
     options: IComboboxOption<TValue>[]
-    initSelectedValue?: TValue
+    placeholder?: string
+    initSelectedValueUncontrolled?: TValue
     selectedValue?: TValue
     setSelectedValue?: (value: TValue) => void
     /**
@@ -98,7 +101,8 @@ type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
 function Combobox<TValue extends React.ReactNode = string>({
   /** START props for combobox */
   options,
-  initSelectedValue,
+  placeholder,
+  initSelectedValueUncontrolled,
   selectedValue: selectedValueControlled,
   onInputChange: onInputChangeControlled,
   onValueChange: onValueChangeControlled,
@@ -114,7 +118,7 @@ function Combobox<TValue extends React.ReactNode = string>({
   ...props
 }: ComboboxPropsType<TValue>) {
   const [selectedValueUncontrolled, setSelectedValueUncontrolled] =
-    React.useState(initSelectedValue || options[0].value)
+    React.useState<TValue | null>(initSelectedValueUncontrolled || null)
   const [queryUncontrolled, setQueryUncontrolled] = React.useState('')
   const onInputChangeUncontrolled = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -136,7 +140,14 @@ function Combobox<TValue extends React.ReactNode = string>({
   const onValueChange = onValueChangeControlled ?? setSelectedValueUncontrolled
   const onInputChange = onInputChangeControlled ?? onInputChangeUncontrolled
 
-  const { field } = useController({ name, defaultValue: selectedValue })
+  const {
+    field,
+    fieldState: { error: fieldError },
+  } = useController({
+    name,
+    defaultValue: selectedValue,
+    rules: { required: !props.nullable },
+  })
   const { onChange: rhfOnChange, onBlur, ref } = field
 
   return (
@@ -160,7 +171,13 @@ function Combobox<TValue extends React.ReactNode = string>({
           endComponent={<ComboboxButton />}
         >
           <>
-            <ComboboxInput ref={ref} onBlur={onBlur} onChange={onInputChange} />
+            <ComboboxInput
+              placeholder={placeholder}
+              ref={ref}
+              onBlur={onBlur}
+              onChange={onInputChange}
+              colorTreatment={fieldError ? 'error' : 'default'}
+            />
             <AnimatePresence>
               {open && (
                 <motion.div
@@ -215,17 +232,28 @@ const ComboboxRoot = React.forwardRef<
 
 type ComboboxInputPropsType = React.ComponentPropsWithRef<
   typeof ComboboxPrimitive.Input
->
+> &
+  VariantProps<typeof inputFieldVariants> & {
+    /**
+     * This isn't explicitly typed in the HeadlessUI props, but it is supported.
+     * See: https://github.com/tailwindlabs/headlessui/issues/2407
+     */
+    placeholder?: string
+  }
 /**
  * The Combobox's input.
  */
 const ComboboxInput = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.Input>,
   React.PropsWithoutRef<ComboboxInputPropsType>
->(({ className, ...props }, ref) => (
+>(({ colorTreatment, inputTextSize, className, ...props }, ref) => (
   <ComboboxPrimitive.Input
     ref={ref}
-    className={cn('input-field', className)}
+    className={inputFieldVariants({
+      colorTreatment,
+      inputTextSize,
+      className,
+    })}
     {...props}
   />
 ))
