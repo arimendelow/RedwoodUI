@@ -223,62 +223,76 @@ function Combobox<TValue extends React.ReactNode = string>({
       {...props}
       multiple={multiple}
     >
-      {({ open }) => (
-        <InputFieldWrapper
-          name={name}
-          label={label}
-          maxLength={maxLength}
-          currentLength={currentLength}
-          inline={inline}
-          optional={optional}
-          endComponent={<ComboboxButton icon={buttonIcon} />}
-        >
-          <>
-            <ComboboxInput
-              displayValue={selectedValue ? getDisplayValue : undefined}
-              placeholder={placeholder}
-              ref={ref}
-              onBlur={onBlur}
-              onChange={onInputChange}
-              colorTreatment={fieldError ? 'error' : 'default'}
-            />
-            <AnimatePresence>
-              {open && (
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    transform: 'scale(0.9)',
-                  }}
-                  animate={{
-                    opacity: 1,
-                    transform: 'scale(1)',
-                  }}
-                  exit={{
-                    opacity: 0,
-                    transform: 'scale(0.9)',
-                  }}
-                  transition={{ ease: 'easeInOut', duration: 0.1 }}
-                >
-                  <ComboboxOptions static>
-                    {(onInputChangeControlled
-                      ? options
-                      : filteredOptionsUncontrolled
-                    ).map(({ value, renderOption, disabled }, index) => (
-                      <ComboboxOption
-                        key={index}
-                        value={value}
-                        disabled={disabled}
-                      >
-                        {(props) => renderOption({ ...props, value })}
-                      </ComboboxOption>
-                    ))}
-                  </ComboboxOptions>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </>
-        </InputFieldWrapper>
-      )}
+      {({ open }) => {
+        if (!open) {
+          /**
+           * Reset the query when the combobox closes.
+           * What happens otherwise is that the query is still set when the combobox opens again,
+           * and the options are filtered by that query, even though the input appears empty.
+           */
+          onInputChange({
+            target: {
+              value: '',
+            },
+          } as React.ChangeEvent<HTMLInputElement>)
+        }
+        return (
+          <InputFieldWrapper
+            name={name}
+            label={label}
+            maxLength={maxLength}
+            currentLength={currentLength}
+            inline={inline}
+            optional={optional}
+            endComponent={<ComboboxButton icon={buttonIcon} />}
+          >
+            <>
+              <ComboboxInput
+                displayValue={selectedValue ? getDisplayValue : undefined}
+                placeholder={placeholder}
+                ref={ref}
+                onBlur={onBlur}
+                onChange={onInputChange}
+                colorTreatment={fieldError ? 'error' : 'default'}
+              />
+              <AnimatePresence>
+                {open && (
+                  <motion.div
+                    initial={{
+                      opacity: 0,
+                      transform: 'scale(0.9)',
+                    }}
+                    animate={{
+                      opacity: 1,
+                      transform: 'scale(1)',
+                    }}
+                    exit={{
+                      opacity: 0,
+                      transform: 'scale(0.9)',
+                    }}
+                    transition={{ ease: 'easeInOut', duration: 0.1 }}
+                  >
+                    <ComboboxOptions static>
+                      {(onInputChangeControlled
+                        ? options
+                        : filteredOptionsUncontrolled
+                      ).map(({ value, renderOption, disabled }, index) => (
+                        <ComboboxOption
+                          key={index}
+                          value={value}
+                          disabled={disabled}
+                        >
+                          {(props) => renderOption({ ...props, value })}
+                        </ComboboxOption>
+                      ))}
+                    </ComboboxOptions>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </>
+          </InputFieldWrapper>
+        )
+      }}
     </ComboboxRoot>
   )
 }
