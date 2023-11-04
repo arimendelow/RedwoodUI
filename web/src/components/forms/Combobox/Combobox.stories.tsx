@@ -3,11 +3,13 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { FormProvider, Form, useForm } from '@redwoodjs/forms'
 
-import Combobox, {
-  IComboboxOption,
-  SimpleOptionRendererWithLeftCheckmark,
+import {
   SimpleOptionRendererWithRightCheckmark,
-} from './Combobox'
+  SimpleOptionRendererWithLeftCheckmark,
+  IDropdownOption,
+} from 'src/components/forms/dropdownFieldCommon'
+
+import Combobox from './Combobox'
 
 const meta: Meta<typeof Combobox> = {
   component: Combobox,
@@ -186,7 +188,7 @@ export const Primary: Story = {
     renderOption,
   }) => {
     // renderOption is added below
-    const options: Omit<IComboboxOption, 'renderOption'>[] = [
+    const options: Omit<IDropdownOption, 'renderOption'>[] = [
       { value: 'Durward Reynolds' },
       { value: 'Kenton Towne' },
       { value: 'Therese Wunsch', disabled: true },

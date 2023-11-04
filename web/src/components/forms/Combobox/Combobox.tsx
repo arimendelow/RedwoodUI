@@ -1,102 +1,23 @@
 /**
- * Using HeadlessUI's combobox because it doesn't yet exist for RadixUI
+ * Using HeadlessUI's Combobox because it doesn't yet exist for RadixUI
  * Track progress on RadixUI combobox here: https://github.com/radix-ui/primitives/issues/1342
  */
 import { Combobox as ComboboxPrimitive } from '@headlessui/react'
-import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/20/solid'
+import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { VariantProps } from 'class-variance-authority'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { useController } from '@redwoodjs/forms'
 
+import {
+  IDropdownOption,
+  useGetDropdownDisplayValue,
+} from 'src/components/forms/dropdownFieldCommon'
 import InputFieldWrapper, {
   InputFieldWrapperProps,
 } from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
 import { inputFieldVariants } from 'src/components/forms/inputVariants'
 import { cn } from 'src/lib/utils'
-
-const SimpleOptionRendererWithRightCheckmark: RenderOptionType<string> = ({
-  active,
-  selected,
-  disabled,
-  value,
-}) => (
-  <div
-    className={cn(
-      'text-color-default relative m-1 select-none py-2 pl-2 pr-8',
-      active && 'text-color-default-invert rounded-default bg-primary-600',
-      disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-    )}
-  >
-    <span className={cn('block truncate', selected && 'font-semibold')}>
-      {value}
-    </span>
-    {selected && (
-      <span
-        className={cn(
-          'absolute inset-y-0 right-0 flex items-center pr-4',
-          active ? 'text-color-default-invert' : 'text-primary-600'
-        )}
-      >
-        <CheckIcon className="h-5 w-5" aria-hidden="true" />
-      </span>
-    )}
-  </div>
-)
-
-const SimpleOptionRendererWithLeftCheckmark: RenderOptionType<string> = ({
-  active,
-  selected,
-  disabled,
-  value,
-}) => (
-  <div
-    className={cn(
-      'text-color-default relative m-1 select-none py-2 pl-2 pr-8',
-      active && 'text-color-default-invert rounded-default bg-primary-600',
-      disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-    )}
-  >
-    {selected && (
-      <span
-        className={cn(
-          'absolute inset-y-0 left-0 flex items-center pl-2',
-          active ? 'text-color-default-invert' : 'text-primary-600'
-        )}
-      >
-        <CheckIcon className="h-5 w-5" aria-hidden="true" />
-      </span>
-    )}
-    <span className={cn('block truncate pl-6', selected && 'font-semibold')}>
-      {value}
-    </span>
-  </div>
-)
-
-/**
- * This is redefined as it's not exported by HeadlessUI, but you can find it in
- * https://github.com/tailwindlabs/headlessui/blob/1469b85c36802265c2409f443f926e1bb02230d4/packages/%40headlessui-react/src/components/combobox/combobox.tsx#L1652
- */
-interface OptionRenderPropArg {
-  active: boolean
-  selected: boolean
-  disabled: boolean
-}
-
-type RenderOptionType<TValue extends React.ReactNode = string> = (
-  props: OptionRenderPropArg & { value: TValue }
-) => JSX.Element
-
-export interface IComboboxOption<TValue extends React.ReactNode = string> {
-  value: TValue
-  renderOption: RenderOptionType<TValue>
-  /**
-   * What to display in the input when this option is selected.
-   * If this is omitted, the value will be cast to a string and used as the display value.
-   */
-  displayValue?: string
-  disabled?: boolean
-}
 
 /**
  * (onChange is omitted because it's handled by the onValueChange prop)
@@ -110,11 +31,11 @@ type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
    * is controlled by the buttonIcon prop.
    */
   Omit<InputFieldWrapperProps, 'endComponent' | 'children'> & {
-    options: IComboboxOption<TValue>[]
+    options: IDropdownOption<TValue>[]
     placeholder?: string
-    buttonIcon?: React.ReactNode
+    buttonIcon?: JSX.Element
     initSelectedValueUncontrolled?: TValue
-    selectedValue?: TValue
+    selectedValue?: TValue | TValue[]
     setSelectedValue?: (value: TValue | TValue[]) => void
     /**
      * The callback that is fired when the input changes.
@@ -183,8 +104,8 @@ function Combobox<TValue extends React.ReactNode = string>({
         })
 
   const selectedValue = selectedValueControlled ?? selectedValueUncontrolled
-
   const onValueChange = onValueChangeControlled ?? setSelectedValueUncontrolled
+
   const onInputChange = onInputChangeControlled ?? onInputChangeUncontrolled
 
   const {
@@ -197,20 +118,7 @@ function Combobox<TValue extends React.ReactNode = string>({
   })
   const { onChange: rhfOnChange, onBlur, ref } = field
 
-  const getDisplayValue = (item: TValue | TValue[]) => {
-    // If `multiple` is true, then `item` will be an array.
-    if (Array.isArray(item)) {
-      return item
-        .map((value) => {
-          const option = options.find((option) => option.value === value)
-          return option?.displayValue ?? String(value)
-        })
-        .join(', ')
-    } else {
-      const option = options.find((option) => option.value === item)
-      return option?.displayValue ?? String(item)
-    }
-  }
+  const getDisplayValue = useGetDropdownDisplayValue(options)
 
   return (
     <ComboboxRoot
@@ -320,7 +228,6 @@ const ComboboxRoot = React.forwardRef<
 >(({ multiple, ...props }, ref) => (
   <ComboboxPrimitive
     ref={ref}
-    as="div"
     // @ts-expect-error (see comment on ComboboxRootPropsType)
     multiple={multiple}
     {...props}
@@ -367,11 +274,7 @@ const ComboboxButton = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.Button>,
   React.PropsWithoutRef<ComboboxButtonPropsType>
 >(({ icon, className, ...props }, ref) => (
-  <ComboboxPrimitive.Button
-    ref={ref}
-    className={cn('absolute inset-y-0 right-0 flex items-center', className)}
-    {...props}
-  >
+  <ComboboxPrimitive.Button ref={ref} className={className} {...props}>
     {icon}
   </ComboboxPrimitive.Button>
 ))
@@ -403,10 +306,7 @@ const ComboboxOptions = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ComboboxPrimitive.Options
     ref={ref}
-    className={cn(
-      'bg-default absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-default py-1 text-base ring-1 ring-neutral-300 focus:outline-none sm:text-sm',
-      className
-    )}
+    className={cn('dropdown-container', className)}
     {...props}
   />
 ))
@@ -432,9 +332,4 @@ export {
   ComboboxLabel,
   ComboboxOptions,
   ComboboxOption,
-}
-
-export {
-  SimpleOptionRendererWithRightCheckmark,
-  SimpleOptionRendererWithLeftCheckmark,
 }
