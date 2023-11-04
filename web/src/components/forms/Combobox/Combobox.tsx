@@ -265,6 +265,7 @@ function Combobox<TValue extends React.ReactNode = string>({
                     animate={{
                       opacity: 1,
                       transform: 'scale(1)',
+                      transition: { duration: 0 },
                     }}
                     exit={{
                       opacity: 0,

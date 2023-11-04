@@ -84,4 +84,13 @@ export const Primary: Story = {
       ]}
     />
   ),
+  decorators: [
+    (Story) => {
+      return (
+        <div className="mx-auto w-full max-w-xs">
+          <Story />
+        </div>
+      )
+    },
+  ],
 }
