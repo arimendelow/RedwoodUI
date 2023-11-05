@@ -32,6 +32,13 @@ type SelectPropsType<TValue extends React.ReactNode = string> = Omit<
   Omit<InputFieldWrapperProps, 'endComponent' | 'children'> & {
     options: IDropdownOption<TValue>[]
     placeholder?: string
+    /**
+     * If `true`, the user can select no option.
+     * - When `multiple` is `true`:
+     *   - the empty value will be an empty array
+     * - When `multiple` is `false`:
+     *   - the empty value will be `null`
+     */
     nullable?: boolean
     buttonIcon?: JSX.Element
     initSelectedValueUncontrolled?: boolean
@@ -112,7 +119,7 @@ function Select<TValue extends React.ReactNode = string>({
               <SelectButton
                 placeholder={placeholder}
                 displayText={
-                  selectedValue ? getDisplayValue(selectedValue) : undefined
+                  selectedValue ? getDisplayValue(selectedValue) : ''
                 }
                 ref={ref}
                 onBlur={onBlur}
@@ -194,18 +201,17 @@ const SelectButton = React.forwardRef<
     },
     ref
   ) => (
-    <SelectPrimitive.Button ref={ref} {...props}>
+    <SelectPrimitive.Button ref={ref} className="w-full" {...props}>
       <input
         readOnly
         placeholder={placeholder}
         className={inputFieldVariants({
           colorTreatment,
           inputTextSize,
-          className,
+          className: cn('cursor-pointer select-none', className),
         })}
-      >
-        {displayText}
-      </input>
+        value={displayText}
+      />
     </SelectPrimitive.Button>
   )
 )
