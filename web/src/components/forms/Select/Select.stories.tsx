@@ -25,6 +25,12 @@ import Select from './Select'
 
 const meta: Meta<typeof Select> = {
   component: Select,
+  argTypes: {
+    multiple: {
+      control: { type: 'boolean' },
+      description: 'If `true`, the user can select multiple options.',
+    },
+  },
 }
 
 export default meta

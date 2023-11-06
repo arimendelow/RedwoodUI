@@ -145,16 +145,16 @@ function Combobox<TValue extends React.ReactNode = string>({
           } as React.ChangeEvent<HTMLInputElement>)
         }
         return (
-          <InputFieldWrapper
-            name={name}
-            label={label}
-            maxLength={maxLength}
-            currentLength={currentLength}
-            inline={inline}
-            optional={optional}
-            endComponent={<ComboboxButton icon={buttonIcon} />}
-          >
-            <>
+          <>
+            <InputFieldWrapper
+              name={name}
+              label={label}
+              maxLength={maxLength}
+              currentLength={currentLength}
+              inline={inline}
+              optional={optional}
+              endComponent={<ComboboxButton icon={buttonIcon} />}
+            >
               <ComboboxInput
                 displayValue={selectedValue ? getDisplayValue : undefined}
                 placeholder={placeholder}
@@ -163,43 +163,43 @@ function Combobox<TValue extends React.ReactNode = string>({
                 onChange={onInputChange}
                 colorTreatment={fieldError ? 'error' : 'default'}
               />
-              <AnimatePresence>
-                {open && (
-                  <motion.div
-                    initial={{
-                      opacity: 0,
-                      transform: 'scale(0.9)',
-                    }}
-                    animate={{
-                      opacity: 1,
-                      transform: 'scale(1)',
-                      transition: { duration: 0 },
-                    }}
-                    exit={{
-                      opacity: 0,
-                      transform: 'scale(0.9)',
-                    }}
-                    transition={{ ease: 'easeInOut', duration: 0.1 }}
-                  >
-                    <ComboboxOptions static>
-                      {(onInputChangeControlled
-                        ? options
-                        : filteredOptionsUncontrolled
-                      ).map(({ value, renderOption, disabled }, index) => (
-                        <ComboboxOption
-                          key={index}
-                          value={value}
-                          disabled={disabled}
-                        >
-                          {(props) => renderOption({ ...props, value })}
-                        </ComboboxOption>
-                      ))}
-                    </ComboboxOptions>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </>
-          </InputFieldWrapper>
+            </InputFieldWrapper>
+            <AnimatePresence>
+              {open && (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    transform: 'scale(0.9)',
+                  }}
+                  animate={{
+                    opacity: 1,
+                    transform: 'scale(1)',
+                    transition: { duration: 0 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    transform: 'scale(0.9)',
+                  }}
+                  transition={{ ease: 'easeInOut', duration: 0.1 }}
+                >
+                  <ComboboxOptions static>
+                    {(onInputChangeControlled
+                      ? options
+                      : filteredOptionsUncontrolled
+                    ).map(({ value, renderOption, disabled }, index) => (
+                      <ComboboxOption
+                        key={index}
+                        value={value}
+                        disabled={disabled}
+                      >
+                        {(props) => renderOption({ ...props, value })}
+                      </ComboboxOption>
+                    ))}
+                  </ComboboxOptions>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
         )
       }}
     </ComboboxRoot>

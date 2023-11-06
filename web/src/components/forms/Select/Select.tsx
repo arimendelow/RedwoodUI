@@ -106,61 +106,54 @@ function Select<TValue extends React.ReactNode = string>({
     >
       {({ open }) => {
         return (
-          <InputFieldWrapper
-            name={name}
-            label={label}
-            maxLength={maxLength}
-            currentLength={currentLength}
-            inline={inline}
-            optional={optional}
-            endComponent={buttonIcon}
-          >
-            <>
-              <SelectButton
-                placeholder={placeholder}
-                displayText={
-                  selectedValue ? getDisplayValue(selectedValue) : ''
-                }
-                ref={ref}
-                onBlur={onBlur}
-                colorTreatment={fieldError ? 'error' : 'default'}
-              />
-              <AnimatePresence>
-                {open && (
-                  <motion.div
-                    initial={{
-                      opacity: 0,
-                      transform: 'scale(0.9)',
-                    }}
-                    animate={{
-                      opacity: 1,
-                      transform: 'scale(1)',
-                      transition: { duration: 0 },
-                    }}
-                    exit={{
-                      opacity: 0,
-                      transform: 'scale(0.9)',
-                    }}
-                    transition={{ ease: 'easeInOut', duration: 0.1 }}
-                  >
-                    <SelectOptions static>
-                      {options.map(
-                        ({ value, renderOption, disabled }, index) => (
-                          <SelectOption
-                            key={index}
-                            value={value}
-                            disabled={disabled}
-                          >
-                            {(props) => renderOption({ ...props, value })}
-                          </SelectOption>
-                        )
-                      )}
-                    </SelectOptions>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </>
-          </InputFieldWrapper>
+          <>
+            <SelectButton
+              placeholder={placeholder}
+              displayText={selectedValue ? getDisplayValue(selectedValue) : ''}
+              ref={ref}
+              onBlur={onBlur}
+              colorTreatment={fieldError ? 'error' : 'default'}
+              name={name}
+              label={label}
+              maxLength={maxLength}
+              currentLength={currentLength}
+              inline={inline}
+              optional={optional}
+              endComponent={buttonIcon}
+            />
+            <AnimatePresence>
+              {open && (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    transform: 'scale(0.9)',
+                  }}
+                  animate={{
+                    opacity: 1,
+                    transform: 'scale(1)',
+                    transition: { duration: 0 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    transform: 'scale(0.9)',
+                  }}
+                  transition={{ ease: 'easeInOut', duration: 0.1 }}
+                >
+                  <SelectOptions static>
+                    {options.map(({ value, renderOption, disabled }, index) => (
+                      <SelectOption
+                        key={index}
+                        value={value}
+                        disabled={disabled}
+                      >
+                        {(props) => renderOption({ ...props, value })}
+                      </SelectOption>
+                    ))}
+                  </SelectOptions>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
         )
       }}
     </SelectRoot>
@@ -179,6 +172,7 @@ const SelectRoot = React.forwardRef<
 type SelectButtonPropsType = React.ComponentPropsWithRef<
   typeof SelectPrimitive.Button
 > &
+  Omit<InputFieldWrapperProps, 'children'> &
   VariantProps<typeof inputFieldVariants> & {
     displayText?: string
     placeholder?: string
@@ -197,21 +191,40 @@ const SelectButton = React.forwardRef<
       colorTreatment,
       inputTextSize,
       className,
+      /** START props for field wrapper */
+      name,
+      label,
+      maxLength,
+      currentLength,
+      inline,
+      optional,
+      endComponent,
+      /** END props for field wrapper */
       ...props
     },
     ref
   ) => (
     <SelectPrimitive.Button ref={ref} className="w-full" {...props}>
-      <input
-        readOnly
-        placeholder={placeholder}
-        className={inputFieldVariants({
-          colorTreatment,
-          inputTextSize,
-          className: cn('cursor-pointer select-none', className),
-        })}
-        value={displayText}
-      />
+      <InputFieldWrapper
+        name={name}
+        label={label}
+        maxLength={maxLength}
+        currentLength={currentLength}
+        inline={inline}
+        optional={optional}
+        endComponent={endComponent}
+      >
+        <input
+          readOnly
+          placeholder={placeholder}
+          className={inputFieldVariants({
+            colorTreatment,
+            inputTextSize,
+            className: cn('cursor-pointer select-none', className),
+          })}
+          value={displayText}
+        />
+      </InputFieldWrapper>
     </SelectPrimitive.Button>
   )
 )
