@@ -120,6 +120,7 @@ function Select<TValue extends React.ReactNode = string>({
               inline={inline}
               optional={optional}
               endComponent={buttonIcon}
+              disabled={props.disabled}
             />
             <AnimatePresence>
               {open && (
@@ -176,6 +177,7 @@ type SelectButtonPropsType = React.ComponentPropsWithRef<
   VariantProps<typeof inputFieldVariants> & {
     displayText?: string
     placeholder?: string
+    disabled?: boolean
   }
 /**
  * The Select's button. We style it to look like a regular input.
@@ -191,6 +193,7 @@ const SelectButton = React.forwardRef<
       colorTreatment,
       inputTextSize,
       className,
+      disabled,
       /** START props for field wrapper */
       name,
       label,
@@ -223,6 +226,7 @@ const SelectButton = React.forwardRef<
             className: cn('cursor-pointer select-none', className),
           })}
           value={displayText}
+          disabled={disabled}
         />
       </InputFieldWrapper>
     </SelectPrimitive.Button>

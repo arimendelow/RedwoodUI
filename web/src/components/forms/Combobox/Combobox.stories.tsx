@@ -27,7 +27,6 @@ const meta: Meta<typeof Combobox> = {
       control: { type: 'text' },
     },
     placeholder: {
-      description: 'The placeholder text',
       control: { type: 'text' },
     },
     optional: {
@@ -171,9 +170,9 @@ export const Primary: Story = {
     disabled: false,
     label: 'Person',
     placeholder: 'Select person...',
+    // @ts-expect-error - putting `undefined` here will cause no default to be selected. We need to put the string `'undefined'`, which corresponds with the option key defined in argTypes.
     buttonIcon: 'undefined',
     optional: false,
-    // @ts-expect-error - this is not a direct prop on the component, but is used in the render function
     renderOption: 'simple option renderer with left checkmark',
   },
   render: ({
