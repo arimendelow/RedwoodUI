@@ -76,5 +76,9 @@ export const Primary: Story = {
     loading: false,
     children: 'example',
   },
-  render: ({ loading, children }) => <Card loading={loading}>{children}</Card>,
+  render: ({ loading, children }) => (
+    <Card loading={loading} className="max-w-sm">
+      {children}
+    </Card>
+  ),
 }

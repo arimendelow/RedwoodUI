@@ -9,7 +9,7 @@ const Card = React.forwardRef<HTMLDivElement, ICardProps>(
     <div
       ref={ref}
       className={cn(
-        'bg-card text-color-default overflow-clip rounded-default border shadow-sm outline-none',
+        'bg-card text-color-default overflow-clip rounded-default border outline-none',
         loading && 'loading',
         className
       )}
