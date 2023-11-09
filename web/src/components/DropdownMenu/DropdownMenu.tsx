@@ -16,11 +16,80 @@ import {
   DropdownMenuSubTriggerProps as IDropdownMenuSubTriggerProps,
   DropdownMenuSubContentProps as IDropdownMenuSubContentProps,
 } from '@radix-ui/react-dropdown-menu'
+import { PopperContentProps } from '@radix-ui/react-popper'
 
-interface IDropdownMenuProps extends IDropdownMenuRootProps {}
+import { cn } from 'src/lib/utils'
 
-const DropdownMenu = ({ ...props }: IDropdownMenuProps) => {
-  return <DropdownMenuRoot {...props}></DropdownMenuRoot>
+interface IDropdownItem {
+  textValue: string
+  item: React.ReactNode
+}
+
+interface IDropdownGroup {
+  label?: string
+  type: 'standard' | 'check' | 'radio'
+  items: IDropdownItem[]
+}
+
+interface IDropdownMenuProps extends IDropdownMenuRootProps {
+  /**
+   * The element that will trigger the dropdown menu to open.
+   * You *do not* need to pass `onClick` to this element, it will be handled for you.
+   */
+  openButton: React.ReactNode
+  /**
+   * The preferred side of the trigger to render against when open.
+   * Will be reversed when collisions occur and `avoidCollisions` is enabled.
+   */
+  side: PopperContentProps['side']
+
+  content: IDropdownGroup[]
+}
+
+const DropdownMenu = ({
+  openButton,
+  side = 'bottom',
+  content,
+  ...props
+}: IDropdownMenuProps) => {
+  return (
+    <DropdownMenuRoot {...props}>
+      <DropdownMenuTrigger asChild>{openButton}</DropdownMenuTrigger>
+      <DropdownMenuPortal forceMount>
+        <DropdownMenuContent side={side}>
+          {content.map((group, index) => {
+            const GroupComp =
+              group.type === 'standard'
+                ? DropdownMenuGroup
+                : group.type === 'check'
+                ? DropdownMenuCheckboxItem
+                : DropdownMenuRadioGroup
+            return (
+              <GroupComp key={index}>
+                {group.label && (
+                  <DropdownMenuLabel>{group.label}</DropdownMenuLabel>
+                )}
+                {index === 0 || (group.label && <DropdownMenuSeparator />)}
+                {group.items.map((item, index) => {
+                  const ItemComp =
+                    group.type === 'standard'
+                      ? DropdownMenuItem
+                      : group.type === 'check'
+                      ? DropdownMenuCheckboxItem
+                      : DropdownMenuRadioItem
+                  return (
+                    <ItemComp key={index} value={item.textValue}>
+                      {item.item}
+                    </ItemComp>
+                  )
+                })}
+              </GroupComp>
+            )
+          })}
+        </DropdownMenuContent>
+      </DropdownMenuPortal>
+    </DropdownMenuRoot>
+  )
 }
 
 /**
@@ -53,7 +122,16 @@ const DropdownMenuPortal = DropdownMenuPrimitive.Portal
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
   IDropdownMenuContentProps
->((props, ref) => <DropdownMenuPrimitive.Content ref={ref} {...props} />)
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Content
+    ref={ref}
+    className={cn(
+      'bg-default absolute-z[1000] min-w-[8rem] overflow-hidden rounded-default border border-neutral-300 text-center',
+      className
+    )}
+    {...props}
+  />
+))
 
 /**
  * An optional arrow element to render alongside the dropdown menu.
@@ -71,7 +149,16 @@ const DropdownMenuArrow = React.forwardRef<
 const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   IDropdownMenuItemProps
->((props, ref) => <DropdownMenuPrimitive.Item ref={ref} {...props} />)
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Item
+    ref={ref}
+    className={cn(
+      'text-color-default relative flex cursor-default select-none items-center rounded-default px-2 py-1.5 text-sm outline-none transition-colors focus:bg-neutral-200 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-neutral-700',
+      className
+    )}
+    {...props}
+  />
+))
 
 /**
  * Used to group multiple `DropdownMenuItem`s.
@@ -129,7 +216,13 @@ const DropdownMenuItemIndicator = React.forwardRef<
 const DropdownMenuSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
   IDropdownMenuSeparatorProps
->((props, ref) => <DropdownMenuPrimitive.Separator ref={ref} {...props} />)
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Separator
+    ref={ref}
+    className={cn('my-1 h-px bg-neutral-200', className)}
+    {...props}
+  />
+))
 
 /**
  * Contains all the parts of a submenu.
