@@ -45,6 +45,14 @@ export const Primary: Story = {
   args: {
     type: 'single',
   },
+  // See https://github.com/storybookjs/storybook/issues/17720#issuecomment-1525784750
+  parameters: {
+    docs: {
+      source: {
+        code: 'disabled',
+      },
+    },
+  },
   render: ({ type }) => (
     <Accordion
       type={type}

@@ -1,3 +1,4 @@
+import { CheckBadgeIcon } from '@heroicons/react/24/outline'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import {
   DropdownMenuProps as IDropdownMenuRootProps,
@@ -20,16 +21,49 @@ import { PopperContentProps } from '@radix-ui/react-popper'
 
 import { cn } from 'src/lib/utils'
 
+// Base interface for dropdown items
 interface IDropdownItem {
   textValue: string
   item: React.ReactNode
 }
 
-interface IDropdownGroup {
+// Extended interface for items in a 'check' type dropdown
+interface ICheckDropdownItem extends IDropdownItem {
+  checked: boolean
+  setChecked: (checked: boolean) => void
+}
+
+// Extended interface for items in a 'radio' type dropdown
+interface IRadioDropdownItem extends IDropdownItem {}
+
+// Standard dropdown group interface
+interface IStandardDropdownGroup {
   label?: string
-  type: 'standard' | 'check' | 'radio'
+  type: 'standard'
   items: IDropdownItem[]
 }
+
+// Check dropdown group interface
+interface ICheckDropdownGroup {
+  label?: string
+  type: 'check'
+  items: ICheckDropdownItem[]
+}
+
+// Radio dropdown group interface
+interface IRadioDropdownGroup {
+  label?: string
+  type: 'radio'
+  items: IRadioDropdownItem[]
+  selectedItemTextValue: string
+  setSelectedItemTextValue: (textValue: string) => void
+}
+
+// Union type for all dropdown group variants
+type AnyDropdownGroupType =
+  | IStandardDropdownGroup
+  | ICheckDropdownGroup
+  | IRadioDropdownGroup
 
 interface IDropdownMenuProps extends IDropdownMenuRootProps {
   /**
@@ -43,7 +77,7 @@ interface IDropdownMenuProps extends IDropdownMenuRootProps {
    */
   side: PopperContentProps['side']
 
-  content: IDropdownGroup[]
+  content: AnyDropdownGroupType[]
 }
 
 const DropdownMenu = ({
@@ -59,17 +93,27 @@ const DropdownMenu = ({
         <DropdownMenuContent side={side}>
           {content.map((group, index) => {
             const GroupComp =
-              group.type === 'standard'
-                ? DropdownMenuGroup
-                : group.type === 'check'
-                ? DropdownMenuCheckboxItem
-                : DropdownMenuRadioGroup
+              group.type === 'radio'
+                ? DropdownMenuRadioGroup
+                : DropdownMenuGroup
             return (
-              <GroupComp key={index}>
+              <GroupComp
+                key={index}
+                value={
+                  group.type === 'radio'
+                    ? group.selectedItemTextValue
+                    : undefined
+                }
+                onValueChange={
+                  group.type === 'radio'
+                    ? group.setSelectedItemTextValue
+                    : undefined
+                }
+              >
                 {group.label && (
                   <DropdownMenuLabel>{group.label}</DropdownMenuLabel>
                 )}
-                {index === 0 || (group.label && <DropdownMenuSeparator />)}
+                {(index !== 0 || group.label) && <DropdownMenuSeparator />}
                 {group.items.map((item, index) => {
                   const ItemComp =
                     group.type === 'standard'
@@ -77,8 +121,23 @@ const DropdownMenu = ({
                       : group.type === 'check'
                       ? DropdownMenuCheckboxItem
                       : DropdownMenuRadioItem
+
                   return (
-                    <ItemComp key={index} value={item.textValue}>
+                    <ItemComp
+                      key={index}
+                      value={item.textValue}
+                      checked={
+                        group.type === 'check'
+                          ? (item as ICheckDropdownItem).checked
+                          : undefined
+                      }
+                      onCheckedChange={
+                        group.type === 'check'
+                          ? (item as ICheckDropdownItem).setChecked
+                          : undefined
+                      }
+                    >
+                      <DropdownMenuItemIndicator />
                       {item.item}
                     </ItemComp>
                   )
@@ -152,10 +211,7 @@ const DropdownMenuItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
-    className={cn(
-      'text-color-default relative flex cursor-default select-none items-center rounded-default px-2 py-1.5 text-sm outline-none transition-colors focus:bg-neutral-200 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-neutral-700',
-      className
-    )}
+    className={cn('dropdown-menu-item', className)}
     {...props}
   />
 ))
@@ -182,7 +238,13 @@ const DropdownMenuLabel = React.forwardRef<
 const DropdownMenuCheckboxItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
   IDropdownMenuCheckboxItemProps
->((props, ref) => <DropdownMenuPrimitive.CheckboxItem ref={ref} {...props} />)
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.CheckboxItem
+    ref={ref}
+    className={cn('dropdown-menu-item', className)}
+    {...props}
+  />
+))
 
 /**
  * Used to group multiple `DropdownMenuRadioItem`s.
@@ -198,7 +260,13 @@ const DropdownMenuRadioGroup = React.forwardRef<
 const DropdownMenuRadioItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
   IDropdownMenuRadioItemProps
->((props, ref) => <DropdownMenuPrimitive.RadioItem ref={ref} {...props} />)
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.RadioItem
+    ref={ref}
+    className={cn('dropdown-menu-item', className)}
+    {...props}
+  />
+))
 
 /**
  * Renders when the parent `DropdownMenuCheckboxItem` or
@@ -208,7 +276,11 @@ const DropdownMenuRadioItem = React.forwardRef<
 const DropdownMenuItemIndicator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.ItemIndicator>,
   IDropdownMenuItemIndicatorProps
->((props, ref) => <DropdownMenuPrimitive.ItemIndicator ref={ref} {...props} />)
+>((props, ref) => (
+  <DropdownMenuPrimitive.ItemIndicator ref={ref} {...props}>
+    <CheckBadgeIcon className="h-5 w-5" />
+  </DropdownMenuPrimitive.ItemIndicator>
+))
 
 /**
  * Used to visually separate items in the dropdown menu.
