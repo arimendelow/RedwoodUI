@@ -142,9 +142,8 @@ const AlertContentWithActions = ({
 }: IAlertContentWithActionsProps) => {
   const cancelBtnRef = React.useRef<HTMLButtonElement>(null)
   React.useEffect(() => {
-    // Couldn't get the focus to work without a timeout.
-    setTimeout(() => cancelBtnRef.current?.focus())
-  }, [cancelBtnRef])
+    cancelBtnRef.current?.focus()
+  }, [])
   return (
     <div className="max-w-sm">
       <AlertDialogTitle>{title}</AlertDialogTitle>
