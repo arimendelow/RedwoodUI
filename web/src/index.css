@@ -63,6 +63,6 @@
     @apply bg-default absolute z-10 max-h-60 w-full overflow-auto rounded-default py-1 text-base ring-1 ring-neutral-300 focus:outline-none sm:text-sm
   }
   .dropdown-menu-item {
-    @apply text-color-default relative flex cursor-default select-none items-center rounded-default px-2 py-1.5 text-sm outline-none transition-colors focus:bg-neutral-200 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-neutral-700
+    @apply text-color-default relative flex cursor-pointer select-none items-center rounded-default px-2 py-1.5 text-sm outline-none transition-colors focus:bg-neutral-200 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-neutral-700
   }
 }

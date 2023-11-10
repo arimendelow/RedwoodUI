@@ -1,4 +1,4 @@
-import { CheckBadgeIcon } from '@heroicons/react/24/outline'
+import { CheckIcon } from '@heroicons/react/24/outline'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import {
   DropdownMenuProps as IDropdownMenuRootProps,
@@ -11,7 +11,7 @@ import {
   DropdownMenuCheckboxItemProps as IDropdownMenuCheckboxItemProps,
   DropdownMenuRadioGroupProps as IDropdownMenuRadioGroupProps,
   DropdownMenuRadioItemProps as IDropdownMenuRadioItemProps,
-  DropdownMenuItemIndicatorProps as IDropdownMenuItemIndicatorProps,
+  DropdownMenuItemIndicatorProps,
   DropdownMenuSeparatorProps as IDropdownMenuSeparatorProps,
   DropdownMenuSubProps as IDropdownMenuSubProps,
   DropdownMenuSubTriggerProps as IDropdownMenuSubTriggerProps,
@@ -126,6 +126,7 @@ const DropdownMenu = ({
                     <ItemComp
                       key={index}
                       value={item.textValue}
+                      className=" pl-6"
                       checked={
                         group.type === 'check'
                           ? (item as ICheckDropdownItem).checked
@@ -137,7 +138,12 @@ const DropdownMenu = ({
                           : undefined
                       }
                     >
-                      <DropdownMenuItemIndicator />
+                      {group.type !== 'standard' && (
+                        <DropdownMenuItemIndicator
+                          type={group.type}
+                          className="absolute left-2"
+                        />
+                      )}
                       {item.item}
                     </ItemComp>
                   )
@@ -185,7 +191,7 @@ const DropdownMenuContent = React.forwardRef<
   <DropdownMenuPrimitive.Content
     ref={ref}
     className={cn(
-      'bg-default absolute-z[1000] min-w-[8rem] overflow-hidden rounded-default border border-neutral-300 text-center',
+      'bg-default absolute-z[1000] min-w-[8rem] overflow-hidden rounded-default border border-neutral-300 p-1 text-center',
       className
     )}
     {...props}
@@ -230,7 +236,16 @@ const DropdownMenuGroup = React.forwardRef<
 const DropdownMenuLabel = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Label>,
   IDropdownMenuLabelProps
->((props, ref) => <DropdownMenuPrimitive.Label ref={ref} {...props} />)
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Label
+    ref={ref}
+    className={cn(
+      'px-2 pb-0.5 pt-1.5 text-start text-sm font-semibold',
+      className
+    )}
+    {...props}
+  />
+))
 
 /**
  * An item that can be controlled and rendered like a checkbox.
@@ -268,17 +283,36 @@ const DropdownMenuRadioItem = React.forwardRef<
   />
 ))
 
+interface IDropdownMenuItemIndicatorProps
+  extends DropdownMenuItemIndicatorProps {
+  type: 'check' | 'radio'
+}
+
 /**
  * Renders when the parent `DropdownMenuCheckboxItem` or
- * `DropdownMenuRadioItem` is checked. You can style this element directly,
- * or you can use it as a wrapper to put an icon into, or both.
+ * `DropdownMenuRadioItem` is checked.
  */
 const DropdownMenuItemIndicator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.ItemIndicator>,
   IDropdownMenuItemIndicatorProps
->((props, ref) => (
+>(({ type, ...props }, ref) => (
   <DropdownMenuPrimitive.ItemIndicator ref={ref} {...props}>
-    <CheckBadgeIcon className="h-5 w-5" />
+    {type === 'check' ? (
+      <CheckIcon className="h-4 w-4" />
+    ) : (
+      // dot icon
+      <svg
+        className="h-4 w-4"
+        viewBox="0 0 15 15"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M9.875 7.5C9.875 8.81168 8.81168 9.875 7.5 9.875C6.18832 9.875 5.125 8.81168 5.125 7.5C5.125 6.18832 6.18832 5.125 7.5 5.125C8.81168 5.125 9.875 6.18832 9.875 7.5Z"
+          fill="currentColor"
+        />
+      </svg>
+    )}
   </DropdownMenuPrimitive.ItemIndicator>
 ))
 
