@@ -72,7 +72,8 @@ export const Primary: Story = {
                 disabled: true,
               },
               {
-                item: <button>No Icon</button>,
+                item: <button>No Icon (but a really long display name)</button>,
+                endText: 'we ❤️ tailwind',
                 textValue: 'no icon',
               },
               {
@@ -89,7 +90,10 @@ export const Primary: Story = {
             setSelectedItemTextValue: setSelectedRadioValue,
             items: [
               { item: <span>First item</span>, textValue: 'first item' },
-              { item: <span>Second item</span>, textValue: 'second item' },
+              {
+                item: <span>Second item</span>,
+                textValue: 'second item',
+              },
               { item: <span>Third item</span>, textValue: 'third item' },
             ],
           },

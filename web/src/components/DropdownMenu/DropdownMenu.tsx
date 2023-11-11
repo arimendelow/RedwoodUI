@@ -134,7 +134,7 @@ const DropdownMenu = ({
                       key={index}
                       disabled={item.disabled}
                       value={item.textValue}
-                      className="pl-7"
+                      className="flex w-full justify-between gap-2 pl-7"
                       checked={
                         group.type === 'check'
                           ? (item as ICheckDropdownItem).checked
@@ -161,7 +161,7 @@ const DropdownMenu = ({
                       {item.item}
                       {group.type === 'standard' &&
                         (item as IStandardDropdownItem).endText && (
-                          <span className="absolute right-1 tracking-widest opacity-50">
+                          <span className="mr-1 tracking-widest opacity-50">
                             {(item as IStandardDropdownItem).endText}
                           </span>
                         )}
