@@ -22,35 +22,43 @@ import { PopperContentProps } from '@radix-ui/react-popper'
 import { cn } from 'src/lib/utils'
 
 // Base interface for dropdown items
-interface IDropdownItem {
+interface IDropdownItemBase {
   textValue: string
   item: React.ReactNode
+  disabled?: boolean
 }
 
-// Extended interface for items in a 'check' type dropdown
-interface ICheckDropdownItem extends IDropdownItem {
+interface IStandardDropdownItem extends IDropdownItemBase {
+  /**
+   * An optional icon to render alongside the item.
+   */
+  icon?: React.ReactNode
+  /**
+   * Something you want at the very end of the item,
+   * like a keyboard shortcut.
+   */
+  endText?: string
+}
+
+interface ICheckDropdownItem extends IDropdownItemBase {
   checked: boolean
   setChecked: (checked: boolean) => void
 }
 
-// Extended interface for items in a 'radio' type dropdown
-interface IRadioDropdownItem extends IDropdownItem {}
+interface IRadioDropdownItem extends IDropdownItemBase {}
 
-// Standard dropdown group interface
 interface IStandardDropdownGroup {
   label?: string
   type: 'standard'
-  items: IDropdownItem[]
+  items: IStandardDropdownItem[]
 }
 
-// Check dropdown group interface
 interface ICheckDropdownGroup {
   label?: string
   type: 'check'
   items: ICheckDropdownItem[]
 }
 
-// Radio dropdown group interface
 interface IRadioDropdownGroup {
   label?: string
   type: 'radio'
@@ -59,7 +67,6 @@ interface IRadioDropdownGroup {
   setSelectedItemTextValue: (textValue: string) => void
 }
 
-// Union type for all dropdown group variants
 type AnyDropdownGroupType =
   | IStandardDropdownGroup
   | ICheckDropdownGroup
@@ -125,8 +132,9 @@ const DropdownMenu = ({
                   return (
                     <ItemComp
                       key={index}
+                      disabled={item.disabled}
                       value={item.textValue}
-                      className=" pl-6"
+                      className="pl-7"
                       checked={
                         group.type === 'check'
                           ? (item as ICheckDropdownItem).checked
@@ -138,13 +146,25 @@ const DropdownMenu = ({
                           : undefined
                       }
                     >
-                      {group.type !== 'standard' && (
+                      {group.type === 'standard' ? (
+                        (item as IStandardDropdownItem).icon && (
+                          <span className="absolute left-1 h-4 w-4">
+                            {(item as IStandardDropdownItem).icon}
+                          </span>
+                        )
+                      ) : (
                         <DropdownMenuItemIndicator
                           type={group.type}
-                          className="absolute left-2"
+                          className="absolute left-1"
                         />
                       )}
                       {item.item}
+                      {group.type === 'standard' &&
+                        (item as IStandardDropdownItem).endText && (
+                          <span className="absolute right-1 opacity-50">
+                            {(item as IStandardDropdownItem).endText}
+                          </span>
+                        )}
                     </ItemComp>
                   )
                 })}
@@ -191,7 +211,7 @@ const DropdownMenuContent = React.forwardRef<
   <DropdownMenuPrimitive.Content
     ref={ref}
     className={cn(
-      'bg-default absolute-z[1000] min-w-[8rem] overflow-hidden rounded-default border border-neutral-300 p-1 text-center',
+      'absolute z-[10000] min-w-[12rem] overflow-hidden rounded-default border border-neutral-300 bg-neutral-50/80 px-2 pb-2 pt-1 text-center shadow-md backdrop-blur-lg dark:border-neutral-500 dark:bg-neutral-800/60',
       className
     )}
     {...props}
@@ -240,7 +260,7 @@ const DropdownMenuLabel = React.forwardRef<
   <DropdownMenuPrimitive.Label
     ref={ref}
     className={cn(
-      'px-2 pb-0.5 pt-1.5 text-start text-sm font-semibold',
+      'text-color-default px-2 pb-0.5 pt-1.5 text-start text-sm font-semibold',
       className
     )}
     {...props}
@@ -325,7 +345,10 @@ const DropdownMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    className={cn('my-1 h-px bg-neutral-200', className)}
+    className={cn(
+      'mx-2 my-1 h-px bg-neutral-200 dark:bg-neutral-50/20',
+      className
+    )}
     {...props}
   />
 ))

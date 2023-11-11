@@ -10,6 +10,11 @@
 //
 // See https://storybook.js.org/docs/react/writing-stories/args.
 
+import {
+  Cog6ToothIcon,
+  CreditCardIcon,
+  UserCircleIcon,
+} from '@heroicons/react/20/solid'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import Button from '../Button/Button'
@@ -49,9 +54,27 @@ export const Primary: Story = {
             type: 'standard',
             label: 'Standard Section',
             items: [
-              { item: <span>First item</span>, textValue: 'first item' },
-              { item: <span>Second item</span>, textValue: 'second item' },
-              { item: <span>Third item</span>, textValue: 'third item' },
+              {
+                icon: <UserCircleIcon />,
+                item: <button>Profile</button>,
+                endText: '⇧⌘P',
+                textValue: 'profile',
+              },
+              {
+                icon: <CreditCardIcon />,
+                item: <button>Billing</button>,
+                textValue: 'billing',
+                disabled: true,
+              },
+              {
+                item: <button>No Icon</button>,
+                textValue: 'no icon',
+              },
+              {
+                icon: <Cog6ToothIcon />,
+                item: <button>Settings</button>,
+                textValue: 'settings',
+              },
             ],
           },
           {
@@ -93,11 +116,11 @@ export const Primary: Story = {
       />
     )
   },
-  // decorators: [
-  //   (Story) => (
-  //     <div className="flex min-h-[30rem] flex-col items-center justify-center">
-  //       <Story />
-  //     </div>
-  //   ),
-  // ],
+  decorators: [
+    (Story) => (
+      <div className="flex min-h-[30rem] flex-col items-center justify-center bg-purple-600">
+        <Story />
+      </div>
+    ),
+  ],
 }
