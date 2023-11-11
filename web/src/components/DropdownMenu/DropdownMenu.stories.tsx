@@ -305,7 +305,7 @@ export const Primary: Story = {
                 ],
               },
               {
-                item: <button>No Icon (but a really long display name)</button>,
+                item: <button>No Icon</button>,
                 endText: 'we ❤️ tailwind',
                 textValue: 'no icon',
               },
