@@ -365,7 +365,7 @@ export const Primary: Story = {
   },
   decorators: [
     (Story) => (
-      <div className="flex min-h-[30rem] flex-col items-center justify-center bg-purple-600">
+      <div className="flex min-h-[30rem] flex-col items-center justify-center ">
         <Story />
       </div>
     ),
