@@ -1,15 +1,5 @@
-// Pass props to your component by passing an `args` object to your story
-//
-// ```tsx
-// export const Primary: Story = {
-//  args: {
-//    propName: propValue
-//  }
-// }
-// ```
-//
-// See https://storybook.js.org/docs/react/writing-stories/args.
-
+/* disabling the rule of hooks as it thinks you can't use hooks in the `render` function but you actually can */
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Bars3Icon,
   Cog6ToothIcon,
