@@ -25,6 +25,24 @@ import DropdownMenu from './DropdownMenu'
 
 const meta: Meta<typeof DropdownMenu> = {
   component: DropdownMenu,
+  argTypes: {
+    side: {
+      control: {
+        type: 'radio',
+        options: ['top', 'bottom', 'left', 'right'],
+      },
+    },
+    openButton: {
+      table: {
+        disable: true,
+      },
+    },
+    menuContent: {
+      table: {
+        disable: true,
+      },
+    },
+  },
 }
 
 export default meta
