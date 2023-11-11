@@ -18,6 +18,7 @@ import {
   DropdownMenuSubContentProps as IDropdownMenuSubContentProps,
 } from '@radix-ui/react-dropdown-menu'
 import { PopperContentProps } from '@radix-ui/react-popper'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { cn } from 'src/lib/utils'
 
@@ -93,85 +94,109 @@ const DropdownMenu = ({
   content,
   ...props
 }: IDropdownMenuProps) => {
+  const [open, setOpen] = React.useState(false)
   return (
-    <DropdownMenuRoot {...props}>
+    <DropdownMenuRoot open={open} onOpenChange={setOpen} {...props}>
       <DropdownMenuTrigger asChild>{openButton}</DropdownMenuTrigger>
       <DropdownMenuPortal forceMount>
-        <DropdownMenuContent side={side}>
-          {content.map((group, index) => {
-            const GroupComp =
-              group.type === 'radio'
-                ? DropdownMenuRadioGroup
-                : DropdownMenuGroup
-            return (
-              <GroupComp
-                key={index}
-                value={
-                  group.type === 'radio'
-                    ? group.selectedItemTextValue
-                    : undefined
-                }
-                onValueChange={
-                  group.type === 'radio'
-                    ? group.setSelectedItemTextValue
-                    : undefined
-                }
+        <AnimatePresence>
+          {open && (
+            <DropdownMenuContent asChild side={side}>
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  transform: 'scale(0.9)',
+                }}
+                animate={{
+                  opacity: 1,
+                  transform: 'scale(1)',
+                  transition: { duration: 0 },
+                }}
+                exit={{
+                  opacity: 0,
+                  transform: 'scale(0.9)',
+                }}
+                transition={{ ease: 'easeInOut', duration: 0.1 }}
               >
-                {group.label && (
-                  <DropdownMenuLabel>{group.label}</DropdownMenuLabel>
-                )}
-                {(index !== 0 || group.label) && <DropdownMenuSeparator />}
-                {group.items.map((item, index) => {
-                  const ItemComp =
-                    group.type === 'standard'
-                      ? DropdownMenuItem
-                      : group.type === 'check'
-                      ? DropdownMenuCheckboxItem
-                      : DropdownMenuRadioItem
-
+                {content.map((group, index) => {
+                  const GroupComp =
+                    group.type === 'radio'
+                      ? DropdownMenuRadioGroup
+                      : DropdownMenuGroup
                   return (
-                    <ItemComp
+                    <GroupComp
                       key={index}
-                      disabled={item.disabled}
-                      value={item.textValue}
-                      className="flex w-full justify-between gap-2 pl-7"
-                      checked={
-                        group.type === 'check'
-                          ? (item as ICheckDropdownItem).checked
+                      value={
+                        group.type === 'radio'
+                          ? group.selectedItemTextValue
                           : undefined
                       }
-                      onCheckedChange={
-                        group.type === 'check'
-                          ? (item as ICheckDropdownItem).setChecked
+                      onValueChange={
+                        group.type === 'radio'
+                          ? group.setSelectedItemTextValue
                           : undefined
                       }
                     >
-                      {group.type === 'standard' ? (
-                        (item as IStandardDropdownItem).icon && (
-                          <span className="absolute left-1 h-4 w-4">
-                            {(item as IStandardDropdownItem).icon}
-                          </span>
-                        )
-                      ) : (
-                        <DropdownMenuItemIndicator
-                          type={group.type}
-                          className="absolute left-1"
-                        />
+                      {group.label && (
+                        <DropdownMenuLabel>{group.label}</DropdownMenuLabel>
                       )}
-                      {item.item}
-                      {group.type === 'standard' &&
-                        (item as IStandardDropdownItem).endText && (
-                          <span className="mr-1 tracking-widest opacity-50">
-                            {(item as IStandardDropdownItem).endText}
-                          </span>
-                        )}
-                    </ItemComp>
+                      {(index !== 0 || group.label) && (
+                        <DropdownMenuSeparator />
+                      )}
+                      {group.items.map((item, index) => {
+                        const ItemComp =
+                          group.type === 'standard'
+                            ? DropdownMenuItem
+                            : group.type === 'check'
+                            ? DropdownMenuCheckboxItem
+                            : DropdownMenuRadioItem
+
+                        return (
+                          <ItemComp
+                            key={index}
+                            disabled={item.disabled}
+                            value={item.textValue}
+                            className="flex w-full justify-between gap-2 pl-7"
+                            checked={
+                              group.type === 'check'
+                                ? (item as ICheckDropdownItem).checked
+                                : undefined
+                            }
+                            onCheckedChange={
+                              group.type === 'check'
+                                ? (item as ICheckDropdownItem).setChecked
+                                : undefined
+                            }
+                          >
+                            {group.type === 'standard' ? (
+                              (item as IStandardDropdownItem).icon && (
+                                <span className="absolute left-1 h-4 w-4">
+                                  {(item as IStandardDropdownItem).icon}
+                                </span>
+                              )
+                            ) : (
+                              <DropdownMenuItemIndicator
+                                type={group.type}
+                                className="absolute left-1"
+                              />
+                            )}
+                            {item.item}
+                            {group.type === 'standard' &&
+                              (item as IStandardDropdownItem).endText && (
+                                <span className="mr-1 tracking-widest opacity-50">
+                                  {(item as IStandardDropdownItem).endText}
+                                </span>
+                              )}
+                          </ItemComp>
+                        )
+                      })}
+                    </GroupComp>
                   )
                 })}
-              </GroupComp>
-            )
-          })}
-        </DropdownMenuContent>
+              </motion.div>
+            </DropdownMenuContent>
+          )}
+        </AnimatePresence>
       </DropdownMenuPortal>
     </DropdownMenuRoot>
   )
