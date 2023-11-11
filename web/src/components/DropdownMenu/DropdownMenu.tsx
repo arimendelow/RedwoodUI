@@ -130,52 +130,55 @@ const DropdownMenu = ({
                 }}
                 transition={{ ease: 'easeInOut', duration: 0.1 }}
               >
-                {menuContent.map((group, index) => {
-                  const GroupComp =
-                    group.type === 'radio'
-                      ? DropdownMenuRadioGroup
-                      : DropdownMenuGroup
-                  return (
-                    <GroupComp
-                      key={index}
-                      value={
-                        group.type === 'radio'
-                          ? group.selectedItemTextValue
-                          : undefined
-                      }
-                      onValueChange={
-                        group.type === 'radio'
-                          ? group.setSelectedItemTextValue
-                          : undefined
-                      }
-                    >
-                      {group.label && (
-                        <DropdownMenuLabel>{group.label}</DropdownMenuLabel>
-                      )}
-                      {(index !== 0 || group.label) && (
-                        <DropdownMenuSeparator />
-                      )}
-                      {group.items.map((item, index) =>
-                        'subMenuContent' in item ? (
-                          <DropdownSubMenuRenderer key={index} item={item} />
-                        ) : (
-                          <DropdownMenuItemRenderer
-                            key={index}
-                            groupType={group.type}
-                            item={item}
-                            itemIndex={index}
-                          />
-                        )
-                      )}
-                    </GroupComp>
-                  )
-                })}
+                {menuContent.map((group, index) => (
+                  <DropdownMenuGroupRenderer
+                    key={index}
+                    group={group}
+                    groupIndex={index}
+                  />
+                ))}
               </motion.div>
             </DropdownMenuContent>
           )}
         </AnimatePresence>
       </DropdownMenuPortal>
     </DropdownMenuRoot>
+  )
+}
+
+interface IDropdownMenuGroupRendererProps {
+  group: AnyDropdownGroupType
+  groupIndex: number
+}
+
+const DropdownMenuGroupRenderer = ({
+  group,
+  groupIndex,
+}: IDropdownMenuGroupRendererProps) => {
+  const GroupComp =
+    group.type === 'radio' ? DropdownMenuRadioGroup : DropdownMenuGroup
+  return (
+    <GroupComp
+      value={group.type === 'radio' ? group.selectedItemTextValue : undefined}
+      onValueChange={
+        group.type === 'radio' ? group.setSelectedItemTextValue : undefined
+      }
+    >
+      {group.label && <DropdownMenuLabel>{group.label}</DropdownMenuLabel>}
+      {(groupIndex !== 0 || group.label) && <DropdownMenuSeparator />}
+      {group.items.map((item, itemIndex) =>
+        'subMenuContent' in item ? (
+          <DropdownSubMenuRenderer key={itemIndex} item={item} />
+        ) : (
+          <DropdownMenuItemRenderer
+            key={itemIndex}
+            groupType={group.type}
+            item={item}
+            itemIndex={itemIndex}
+          />
+        )
+      )}
+    </GroupComp>
   )
 }
 
@@ -243,7 +246,13 @@ const DropdownSubMenuRenderer = ({ item }: IDropdownSubMenuRendererProps) => (
     <DropdownMenuSubTrigger>{item.label}</DropdownMenuSubTrigger>
     <DropdownMenuPortal>
       <DropdownMenuSubContent>
-        <span>dropdown menu sub content will go here</span>
+        {item.subMenuContent.map((group, index) => (
+          <DropdownMenuGroupRenderer
+            key={index}
+            group={group}
+            groupIndex={index}
+          />
+        ))}
       </DropdownMenuSubContent>
     </DropdownMenuPortal>
   </DropdownMenuSub>
