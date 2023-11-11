@@ -22,10 +22,27 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import { cn } from 'src/lib/utils'
 
-// Base interface for dropdown items
 interface IDropdownItemBase {
   textValue: string
   item: React.ReactNode
+  /**
+   * Something you want at the very end of the item,
+   * like a keyboard shortcut.
+   */
+  endText?: string
+  disabled?: boolean
+}
+
+interface ISubMenuDropdownItem {
+  /**
+   * An optional icon to render alongside the item.
+   */
+  icon?: React.ReactNode
+  label: string
+  /**
+   * The content of the submenu.
+   */
+  subMenuContent: AnyDropdownGroupType[]
   disabled?: boolean
 }
 
@@ -34,11 +51,6 @@ interface IStandardDropdownItem extends IDropdownItemBase {
    * An optional icon to render alongside the item.
    */
   icon?: React.ReactNode
-  /**
-   * Something you want at the very end of the item,
-   * like a keyboard shortcut.
-   */
-  endText?: string
 }
 
 interface ICheckDropdownItem extends IDropdownItemBase {
@@ -51,19 +63,19 @@ interface IRadioDropdownItem extends IDropdownItemBase {}
 interface IStandardDropdownGroup {
   label?: string
   type: 'standard'
-  items: IStandardDropdownItem[]
+  items: (IStandardDropdownItem | ISubMenuDropdownItem)[]
 }
 
 interface ICheckDropdownGroup {
   label?: string
   type: 'check'
-  items: ICheckDropdownItem[]
+  items: (ICheckDropdownItem | ISubMenuDropdownItem)[]
 }
 
 interface IRadioDropdownGroup {
   label?: string
   type: 'radio'
-  items: IRadioDropdownItem[]
+  items: (IRadioDropdownItem | ISubMenuDropdownItem)[]
   selectedItemTextValue: string
   setSelectedItemTextValue: (textValue: string) => void
 }
@@ -85,13 +97,13 @@ interface IDropdownMenuProps extends IDropdownMenuRootProps {
    */
   side: PopperContentProps['side']
 
-  content: AnyDropdownGroupType[]
+  menuContent: AnyDropdownGroupType[]
 }
 
 const DropdownMenu = ({
   openButton,
   side = 'bottom',
-  content,
+  menuContent,
   ...props
 }: IDropdownMenuProps) => {
   const [open, setOpen] = React.useState(false)
@@ -118,7 +130,7 @@ const DropdownMenu = ({
                 }}
                 transition={{ ease: 'easeInOut', duration: 0.1 }}
               >
-                {content.map((group, index) => {
+                {menuContent.map((group, index) => {
                   const GroupComp =
                     group.type === 'radio'
                       ? DropdownMenuRadioGroup
@@ -143,14 +155,18 @@ const DropdownMenu = ({
                       {(index !== 0 || group.label) && (
                         <DropdownMenuSeparator />
                       )}
-                      {group.items.map((item, index) => (
-                        <DropdownMenuItemRenderer
-                          key={index}
-                          groupType={group.type}
-                          item={item}
-                          itemIndex={index}
-                        />
-                      ))}
+                      {group.items.map((item, index) =>
+                        'subMenuContent' in item ? (
+                          <DropdownSubMenuRenderer key={index} item={item} />
+                        ) : (
+                          <DropdownMenuItemRenderer
+                            key={index}
+                            groupType={group.type}
+                            item={item}
+                            itemIndex={index}
+                          />
+                        )
+                      )}
                     </GroupComp>
                   )
                 })}
@@ -165,7 +181,7 @@ const DropdownMenu = ({
 
 interface IDropdownMenuItemRendererProps {
   groupType: AnyDropdownGroupType['type']
-  item: AnyDropdownGroupType['items'][number]
+  item: IStandardDropdownItem | ICheckDropdownItem | IRadioDropdownItem
   itemIndex: number
 }
 
@@ -209,7 +225,7 @@ const DropdownMenuItemRenderer = ({
         />
       )}
       {item.item}
-      {groupType === 'standard' && (item as IStandardDropdownItem).endText && (
+      {item.endText && (
         <span className="mr-1 tracking-widest opacity-50">
           {(item as IStandardDropdownItem).endText}
         </span>
@@ -217,6 +233,21 @@ const DropdownMenuItemRenderer = ({
     </ItemComp>
   )
 }
+
+interface IDropdownSubMenuRendererProps {
+  item: ISubMenuDropdownItem
+}
+
+const DropdownSubMenuRenderer = ({ item }: IDropdownSubMenuRendererProps) => (
+  <DropdownMenuSub>
+    <DropdownMenuSubTrigger>{item.label}</DropdownMenuSubTrigger>
+    <DropdownMenuPortal>
+      <DropdownMenuSubContent>
+        <span>dropdown menu sub content will go here</span>
+      </DropdownMenuSubContent>
+    </DropdownMenuPortal>
+  </DropdownMenuSub>
+)
 
 /**
  * Contains all the parts of a dropdown menu.

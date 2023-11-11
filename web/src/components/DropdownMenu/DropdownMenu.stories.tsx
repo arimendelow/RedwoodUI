@@ -16,6 +16,7 @@ import {
   CreditCardIcon,
   UserCircleIcon,
 } from '@heroicons/react/20/solid'
+import { AcademicCapIcon } from '@heroicons/react/24/outline'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import Button from '../Button/Button'
@@ -54,7 +55,7 @@ export const Primary: Story = {
           </Button>
         }
         side={side}
-        content={[
+        menuContent={[
           {
             type: 'standard',
             label: 'Standard Section',
@@ -70,6 +71,29 @@ export const Primary: Story = {
                 item: <button>Billing</button>,
                 textValue: 'billing',
                 disabled: true,
+              },
+              {
+                icon: <AcademicCapIcon />,
+                label: 'Standard Submenu Section',
+                subMenuContent: [
+                  {
+                    type: 'standard',
+                    items: [
+                      {
+                        icon: <UserCircleIcon />,
+                        item: <button>Profile</button>,
+                        endText: '⇧⌘P',
+                        textValue: 'profile',
+                      },
+                      {
+                        icon: <CreditCardIcon />,
+                        item: <button>Billing</button>,
+                        textValue: 'billing',
+                        disabled: true,
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 item: <button>No Icon (but a really long display name)</button>,
@@ -94,7 +118,11 @@ export const Primary: Story = {
                 item: <span>Second item</span>,
                 textValue: 'second item',
               },
-              { item: <span>Third item</span>, textValue: 'third item' },
+              {
+                item: <span>Third item</span>,
+                textValue: 'third item',
+                endText: '⌘3',
+              },
             ],
           },
           {
@@ -110,6 +138,7 @@ export const Primary: Story = {
               {
                 item: <span>Second item</span>,
                 textValue: 'second item',
+                endText: '⌘2',
                 checked: secondItemChecked,
                 setChecked: setSecondItemChecked,
               },
