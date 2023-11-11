@@ -260,7 +260,7 @@ const SelectOptions = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Options
     ref={ref}
-    className={cn('dropdown-field-container', className)}
+    className={cn('dropdown-content-field', className)}
     {...props}
   />
 ))

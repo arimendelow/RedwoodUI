@@ -306,7 +306,7 @@ const ComboboxOptions = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ComboboxPrimitive.Options
     ref={ref}
-    className={cn('dropdown-field-container', className)}
+    className={cn('dropdown-content-field', className)}
     {...props}
   />
 ))

@@ -11,6 +11,7 @@
 // See https://storybook.js.org/docs/react/writing-stories/args.
 
 import {
+  Bars3Icon,
   Cog6ToothIcon,
   CreditCardIcon,
   UserCircleIcon,
@@ -47,7 +48,11 @@ export const Primary: Story = {
     const [thirdItemChecked, setThirdItemChecked] = React.useState(false)
     return (
       <DropdownMenu
-        openButton={<Button>Open Dropdown Menu</Button>}
+        openButton={
+          <Button pill className="h-10 w-10">
+            <Bars3Icon className="h-4 w-4" />
+          </Button>
+        }
         side={side}
         content={[
           {

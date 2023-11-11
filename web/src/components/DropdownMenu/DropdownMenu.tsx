@@ -161,7 +161,7 @@ const DropdownMenu = ({
                       {item.item}
                       {group.type === 'standard' &&
                         (item as IStandardDropdownItem).endText && (
-                          <span className="absolute right-1 opacity-50">
+                          <span className="absolute right-1 tracking-widest opacity-50">
                             {(item as IStandardDropdownItem).endText}
                           </span>
                         )}
@@ -210,10 +210,7 @@ const DropdownMenuContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Content
     ref={ref}
-    className={cn(
-      'absolute z-[10000] min-w-[12rem] overflow-hidden rounded-default border border-neutral-300 bg-neutral-50/80 px-2 pb-2 pt-1 text-center shadow-md backdrop-blur-lg dark:border-neutral-500 dark:bg-neutral-800/60',
-      className
-    )}
+    className={cn('dropdown-content-menu', className)}
     {...props}
   />
 ))
@@ -346,7 +343,7 @@ const DropdownMenuSeparator = React.forwardRef<
   <DropdownMenuPrimitive.Separator
     ref={ref}
     className={cn(
-      'mx-2 my-1 h-px bg-neutral-200 dark:bg-neutral-50/20',
+      'mx-2 my-1 h-px bg-neutral-900/10 dark:bg-neutral-50/20',
       className
     )}
     {...props}

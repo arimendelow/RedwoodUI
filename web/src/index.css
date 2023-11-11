@@ -56,13 +56,19 @@
   .loading {
     @apply animate-pulse cursor-wait bg-neutral-200 !text-transparent select-none dark:bg-neutral-600 border-none;
   }
-  /*
-   * Used, for example, by the Combobox and Select components to show the options
-   */
-  .dropdown-field-container {
-    @apply bg-default absolute z-[10000] max-h-60 w-full overflow-auto rounded-default py-1 text-base ring-1 ring-neutral-300 focus:outline-none sm:text-sm
+  .dropdown-content-base {
+    @apply relative z-[10000] rounded-default border border-neutral-900/10 bg-neutral-100/70 px-2 pb-2 pt-1 shadow-lg backdrop-blur-lg backdrop-saturate-200 dark:border-neutral-50/10 dark:bg-neutral-800/60
   }
+  .dropdown-content-field {
+    @apply dropdown-content-base max-h-60 w-full overflow-auto text-base sm:text-sm
+  }
+  .dropdown-content-menu {
+    @apply dropdown-content-base min-w-[12rem] overflow-hidden
+  }
+  /*
+  * Used by the dropdown menu to style the selectable items
+  */
   .dropdown-menu-item {
-    @apply text-color-default relative flex cursor-pointer select-none items-center rounded-default py-1.5 text-sm leading-none outline-none transition-colors focus:bg-primary-600 active:bg-primary-700 data-[disabled]:pointer-events-none data-[disabled]:opacity-50
+    @apply text-color-default relative flex cursor-pointer select-none items-center rounded-default py-1.5 text-sm leading-none outline-none transition-colors focus:text-color-default-invert dark:focus:text-color-default focus:bg-primary-600 active:bg-primary-700 data-[disabled]:pointer-events-none data-[disabled]:opacity-50
   }
 }
