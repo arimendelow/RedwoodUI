@@ -93,6 +93,215 @@ export const Primary: Story = {
                       },
                     ],
                   },
+                  {
+                    type: 'standard',
+                    items: [
+                      {
+                        icon: <UserCircleIcon />,
+                        item: <button>Profile</button>,
+                        endText: '⇧⌘P',
+                        textValue: 'profile',
+                      },
+                      {
+                        icon: <CreditCardIcon />,
+                        item: <button>Billing</button>,
+                        textValue: 'billing',
+                        disabled: true,
+                      },
+                      {
+                        icon: <AcademicCapIcon />,
+                        label: 'Nested Standard Submenu Section',
+                        subMenuContent: [
+                          {
+                            type: 'standard',
+                            items: [
+                              {
+                                icon: <UserCircleIcon />,
+                                item: <button>Profile</button>,
+                                endText: '⇧⌘P',
+                                textValue: 'profile',
+                              },
+                              {
+                                icon: <AcademicCapIcon />,
+                                label: 'Standard Submenu Section',
+                                subMenuContent: [
+                                  {
+                                    type: 'standard',
+                                    items: [
+                                      {
+                                        icon: <UserCircleIcon />,
+                                        item: <button>Profile</button>,
+                                        endText: '⇧⌘P',
+                                        textValue: 'profile',
+                                      },
+                                      {
+                                        icon: <CreditCardIcon />,
+                                        item: <button>Billing</button>,
+                                        textValue: 'billing',
+                                        disabled: true,
+                                      },
+                                    ],
+                                  },
+                                  {
+                                    type: 'standard',
+                                    items: [
+                                      {
+                                        icon: <UserCircleIcon />,
+                                        item: <button>Profile</button>,
+                                        endText: '⇧⌘P',
+                                        textValue: 'profile',
+                                      },
+                                      {
+                                        icon: <CreditCardIcon />,
+                                        item: <button>Billing</button>,
+                                        textValue: 'billing',
+                                        disabled: true,
+                                      },
+                                      {
+                                        icon: <AcademicCapIcon />,
+                                        label:
+                                          'Nested Standard Submenu Section',
+                                        subMenuContent: [
+                                          {
+                                            type: 'standard',
+                                            items: [
+                                              {
+                                                icon: <AcademicCapIcon />,
+                                                label:
+                                                  'Standard Submenu Section',
+                                                subMenuContent: [
+                                                  {
+                                                    type: 'standard',
+                                                    items: [
+                                                      {
+                                                        icon: (
+                                                          <UserCircleIcon />
+                                                        ),
+                                                        item: (
+                                                          <button>
+                                                            Profile
+                                                          </button>
+                                                        ),
+                                                        endText: '⇧⌘P',
+                                                        textValue: 'profile',
+                                                      },
+                                                      {
+                                                        icon: (
+                                                          <CreditCardIcon />
+                                                        ),
+                                                        item: (
+                                                          <button>
+                                                            Billing
+                                                          </button>
+                                                        ),
+                                                        textValue: 'billing',
+                                                        disabled: true,
+                                                      },
+                                                    ],
+                                                  },
+                                                  {
+                                                    type: 'standard',
+                                                    items: [
+                                                      {
+                                                        icon: (
+                                                          <UserCircleIcon />
+                                                        ),
+                                                        item: (
+                                                          <button>
+                                                            Profile
+                                                          </button>
+                                                        ),
+                                                        endText: '⇧⌘P',
+                                                        textValue: 'profile',
+                                                      },
+                                                      {
+                                                        icon: (
+                                                          <CreditCardIcon />
+                                                        ),
+                                                        item: (
+                                                          <button>
+                                                            Billing
+                                                          </button>
+                                                        ),
+                                                        textValue: 'billing',
+                                                        disabled: true,
+                                                      },
+                                                      {
+                                                        icon: (
+                                                          <AcademicCapIcon />
+                                                        ),
+                                                        label:
+                                                          'Nested Standard Submenu Section',
+                                                        subMenuContent: [
+                                                          {
+                                                            type: 'standard',
+                                                            items: [
+                                                              {
+                                                                icon: (
+                                                                  <UserCircleIcon />
+                                                                ),
+                                                                item: (
+                                                                  <button>
+                                                                    Profile
+                                                                  </button>
+                                                                ),
+                                                                endText: '⇧⌘P',
+                                                                textValue:
+                                                                  'profile',
+                                                              },
+                                                              {
+                                                                icon: (
+                                                                  <CreditCardIcon />
+                                                                ),
+                                                                item: (
+                                                                  <button>
+                                                                    Billing
+                                                                  </button>
+                                                                ),
+                                                                textValue:
+                                                                  'billing',
+                                                                disabled: true,
+                                                              },
+                                                            ],
+                                                          },
+                                                        ],
+                                                      },
+                                                    ],
+                                                  },
+                                                ],
+                                              },
+                                              {
+                                                icon: <UserCircleIcon />,
+                                                item: <button>Profile</button>,
+                                                endText: '⇧⌘P',
+                                                textValue: 'profile',
+                                              },
+                                              {
+                                                icon: <CreditCardIcon />,
+                                                item: <button>Billing</button>,
+                                                textValue: 'billing',
+                                                disabled: true,
+                                              },
+                                            ],
+                                          },
+                                        ],
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              {
+                                icon: <CreditCardIcon />,
+                                item: <button>Billing</button>,
+                                textValue: 'billing',
+                                disabled: true,
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
                 ],
               },
               {

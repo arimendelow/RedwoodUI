@@ -1,3 +1,4 @@
+import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import { CheckIcon } from '@heroicons/react/24/outline'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import {
@@ -243,7 +244,14 @@ interface IDropdownSubMenuRendererProps {
 
 const DropdownSubMenuRenderer = ({ item }: IDropdownSubMenuRendererProps) => (
   <DropdownMenuSub>
-    <DropdownMenuSubTrigger>{item.label}</DropdownMenuSubTrigger>
+    {/* Make sure to keep this className in line with the one on DropdownMenuItemRenderer's ItemComp */}
+    <DropdownMenuSubTrigger className="flex w-full justify-between gap-2 pl-7">
+      {item.icon && (
+        <span className="absolute left-1 h-4 w-4">{item.icon}</span>
+      )}
+      {item.label}
+      <ChevronRightIcon className="h-5 w-5" />
+    </DropdownMenuSubTrigger>
     <DropdownMenuPortal>
       <DropdownMenuSubContent>
         {item.subMenuContent.map((group, index) => (
@@ -444,7 +452,13 @@ const DropdownMenuSub = (props: IDropdownMenuSubProps) => (
 const DropdownMenuSubTrigger = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
   IDropdownMenuSubTriggerProps
->((props, ref) => <DropdownMenuPrimitive.SubTrigger ref={ref} {...props} />)
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.SubTrigger
+    ref={ref}
+    className={cn('dropdown-menu-item', className)}
+    {...props}
+  />
+))
 
 /**
  * The component that pops out when a submenu is open. Must be rendered inside `DropdownMenuSub`.
@@ -452,7 +466,13 @@ const DropdownMenuSubTrigger = React.forwardRef<
 const DropdownMenuSubContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
   IDropdownMenuSubContentProps
->((props, ref) => <DropdownMenuPrimitive.SubContent ref={ref} {...props} />)
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.SubContent
+    ref={ref}
+    className={cn('dropdown-content-menu', className)}
+    {...props}
+  />
+))
 
 export default DropdownMenu
 export {
