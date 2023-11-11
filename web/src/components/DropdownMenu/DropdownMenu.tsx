@@ -143,53 +143,14 @@ const DropdownMenu = ({
                       {(index !== 0 || group.label) && (
                         <DropdownMenuSeparator />
                       )}
-                      {group.items.map((item, index) => {
-                        const ItemComp =
-                          group.type === 'standard'
-                            ? DropdownMenuItem
-                            : group.type === 'check'
-                            ? DropdownMenuCheckboxItem
-                            : DropdownMenuRadioItem
-
-                        return (
-                          <ItemComp
-                            key={index}
-                            disabled={item.disabled}
-                            value={item.textValue}
-                            className="flex w-full justify-between gap-2 pl-7"
-                            checked={
-                              group.type === 'check'
-                                ? (item as ICheckDropdownItem).checked
-                                : undefined
-                            }
-                            onCheckedChange={
-                              group.type === 'check'
-                                ? (item as ICheckDropdownItem).setChecked
-                                : undefined
-                            }
-                          >
-                            {group.type === 'standard' ? (
-                              (item as IStandardDropdownItem).icon && (
-                                <span className="absolute left-1 h-4 w-4">
-                                  {(item as IStandardDropdownItem).icon}
-                                </span>
-                              )
-                            ) : (
-                              <DropdownMenuItemIndicator
-                                type={group.type}
-                                className="absolute left-1"
-                              />
-                            )}
-                            {item.item}
-                            {group.type === 'standard' &&
-                              (item as IStandardDropdownItem).endText && (
-                                <span className="mr-1 tracking-widest opacity-50">
-                                  {(item as IStandardDropdownItem).endText}
-                                </span>
-                              )}
-                          </ItemComp>
-                        )
-                      })}
+                      {group.items.map((item, index) => (
+                        <DropdownMenuItemRenderer
+                          key={index}
+                          groupType={group.type}
+                          item={item}
+                          itemIndex={index}
+                        />
+                      ))}
                     </GroupComp>
                   )
                 })}
@@ -199,6 +160,61 @@ const DropdownMenu = ({
         </AnimatePresence>
       </DropdownMenuPortal>
     </DropdownMenuRoot>
+  )
+}
+
+interface IDropdownMenuItemRendererProps {
+  groupType: AnyDropdownGroupType['type']
+  item: AnyDropdownGroupType['items'][number]
+  itemIndex: number
+}
+
+const DropdownMenuItemRenderer = ({
+  groupType,
+  item,
+  itemIndex,
+}: IDropdownMenuItemRendererProps) => {
+  const ItemComp =
+    groupType === 'standard'
+      ? DropdownMenuItem
+      : groupType === 'check'
+      ? DropdownMenuCheckboxItem
+      : DropdownMenuRadioItem
+
+  return (
+    <ItemComp
+      key={itemIndex}
+      disabled={item.disabled}
+      value={item.textValue}
+      className="flex w-full justify-between gap-2 pl-7"
+      checked={
+        groupType === 'check' ? (item as ICheckDropdownItem).checked : undefined
+      }
+      onCheckedChange={
+        groupType === 'check'
+          ? (item as ICheckDropdownItem).setChecked
+          : undefined
+      }
+    >
+      {groupType === 'standard' ? (
+        (item as IStandardDropdownItem).icon && (
+          <span className="absolute left-1 h-4 w-4">
+            {(item as IStandardDropdownItem).icon}
+          </span>
+        )
+      ) : (
+        <DropdownMenuItemIndicator
+          type={groupType}
+          className="absolute left-1"
+        />
+      )}
+      {item.item}
+      {groupType === 'standard' && (item as IStandardDropdownItem).endText && (
+        <span className="mr-1 tracking-widest opacity-50">
+          {(item as IStandardDropdownItem).endText}
+        </span>
+      )}
+    </ItemComp>
   )
 }
 
