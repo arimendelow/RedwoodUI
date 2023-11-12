@@ -20,8 +20,8 @@ export const inputFieldVariants = cva(
        * Using the `grow` variant will cause the input text to grow on larger screens.
        */
       inputTextSize: {
-        base: ['h-10', 'text-base'],
-        grow: ['h-10', 'text-base', 'md:text-lg'],
+        base: ['text-base'],
+        grow: ['text-base', 'md:text-lg'],
       },
     },
     defaultVariants: {
