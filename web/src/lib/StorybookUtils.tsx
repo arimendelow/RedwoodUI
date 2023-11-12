@@ -2,15 +2,15 @@ import { cn } from './utils'
 
 export const ChildrenPlaceholder = ({
   text,
-  classNames,
+  className,
 }: {
   text?: string
-  classNames?: string
+  className?: string
 }) => (
   <div
     className={cn(
       'relative h-full w-full overflow-hidden border border-dashed border-neutral-400 opacity-75',
-      classNames
+      className
     )}
   >
     <svg

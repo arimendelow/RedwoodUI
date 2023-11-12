@@ -31,6 +31,9 @@
   .prose-default {
     @apply prose dark:prose-invert leading-normal text-sm sm:text-base
   }
+  .link {
+    @apply cursor-pointer text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 decoration-transparent underline hover:decoration-current transition-all
+  }
   .focus-ring {
     @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700
   }
