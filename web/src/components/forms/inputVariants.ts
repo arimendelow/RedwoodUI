@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority'
+import { VariantProps, cva } from 'class-variance-authority'
 
 /**
  * This is a list of all the variants that is applied to all input fields
@@ -30,3 +30,12 @@ export const inputFieldVariants = cva(
     },
   }
 )
+
+/**
+ * We omit the `colorTreatment` variant because it's meant for internal use,
+ * as it's used to apply the error color treatment, which the field handles automatically.
+ */
+export type InputFieldVariantsPropType = Omit<
+  VariantProps<typeof inputFieldVariants>,
+  'colorTreatment'
+>

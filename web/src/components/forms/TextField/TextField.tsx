@@ -1,59 +1,65 @@
 import { TextField as RWTextField } from '@redwoodjs/forms'
 
 import InputFieldWrapper, {
-  InputFieldProps,
-} from 'src/components/forms/InputFieldWrapper'
-import { inputFieldVariants } from 'src/components/forms/inputVariants'
+  IInputFieldWrapperProps,
+} from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
+import {
+  InputFieldVariantsPropType,
+  inputFieldVariants,
+} from 'src/components/forms/inputVariants'
 
-const TextField = React.forwardRef<HTMLInputElement, InputFieldProps>(
+interface ITextFieldProps
+  extends Omit<
+      React.ComponentPropsWithoutRef<typeof RWTextField>,
+      'errorClassName'
+    >,
+    Omit<IInputFieldWrapperProps, 'children' | 'className'>,
+    InputFieldVariantsPropType {
+  wrapperClassName?: string
+}
+
+const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>(
   (
     {
+      /** START for wrapper */
       name,
       label,
-      defaultValue,
-      onChange,
-      onKeyDown,
-      validation,
       maxLength,
       currentLength,
-      placeholder,
-      disabled,
-      inline = false,
       optional,
       endComponent,
-      className,
+      hideErrorMessage,
+      wrapperClassName,
+      /** END for wrapper */
       inputTextSize,
-      htmlInputElementSize,
+      className,
+      validation,
       ...props
     },
     ref
   ) => {
     return (
       <InputFieldWrapper
-        label={label}
         name={name}
+        label={label}
         maxLength={maxLength}
-        inline={inline}
+        currentLength={currentLength}
         optional={optional}
         endComponent={endComponent}
-        currentLength={currentLength}
+        hideErrorMessage={hideErrorMessage}
+        className={wrapperClassName}
       >
         <RWTextField
           ref={ref}
           name={name}
-          defaultValue={defaultValue}
-          placeholder={placeholder}
           className={inputFieldVariants({ inputTextSize, className })}
           errorClassName={inputFieldVariants({
             colorTreatment: 'error',
             inputTextSize,
             className,
           })}
+          // Automatically add the required validation if the field is not marked as optional
           validation={optional ? validation : { ...validation, required: true }}
-          onChange={onChange}
-          onKeyDown={onKeyDown}
-          disabled={disabled}
-          size={htmlInputElementSize}
           {...props}
         />
       </InputFieldWrapper>

@@ -14,10 +14,28 @@ import {
   useGetDropdownDisplayValue,
 } from 'src/components/forms/dropdownFieldCommon'
 import InputFieldWrapper, {
-  InputFieldWrapperProps,
+  IInputFieldWrapperProps,
 } from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
 import { inputFieldVariants } from 'src/components/forms/inputVariants'
 import { cn } from 'src/lib/utils'
+
+interface IComboboxSpecificProps<TValue extends React.ReactNode = string> {
+  options: IDropdownOption<TValue>[]
+  placeholder?: string
+  buttonIcon?: JSX.Element
+  initSelectedValueUncontrolled?: TValue
+  selectedValue?: TValue | TValue[]
+  setSelectedValue?: (value: TValue | TValue[]) => void
+  /**
+   * The callback that is fired when the input changes.
+   * This should be used to filter the options parameter.
+   */
+  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  /**
+   * The callback that is fired when an option is selected.
+   */
+  onValueChange?: (value: TValue | TValue[]) => void
+}
 
 /**
  * (onChange is omitted because it's handled by the onValueChange prop)
@@ -30,22 +48,9 @@ type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
    * We remove endComponent as it's always the ComboboxButton. The icon used in the button
    * is controlled by the buttonIcon prop.
    */
-  Omit<InputFieldWrapperProps, 'endComponent' | 'children'> & {
-    options: IDropdownOption<TValue>[]
-    placeholder?: string
-    buttonIcon?: JSX.Element
-    initSelectedValueUncontrolled?: TValue
-    selectedValue?: TValue | TValue[]
-    setSelectedValue?: (value: TValue | TValue[]) => void
-    /**
-     * The callback that is fired when the input changes.
-     * This should be used to filter the options parameter.
-     */
-    onInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
-    /**
-     * The callback that is fired when an option is selected.
-     */
-    onValueChange?: (value: TValue | TValue[]) => void
+  Omit<IInputFieldWrapperProps, 'children' | 'className' | 'endComponent'> &
+  IComboboxSpecificProps<TValue> & {
+    wrapperClassName?: string
   }
 
 /**
@@ -72,14 +77,15 @@ function Combobox<TValue extends React.ReactNode = string>({
   onInputChange: onInputChangeControlled,
   onValueChange: onValueChangeControlled,
   /** END props for combobox */
-  /** START props for field wrapper */
+  /** START for wrapper */
   name,
   label,
   maxLength,
   currentLength,
-  inline,
   optional,
-  /** END props for field wrapper */
+  hideErrorMessage,
+  wrapperClassName,
+  /** END for wrapper */
   multiple,
   ...props
 }: ComboboxPropsType<TValue>) {
@@ -151,8 +157,9 @@ function Combobox<TValue extends React.ReactNode = string>({
               label={label}
               maxLength={maxLength}
               currentLength={currentLength}
-              inline={inline}
               optional={optional}
+              hideErrorMessage={hideErrorMessage}
+              className={wrapperClassName}
               endComponent={<ComboboxButton icon={buttonIcon} />}
             >
               <ComboboxInput

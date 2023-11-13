@@ -15,11 +15,32 @@ import {
   useGetDropdownDisplayValue,
 } from 'src/components/forms/dropdownFieldCommon'
 import InputFieldWrapper, {
-  InputFieldWrapperProps,
+  IInputFieldWrapperProps,
 } from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
 import { cn } from 'src/lib/utils'
 
 import { inputFieldVariants } from '../inputVariants'
+
+interface ISelectSpecificProps<TValue extends React.ReactNode = string> {
+  options: IDropdownOption<TValue>[]
+  placeholder?: string
+  /**
+   * If `true`, the user can select no option.
+   * - When `multiple` is `true`:
+   *   - the empty value will be an empty array
+   * - When `multiple` is `false`:
+   *   - the empty value will be `null`
+   */
+  nullable?: boolean
+  buttonIcon?: JSX.Element
+  initSelectedValueUncontrolled?: boolean
+  selectedValue?: TValue | TValue[]
+  setSelectedValue?: (value: TValue | TValue[]) => void
+  /**
+   * The callback that is fired when an option is selected.
+   */
+  onValueChange?: (value: TValue | TValue[]) => void
+}
 
 type SelectPropsType<TValue extends React.ReactNode = string> = Omit<
   SelectRootPropsType,
@@ -29,25 +50,9 @@ type SelectPropsType<TValue extends React.ReactNode = string> = Omit<
    * We remove endComponent as it's always the ComboboxButton. The icon used in the button
    * is controlled by the buttonIcon prop.
    */
-  Omit<InputFieldWrapperProps, 'endComponent' | 'children'> & {
-    options: IDropdownOption<TValue>[]
-    placeholder?: string
-    /**
-     * If `true`, the user can select no option.
-     * - When `multiple` is `true`:
-     *   - the empty value will be an empty array
-     * - When `multiple` is `false`:
-     *   - the empty value will be `null`
-     */
-    nullable?: boolean
-    buttonIcon?: JSX.Element
-    initSelectedValueUncontrolled?: boolean
-    selectedValue?: TValue | TValue[]
-    setSelectedValue?: (value: TValue | TValue[]) => void
-    /**
-     * The callback that is fired when an option is selected.
-     */
-    onValueChange?: (value: TValue | TValue[]) => void
+  Omit<IInputFieldWrapperProps, 'children' | 'endComponent'> &
+  ISelectSpecificProps<TValue> & {
+    wrapperClassName?: string
   }
 
 function Select<TValue extends React.ReactNode = string>({
@@ -65,14 +70,15 @@ function Select<TValue extends React.ReactNode = string>({
   selectedValue: selectedValueControlled,
   onValueChange: onValueChangeControlled,
   /** END props for select */
-  /** START props for field wrapper */
+  /** START for wrapper */
   name,
   label,
   maxLength,
   currentLength,
-  inline,
   optional,
-  /** END props for field wrapper */
+  hideErrorMessage,
+  wrapperClassName,
+  /** END for wrapper */
   ...props
 }: SelectPropsType<TValue>) {
   const [selectedValueUncontrolled, setSelectedValueUncontrolled] =
@@ -117,10 +123,11 @@ function Select<TValue extends React.ReactNode = string>({
               label={label}
               maxLength={maxLength}
               currentLength={currentLength}
-              inline={inline}
               optional={optional}
-              endComponent={buttonIcon}
+              hideErrorMessage={hideErrorMessage}
+              className={wrapperClassName}
               disabled={props.disabled}
+              endComponent={buttonIcon}
             />
             <AnimatePresence>
               {open && (
@@ -173,7 +180,7 @@ const SelectRoot = React.forwardRef<
 type SelectButtonPropsType = React.ComponentPropsWithRef<
   typeof SelectPrimitive.Button
 > &
-  Omit<InputFieldWrapperProps, 'children'> &
+  Omit<IInputFieldWrapperProps, 'children'> &
   VariantProps<typeof inputFieldVariants> & {
     displayText?: string
     placeholder?: string
@@ -194,15 +201,15 @@ const SelectButton = React.forwardRef<
       inputTextSize,
       className,
       disabled,
-      /** START props for field wrapper */
+      /** START for wrapper */
       name,
       label,
       maxLength,
       currentLength,
-      inline,
       optional,
+      hideErrorMessage,
       endComponent,
-      /** END props for field wrapper */
+      /** END for wrapper */
       ...props
     },
     ref
@@ -213,8 +220,9 @@ const SelectButton = React.forwardRef<
         label={label}
         maxLength={maxLength}
         currentLength={currentLength}
-        inline={inline}
         optional={optional}
+        hideErrorMessage={hideErrorMessage}
+        className={className}
         endComponent={endComponent}
       >
         <input

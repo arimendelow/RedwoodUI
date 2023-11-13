@@ -1,40 +1,10 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { VariantProps } from 'class-variance-authority'
 
-import {
-  FieldError,
-  InputFieldProps as RWInputFieldProps,
-  Label,
-} from '@redwoodjs/forms'
+import { FieldError, Label } from '@redwoodjs/forms'
 
-import { inputFieldVariants } from 'src/components/forms/inputVariants'
 import { cn } from 'src/lib/utils'
 
-/** Use this to type any props that are children of `InputFieldWrapper` */
-export interface InputFieldProps
-  extends Omit<InputFieldWrapperProps, 'children'>,
-    /**
-     * This is omitted because we have our own 'size' variant.
-     * If you mean to use this directly, we instead map it to 'htmlInputElementSize'.
-     */
-    Omit<RWInputFieldProps, 'size'>,
-    /**
-     * We omit the `colorTreatment` variant because it's meant for internal use,
-     * as it's used to apply the error color treatment, which the field handles automatically.
-     */
-    Omit<VariantProps<typeof inputFieldVariants>, 'colorTreatment'> {
-  defaultValue?: string | number | readonly string[]
-  placeholder?: string
-  disabled?: boolean
-  /**
-   * Where the 'size' prop corresponds to the Input's size variants, this prop
-   * corresponds to the HTMLInputElement's size attribute.
-   * See here for usage: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement
-   */
-  htmlInputElementSize?: number
-}
-
-export interface InputFieldWrapperProps {
+export interface IInputFieldWrapperProps {
   children: JSX.Element
   /** Identifier name for this field */
   name: string
@@ -48,12 +18,18 @@ export interface InputFieldWrapperProps {
    * - The reason this isn't calculated inside the component is that it would cause unnecessary hook usage when not needed.
    */
   currentLength?: number
-  /** Use this to make the field inline */
-  inline?: boolean
   /** Use this to mark that the field is optional */
   optional?: boolean
   /** Use this to include a custom component that will be placed inside the input, at the end */
   endComponent?: JSX.Element
+  /**
+   * Use this to hide the error message that appears below the input
+   */
+  hideErrorMessage?: boolean
+  /**
+   * Use this to add a custom class name to the wrapper div
+   */
+  className?: string
 }
 const InputFieldWrapper = ({
   children,
@@ -61,16 +37,17 @@ const InputFieldWrapper = ({
   label,
   maxLength,
   currentLength,
-  inline = false,
   optional = false,
   endComponent,
-}: InputFieldWrapperProps) => {
+  hideErrorMessage,
+  className,
+}: IInputFieldWrapperProps) => {
   // This is used to animate, for example, the appearance of error messages
   const [animationParentRef] = useAutoAnimate()
   return (
     <div
       ref={animationParentRef}
-      className={cn('w-full text-left', inline ? 'mr-10 flex-1' : 'mb-3')}
+      className={cn('mb-3 w-full text-left', className)}
     >
       {label && (
         <Label
@@ -103,7 +80,7 @@ const InputFieldWrapper = ({
           </div>
         )}
       </div>
-      {!inline && (
+      {!hideErrorMessage && (
         <FieldError name={name} className="mt-2 text-sm text-red-700" />
       )}
     </div>
