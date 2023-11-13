@@ -97,13 +97,20 @@ interface IDropdownMenuProps extends IDropdownMenuRootProps {
    * Will be reversed when collisions occur and `avoidCollisions` is enabled.
    */
   side: PopperContentProps['side']
-
+  /**
+   * The offset between the trigger and the content, in pixels.
+   */
+  sideOffset?: number
+  /**
+   * The content of the dropdown menu.
+   */
   menuContent: AnyDropdownGroupType[]
 }
 
 const DropdownMenu = ({
   openButton,
   side = 'bottom',
+  sideOffset = 10,
   menuContent,
   ...props
 }: IDropdownMenuProps) => {
@@ -114,7 +121,7 @@ const DropdownMenu = ({
       <DropdownMenuPortal forceMount>
         <AnimatePresence>
           {open && (
-            <DropdownMenuContent asChild side={side}>
+            <DropdownMenuContent sideOffset={sideOffset} asChild side={side}>
               <motion.div
                 initial={{
                   opacity: 0,

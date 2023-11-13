@@ -1,15 +1,3 @@
-// Pass props to your component by passing an `args` object to your story
-//
-// ```tsx
-// export const Primary: Story = {
-//  args: {
-//    propName: propValue
-//  }
-// }
-// ```
-//
-// See https://storybook.js.org/docs/react/writing-stories/args.
-
 import type { Meta, StoryObj } from '@storybook/react'
 
 import AspectRatio from './AspectRatio'
@@ -32,4 +20,11 @@ export const Primary: Story = {
       />
     </AspectRatio>
   ),
+  decorators: [
+    (Story) => (
+      <div className=" w-80">
+        <Story />
+      </div>
+    ),
+  ],
 }

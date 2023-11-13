@@ -40,4 +40,11 @@ export const Primary: Story = {
       }
     />
   ),
+  decorators: [
+    (Story) => (
+      <div className=" w-80">
+        <Story />
+      </div>
+    ),
+  ],
 }

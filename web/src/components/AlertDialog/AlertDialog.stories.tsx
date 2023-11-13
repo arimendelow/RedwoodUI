@@ -1,15 +1,3 @@
-// Pass props to your component by passing an `args` object to your story
-//
-// ```tsx
-// export const Primary: Story = {
-//  args: {
-//    propName: propValue
-//  }
-// }
-// ```
-//
-// See https://storybook.js.org/docs/react/writing-stories/args.
-
 import type { Meta, StoryObj } from '@storybook/react'
 
 import Button from 'src/components/Button'
@@ -59,7 +47,7 @@ type Story = StoryObj<typeof AlertDialog>
 export const Primary: Story = {
   args: {
     children: 'with action and cancel',
-    className: 'p-6',
+    className: 'p-4',
   },
   render: ({ children, ...props }) => (
     <AlertDialog {...props} openButton={<Button>Open Alert Dialog</Button>}>

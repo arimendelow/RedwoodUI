@@ -22,6 +22,9 @@ const meta: Meta<typeof DropdownMenu> = {
         options: ['top', 'bottom', 'left', 'right'],
       },
     },
+    sideOffset: {
+      control: { type: 'range', min: 0, max: 100, step: 1 },
+    },
     openButton: {
       table: {
         disable: true,
@@ -40,7 +43,7 @@ export default meta
 type Story = StoryObj<typeof DropdownMenu>
 
 export const Primary: Story = {
-  args: { side: 'bottom' },
+  args: { side: 'bottom', sideOffset: 10 },
   // See https://github.com/storybookjs/storybook/issues/17720#issuecomment-1525784750
   parameters: {
     docs: {
@@ -49,7 +52,7 @@ export const Primary: Story = {
       },
     },
   },
-  render: ({ side }) => {
+  render: ({ side, sideOffset }) => {
     const [selectedRadioValue, setSelectedRadioValue] =
       React.useState('first item')
     const [firstItemChecked, setFirstItemChecked] = React.useState(false)
@@ -63,6 +66,7 @@ export const Primary: Story = {
           </Button>
         }
         side={side}
+        sideOffset={sideOffset}
         menuContent={[
           {
             type: 'standard',

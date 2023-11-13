@@ -2,9 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { Form, FormProvider, useForm, useWatch } from '@redwoodjs/forms'
 
-import Button from '../Button/Button'
-import { RedwoodJSLogo } from '../logos/RedwoodJSLogo'
-
 import TextAreaField from './TextAreaField'
 
 const meta: Meta<typeof TextAreaField> = {
