@@ -1,24 +1,30 @@
-import { PasswordField as RWPasswordField } from '@redwoodjs/forms'
+import { TextAreaField as RWTextAreaField } from '@redwoodjs/forms'
 
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
-} from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
+} from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
 import {
   InputFieldVariantsPropType,
   inputFieldVariants,
-} from 'src/components/forms/inputVariants'
+} from 'src/components/formFields/inputVariants'
 
-interface IPasswordFieldProps
+interface ITextAreaFieldProps
   extends Omit<
-      React.ComponentPropsWithoutRef<typeof RWPasswordField>,
+      React.ComponentPropsWithoutRef<typeof RWTextAreaField>,
       'errorClassName'
     >,
-    Omit<IInputFieldWrapperProps, 'children' | 'className'>,
+    /**
+     * We disable the endComponent prop as it doesn't work well with TextAreaField
+     */
+    Omit<IInputFieldWrapperProps, 'children' | 'className' | 'endComponent'>,
     InputFieldVariantsPropType {
   wrapperClassName?: string
 }
 
-const PasswordField = React.forwardRef<HTMLInputElement, IPasswordFieldProps>(
+const TextAreaField = React.forwardRef<
+  HTMLTextAreaElement,
+  ITextAreaFieldProps
+>(
   (
     {
       /** START for wrapper */
@@ -27,14 +33,13 @@ const PasswordField = React.forwardRef<HTMLInputElement, IPasswordFieldProps>(
       maxLength,
       currentLength,
       optional,
-      endComponent,
       hideErrorMessage,
       wrapperClassName,
       /** END for wrapper */
       inputTextSize,
       className,
       validation,
-      placeholder = '••••••••',
+      rows = 3,
       ...props
     },
     ref
@@ -46,20 +51,19 @@ const PasswordField = React.forwardRef<HTMLInputElement, IPasswordFieldProps>(
         maxLength={maxLength}
         currentLength={currentLength}
         optional={optional}
-        endComponent={endComponent}
         hideErrorMessage={hideErrorMessage}
         className={wrapperClassName}
       >
-        <RWPasswordField
+        <RWTextAreaField
           ref={ref}
           name={name}
-          placeholder={placeholder}
           className={inputFieldVariants({ inputTextSize, className })}
           errorClassName={inputFieldVariants({
             colorTreatment: 'error',
             inputTextSize,
             className,
           })}
+          rows={rows}
           validation={optional ? validation : { ...validation, required: true }}
           {...props}
         />
@@ -68,4 +72,4 @@ const PasswordField = React.forwardRef<HTMLInputElement, IPasswordFieldProps>(
   }
 )
 
-export default PasswordField
+export default TextAreaField

@@ -1,18 +1,30 @@
-import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+// Pass props to your component by passing an `args` object to your story
+//
+// ```tsx
+// export const Primary: Story = {
+//  args: {
+//    propName: propValue
+//  }
+// }
+// ```
+//
+// See https://storybook.js.org/docs/react/writing-stories/args.
+
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { FormProvider, Form, useForm } from '@redwoodjs/forms'
+import { useForm, FormProvider, Form } from '@redwoodjs/forms'
 
 import {
-  SimpleOptionRendererWithRightCheckmark,
-  SimpleOptionRendererWithLeftCheckmark,
   IDropdownOption,
-} from 'src/components/forms/dropdownFieldCommon'
+  SimpleOptionRendererWithLeftCheckmark,
+  SimpleOptionRendererWithRightCheckmark,
+} from 'src/components/formFields/dropdownFieldCommon'
 
-import Combobox from './Combobox'
+import Select from './Select'
 
-const meta: Meta<typeof Combobox> = {
-  component: Combobox,
+const meta: Meta<typeof Select> = {
+  component: Select,
   argTypes: {
     nullable: {
       control: { type: 'boolean' },
@@ -61,7 +73,37 @@ const meta: Meta<typeof Combobox> = {
           SimpleOptionRendererWithRightCheckmark,
       },
     },
+    className: {
+      table: {
+        disable: true,
+      },
+    },
+    name: {
+      table: {
+        disable: true,
+      },
+    },
+    ref: {
+      table: {
+        disable: true,
+      },
+    },
     form: {
+      table: {
+        disable: true,
+      },
+    },
+    defaultValue: {
+      table: {
+        disable: true,
+      },
+    },
+    horizontal: {
+      table: {
+        disable: true,
+      },
+    },
+    value: {
       table: {
         disable: true,
       },
@@ -76,37 +118,12 @@ const meta: Meta<typeof Combobox> = {
         disable: true,
       },
     },
-    className: {
-      table: {
-        disable: true,
-      },
-    },
-    value: {
-      table: {
-        disable: true,
-      },
-    },
-    defaultValue: {
-      table: {
-        disable: true,
-      },
-    },
     by: {
       table: {
         disable: true,
       },
     },
-    ref: {
-      table: {
-        disable: true,
-      },
-    },
-    name: {
-      table: {
-        disable: true,
-      },
-    },
-    __demoMode: {
+    inline: {
       table: {
         disable: true,
       },
@@ -121,17 +138,7 @@ const meta: Meta<typeof Combobox> = {
         disable: true,
       },
     },
-    inline: {
-      table: {
-        disable: true,
-      },
-    },
     options: {
-      table: {
-        disable: true,
-      },
-    },
-    selectedValue: {
       table: {
         disable: true,
       },
@@ -141,12 +148,12 @@ const meta: Meta<typeof Combobox> = {
         disable: true,
       },
     },
-    setSelectedValue: {
+    selectedValue: {
       table: {
         disable: true,
       },
     },
-    onInputChange: {
+    setSelectedValue: {
       table: {
         disable: true,
       },
@@ -161,7 +168,7 @@ const meta: Meta<typeof Combobox> = {
 
 export default meta
 
-type Story = StoryObj<typeof Combobox>
+type Story = StoryObj<typeof Select>
 
 export const Primary: Story = {
   args: {
@@ -208,7 +215,7 @@ export const Primary: Story = {
     ]
 
     return (
-      <Combobox
+      <Select
         name="person"
         options={options.map(({ value, displayValue, disabled }) => ({
           value,

@@ -13,10 +13,10 @@ import { useController } from '@redwoodjs/forms'
 import {
   IDropdownOption,
   useGetDropdownDisplayValue,
-} from 'src/components/forms/dropdownFieldCommon'
+} from 'src/components/formFields/dropdownFieldCommon'
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
-} from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
+} from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
 import { cn } from 'src/lib/utils'
 
 import { inputFieldVariants } from '../inputVariants'

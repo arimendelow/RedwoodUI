@@ -1,30 +1,24 @@
-import { TextAreaField as RWTextAreaField } from '@redwoodjs/forms'
+import { TextField as RWTextField } from '@redwoodjs/forms'
 
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
-} from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
+} from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
 import {
   InputFieldVariantsPropType,
   inputFieldVariants,
-} from 'src/components/forms/inputVariants'
+} from 'src/components/formFields/inputVariants'
 
-interface ITextAreaFieldProps
+interface ITextFieldProps
   extends Omit<
-      React.ComponentPropsWithoutRef<typeof RWTextAreaField>,
+      React.ComponentPropsWithoutRef<typeof RWTextField>,
       'errorClassName'
     >,
-    /**
-     * We disable the endComponent prop as it doesn't work well with TextAreaField
-     */
-    Omit<IInputFieldWrapperProps, 'children' | 'className' | 'endComponent'>,
+    Omit<IInputFieldWrapperProps, 'children' | 'className'>,
     InputFieldVariantsPropType {
   wrapperClassName?: string
 }
 
-const TextAreaField = React.forwardRef<
-  HTMLTextAreaElement,
-  ITextAreaFieldProps
->(
+const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>(
   (
     {
       /** START for wrapper */
@@ -33,13 +27,13 @@ const TextAreaField = React.forwardRef<
       maxLength,
       currentLength,
       optional,
+      endComponent,
       hideErrorMessage,
       wrapperClassName,
       /** END for wrapper */
       inputTextSize,
       className,
       validation,
-      rows = 3,
       ...props
     },
     ref
@@ -51,10 +45,11 @@ const TextAreaField = React.forwardRef<
         maxLength={maxLength}
         currentLength={currentLength}
         optional={optional}
+        endComponent={endComponent}
         hideErrorMessage={hideErrorMessage}
         className={wrapperClassName}
       >
-        <RWTextAreaField
+        <RWTextField
           ref={ref}
           name={name}
           className={inputFieldVariants({ inputTextSize, className })}
@@ -63,7 +58,7 @@ const TextAreaField = React.forwardRef<
             inputTextSize,
             className,
           })}
-          rows={rows}
+          // Automatically add the required validation if the field is not marked as optional
           validation={optional ? validation : { ...validation, required: true }}
           {...props}
         />
@@ -72,4 +67,4 @@ const TextAreaField = React.forwardRef<
   }
 )
 
-export default TextAreaField
+export default TextField

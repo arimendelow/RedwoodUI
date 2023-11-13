@@ -1,16 +1,16 @@
-import { TextField as RWTextField } from '@redwoodjs/forms'
+import { PasswordField as RWPasswordField } from '@redwoodjs/forms'
 
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
-} from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
+} from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
 import {
   InputFieldVariantsPropType,
   inputFieldVariants,
-} from 'src/components/forms/inputVariants'
+} from 'src/components/formFields/inputVariants'
 
-interface ITextFieldProps
+interface IPasswordFieldProps
   extends Omit<
-      React.ComponentPropsWithoutRef<typeof RWTextField>,
+      React.ComponentPropsWithoutRef<typeof RWPasswordField>,
       'errorClassName'
     >,
     Omit<IInputFieldWrapperProps, 'children' | 'className'>,
@@ -18,7 +18,7 @@ interface ITextFieldProps
   wrapperClassName?: string
 }
 
-const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>(
+const PasswordField = React.forwardRef<HTMLInputElement, IPasswordFieldProps>(
   (
     {
       /** START for wrapper */
@@ -34,6 +34,7 @@ const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>(
       inputTextSize,
       className,
       validation,
+      placeholder = '••••••••',
       ...props
     },
     ref
@@ -49,16 +50,16 @@ const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>(
         hideErrorMessage={hideErrorMessage}
         className={wrapperClassName}
       >
-        <RWTextField
+        <RWPasswordField
           ref={ref}
           name={name}
+          placeholder={placeholder}
           className={inputFieldVariants({ inputTextSize, className })}
           errorClassName={inputFieldVariants({
             colorTreatment: 'error',
             inputTextSize,
             className,
           })}
-          // Automatically add the required validation if the field is not marked as optional
           validation={optional ? validation : { ...validation, required: true }}
           {...props}
         />
@@ -67,4 +68,4 @@ const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>(
   }
 )
 
-export default TextField
+export default PasswordField

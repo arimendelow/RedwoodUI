@@ -12,11 +12,11 @@ import { useController } from '@redwoodjs/forms'
 import {
   IDropdownOption,
   useGetDropdownDisplayValue,
-} from 'src/components/forms/dropdownFieldCommon'
+} from 'src/components/formFields/dropdownFieldCommon'
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
-} from 'src/components/forms/InputFieldWrapper/InputFieldWrapper'
-import { inputFieldVariants } from 'src/components/forms/inputVariants'
+} from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
+import { inputFieldVariants } from 'src/components/formFields/inputVariants'
 import { cn } from 'src/lib/utils'
 
 interface IComboboxSpecificProps<TValue extends React.ReactNode = string> {
