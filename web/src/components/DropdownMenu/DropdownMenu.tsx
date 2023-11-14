@@ -110,7 +110,7 @@ interface IDropdownMenuProps extends IDropdownMenuRootProps {
 const DropdownMenu = ({
   openButton,
   side = 'bottom',
-  sideOffset = 10,
+  sideOffset,
   menuContent,
   ...props
 }: IDropdownMenuProps) => {
@@ -303,10 +303,11 @@ const DropdownMenuPortal = DropdownMenuPrimitive.Portal
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
   IDropdownMenuContentProps
->(({ className, ...props }, ref) => (
+>(({ className, sideOffset = 10, ...props }, ref) => (
   <DropdownMenuPrimitive.Content
     ref={ref}
     className={cn('dropdown-content-menu', className)}
+    sideOffset={sideOffset}
     {...props}
   />
 ))
