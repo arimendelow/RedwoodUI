@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { FormProvider, Form, useForm, useWatch } from '@redwoodjs/forms'
+import { FormProvider, Form, useForm } from '@redwoodjs/forms'
 
 import Button from 'src/components/Button/Button'
 import { RedwoodJSLogo } from 'src/components/logos/RedwoodJSLogo'
@@ -13,14 +13,22 @@ const meta: Meta<typeof ColorField> = {
     optional: {
       control: { type: 'boolean' },
     },
-    inputTextSize: {
-      name: 'input text size',
-      options: ['base', 'grow'],
-      control: { type: 'radio' },
+    label: {
+      control: { type: 'text' },
     },
-    maxLength: {
-      name: 'max input length',
-      control: { type: 'number' },
+    placeholder: {
+      control: { type: 'text' },
+    },
+    initialColor: {
+      name: 'initial color',
+      control: { type: 'select' },
+      options: ['undefined', 'white', 'black', 'redwood red'],
+      mapping: {
+        undefined: undefined,
+        white: '#ffffff',
+        black: '#000000',
+        'redwood red': '#bf4622',
+      },
     },
     endComponent: {
       name: 'end component',
@@ -41,6 +49,11 @@ const meta: Meta<typeof ColorField> = {
         ),
       },
     },
+    wrapperClassName: {
+      table: {
+        disable: true,
+      },
+    },
   },
 }
 
@@ -51,20 +64,20 @@ type Story = StoryObj<typeof ColorField>
 export const Primary: Story = {
   args: {
     optional: false,
-    inputTextSize: 'base',
-    maxLength: undefined,
+    label: 'Color',
+    initialColor: 'undefined',
     endComponent: undefined,
+    placeholder: 'Select color...',
   },
-  render: ({ optional, inputTextSize, maxLength, endComponent }) => {
+  render: ({ optional, label, placeholder, initialColor, endComponent }) => {
     return (
       <ColorField
-        label="Color"
+        label={label}
         name="color"
-        defaultInitialColor="#bf4622"
+        initialColor={initialColor}
         optional={optional}
-        inputTextSize={inputTextSize}
-        maxLength={maxLength}
         endComponent={endComponent}
+        placeholder={placeholder}
       />
     )
   },

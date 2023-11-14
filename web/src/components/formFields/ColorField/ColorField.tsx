@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { HexColorPicker } from 'react-colorful'
 
-import { HiddenField } from '@redwoodjs/forms'
+import { useController } from '@redwoodjs/forms'
 
 import {
   DropdownMenuRoot,
@@ -20,131 +20,116 @@ import { cn } from 'src/lib/utils'
 
 interface IColorFieldProps
   extends Omit<
-      React.ComponentPropsWithoutRef<typeof HiddenField>,
-      'errorClassName'
+      IInputFieldWrapperProps,
+      'children' | 'className' | 'maxLength' | 'currentLength'
     >,
-    Omit<IInputFieldWrapperProps, 'children' | 'className'>,
-    InputFieldVariantsPropType {
+    Omit<InputFieldVariantsPropType, 'inputTextSize'> {
   /**
    * The initial color to show in the picker, as a hex string.
    * We use hex because that's what HTML color inputs use:
    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
    */
-  defaultInitialColor?: string
+  initialColor?: string
+  placeholder?: string
+  className?: string
   wrapperClassName?: string
 }
 
-const ColorField = React.forwardRef<HTMLButtonElement, IColorFieldProps>(
-  (
-    {
-      /** START for wrapper */
-      name,
-      label,
-      maxLength,
-      currentLength,
-      optional,
-      endComponent,
-      hideErrorMessage,
-      wrapperClassName,
-      /** END for wrapper */
-      defaultInitialColor = '#ffffff', // White
+const ColorField = ({
+  /** START for wrapper */
+  name,
+  label,
+  optional,
+  endComponent,
+  hideErrorMessage,
+  wrapperClassName,
+  /** END for wrapper */
+  initialColor,
+  placeholder,
+  className,
+}: IColorFieldProps) => {
+  const [color, setColor] = React.useState(initialColor)
+  const [colorPickerOpen, setColorPickerOpen] = React.useState(false)
 
-      inputTextSize,
-      className,
-      validation,
-      ...props
-    },
-    ref
-  ) => {
-    const [color, setColor] = React.useState(defaultInitialColor)
-    const [colorPickerOpen, setColorPickerOpen] = React.useState(false)
-    return (
-      <DropdownMenuRoot
-        open={colorPickerOpen}
-        onOpenChange={setColorPickerOpen}
+  const {
+    field,
+    fieldState: { error: fieldError },
+  } = useController({
+    name,
+    rules: { required: !optional },
+  })
+  const { onChange: rhfOnChange, onBlur, ref } = field
+  return (
+    <DropdownMenuRoot open={colorPickerOpen} onOpenChange={setColorPickerOpen}>
+      <InputFieldWrapper
+        name={name}
+        label={label}
+        optional={optional}
+        endComponent={endComponent}
+        hideErrorMessage={hideErrorMessage}
+        className={wrapperClassName}
       >
-        <InputFieldWrapper
-          name={name}
-          label={label}
-          maxLength={maxLength}
-          currentLength={currentLength}
-          optional={optional}
-          endComponent={endComponent}
-          hideErrorMessage={hideErrorMessage}
-          className={wrapperClassName}
-        >
-          <DropdownMenuTrigger asChild>
-            <button
+        <DropdownMenuTrigger asChild>
+          <button
+            className="w-full"
+            onClick={() => setColorPickerOpen(!colorPickerOpen)}
+            onBlur={onBlur}
+          >
+            <input
               ref={ref}
-              className={cn(inputFieldVariants({ inputTextSize, className }))}
+              readOnly
+              placeholder={color ? undefined : placeholder}
+              className={cn(
+                'cursor-pointer',
+                inputFieldVariants({
+                  colorTreatment: fieldError ? 'error' : 'default',
+                  className,
+                })
+              )}
               style={{ backgroundColor: color }}
-              onClick={() => setColorPickerOpen(!colorPickerOpen)}
+            />
+          </button>
+        </DropdownMenuTrigger>
+      </InputFieldWrapper>
+      <DropdownMenuPortal forceMount>
+        <AnimatePresence>
+          {colorPickerOpen && (
+            <DropdownMenuContent
+              className="w-[var(--radix-dropdown-menu-trigger-width)] overflow-visible p-0"
+              sideOffset={12} // same as Combobox and Select
+              asChild
             >
-              {' '}
-              <HiddenField
-                name={name}
-                value={color}
-                validation={
-                  optional ? validation : { ...validation, required: true }
-                }
-                {...props}
-              />
-            </button>
-          </DropdownMenuTrigger>
-        </InputFieldWrapper>
-        <DropdownMenuPortal forceMount>
-          <AnimatePresence>
-            {colorPickerOpen && (
-              <DropdownMenuContent
-                className="w-[var(--radix-dropdown-menu-trigger-width)] overflow-visible p-0"
-                sideOffset={12} // same as Combobox and Select
-                asChild
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  transform: 'scale(0.9)',
+                }}
+                animate={{
+                  opacity: 1,
+                  transform: 'scale(1)',
+                }}
+                exit={{
+                  opacity: 0,
+                  transform: 'scale(0.9)',
+                }}
+                transition={{ ease: 'easeInOut', duration: 0.1 }}
               >
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    transform: 'scale(0.9)',
+                <HexColorPicker
+                  id="color-picker"
+                  className="!w-full"
+                  color={color}
+                  onChange={(value) => {
+                    setColor(value)
+                    rhfOnChange(value)
                   }}
-                  animate={{
-                    opacity: 1,
-                    transform: 'scale(1)',
-                  }}
-                  exit={{
-                    opacity: 0,
-                    transform: 'scale(0.9)',
-                  }}
-                  transition={{ ease: 'easeInOut', duration: 0.1 }}
-                >
-                  <HexColorPicker
-                    id="color-picker"
-                    className="!w-full"
-                    color={color}
-                    onChange={setColor}
-                  />
-                </motion.div>
-              </DropdownMenuContent>
-            )}
-          </AnimatePresence>
-        </DropdownMenuPortal>
-        {/* <RWColorField
-          ref={ref}
-          name={name}
-          className={cn(
-            inputFieldVariants({ inputTextSize, className }),
-            'p-0'
+                />
+              </motion.div>
+            </DropdownMenuContent>
           )}
-          errorClassName={inputFieldVariants({
-            colorTreatment: 'error',
-            inputTextSize,
-            className,
-          })}
-          // Automatically add the required validation if the field is not marked as optional
-          validation={optional ? validation : { ...validation, required: true }}
-          {...props}
-        /> */}
-      </DropdownMenuRoot>
-    )
-  }
-)
+        </AnimatePresence>
+      </DropdownMenuPortal>
+    </DropdownMenuRoot>
+  )
+}
 
 export default ColorField
