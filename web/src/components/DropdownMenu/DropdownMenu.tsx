@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import { CheckIcon } from '@heroicons/react/24/outline'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
-import {
+import type {
   DropdownMenuProps as IDropdownMenuRootProps,
   DropdownMenuTriggerProps as IDropdownMenuTriggerProps,
   DropdownMenuContentProps as IDropdownMenuContentProps,

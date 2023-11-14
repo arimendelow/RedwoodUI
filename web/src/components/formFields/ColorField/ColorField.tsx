@@ -3,12 +3,6 @@ import { HexColorPicker } from 'react-colorful'
 
 import { useController } from '@redwoodjs/forms'
 
-import {
-  DropdownMenuRoot,
-  DropdownMenuContent,
-  DropdownMenuPortal,
-  DropdownMenuTrigger,
-} from 'src/components/DropdownMenu'
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
@@ -16,6 +10,12 @@ import {
   InputFieldVariantsPropType,
   inputFieldVariants,
 } from 'src/components/formFields/inputVariants'
+import {
+  PopoverRoot,
+  PopoverContent,
+  PopoverPortal,
+  PopoverTrigger,
+} from 'src/components/Popover'
 import { cn } from 'src/lib/utils'
 
 interface IColorFieldProps
@@ -60,7 +60,7 @@ const ColorField = ({
   })
   const { onChange: rhfOnChange, onBlur, ref } = field
   return (
-    <DropdownMenuRoot open={colorPickerOpen} onOpenChange={setColorPickerOpen}>
+    <PopoverRoot open={colorPickerOpen} onOpenChange={setColorPickerOpen}>
       <input name={name} type="hidden" value={color || ''} />
       <InputFieldWrapper
         name={name}
@@ -70,7 +70,7 @@ const ColorField = ({
         hideErrorMessage={hideErrorMessage}
         className={wrapperClassName}
       >
-        <DropdownMenuTrigger asChild>
+        <PopoverTrigger asChild>
           <input
             type="text" // need this so that the placeholder text shows up
             ref={ref}
@@ -87,13 +87,13 @@ const ColorField = ({
             onClick={() => setColorPickerOpen(!colorPickerOpen)}
             onBlur={onBlur}
           />
-        </DropdownMenuTrigger>
+        </PopoverTrigger>
       </InputFieldWrapper>
-      <DropdownMenuPortal forceMount>
+      <PopoverPortal forceMount>
         <AnimatePresence>
           {colorPickerOpen && (
-            <DropdownMenuContent
-              className="w-[var(--radix-dropdown-menu-trigger-width)] overflow-visible p-0"
+            <PopoverContent
+              className="w-[var(--radix-popover-trigger-width)] overflow-visible p-0"
               sideOffset={12} // same as Combobox and Select
               asChild
             >
@@ -122,11 +122,11 @@ const ColorField = ({
                   }}
                 />
               </motion.div>
-            </DropdownMenuContent>
+            </PopoverContent>
           )}
         </AnimatePresence>
-      </DropdownMenuPortal>
-    </DropdownMenuRoot>
+      </PopoverPortal>
+    </PopoverRoot>
   )
 }
 
