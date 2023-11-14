@@ -61,6 +61,7 @@ const ColorField = ({
   const { onChange: rhfOnChange, onBlur, ref } = field
   return (
     <DropdownMenuRoot open={colorPickerOpen} onOpenChange={setColorPickerOpen}>
+      <input name={name} type="hidden" value={color || ''} />
       <InputFieldWrapper
         name={name}
         label={label}
@@ -70,25 +71,22 @@ const ColorField = ({
         className={wrapperClassName}
       >
         <DropdownMenuTrigger asChild>
-          <button
-            className="w-full"
+          <input
+            type="text" // need this so that the placeholder text shows up
+            ref={ref}
+            readOnly
+            placeholder={color ? undefined : placeholder}
+            className={cn(
+              'cursor-pointer',
+              inputFieldVariants({
+                colorTreatment: fieldError ? 'error' : 'default',
+                className,
+              })
+            )}
+            style={{ backgroundColor: color }}
             onClick={() => setColorPickerOpen(!colorPickerOpen)}
             onBlur={onBlur}
-          >
-            <input
-              ref={ref}
-              readOnly
-              placeholder={color ? undefined : placeholder}
-              className={cn(
-                'cursor-pointer',
-                inputFieldVariants({
-                  colorTreatment: fieldError ? 'error' : 'default',
-                  className,
-                })
-              )}
-              style={{ backgroundColor: color }}
-            />
-          </button>
+          />
         </DropdownMenuTrigger>
       </InputFieldWrapper>
       <DropdownMenuPortal forceMount>
