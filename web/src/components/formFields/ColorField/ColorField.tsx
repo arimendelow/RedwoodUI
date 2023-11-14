@@ -97,6 +97,7 @@ const ColorField = React.forwardRef<HTMLButtonElement, IColorFieldProps>(
             {colorPickerOpen && (
               <DropdownMenuContent
                 className="w-[var(--radix-dropdown-menu-trigger-width)] overflow-visible p-0"
+                sideOffset={12} // same as Combobox and Select
                 asChild
               >
                 <motion.div
