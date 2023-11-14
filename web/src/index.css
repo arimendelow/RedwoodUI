@@ -35,7 +35,7 @@
     @apply cursor-pointer text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 decoration-transparent underline hover:decoration-current transition-all
   }
   .focus-ring {
-    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-700
+    @apply focus-visible:outline focus-within:outline focus-visible:outline-2 focus-within:outline-2 focus-visible:outline-offset-2 focus-within:outline-offset-2 focus-visible:outline-primary-700 focus-within:outline-primary-700
   }
   .disabled-classes {
     @apply pointer-events-none cursor-not-allowed opacity-50
