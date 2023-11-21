@@ -30,6 +30,7 @@
     "@redwoodjs/router": "6.4.0",
     "@redwoodjs/web": "6.4.0",
     "@tailwindcss/typography": "^0.5.10",
+    "@types/react-datepicker": "^4.19.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.4",
@@ -37,6 +38,8 @@
     "react": "18.2.0",
     "react-aria": "^3.30.0",
     "react-colorful": "^5.6.1",
+    "react-datepicker": "^4.21.0",
+    "react-day-picker": "^8.9.1",
     "react-dom": "18.2.0",
     "react-stately": "^3.28.0",
     "tailwind-merge": "^1.14.0"
