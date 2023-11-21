@@ -1,8 +1,65 @@
-import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { AnimatePresence, motion } from 'framer-motion'
 
-import { FieldError, Label } from '@redwoodjs/forms'
+import { Label, get, useFormContext } from '@redwoodjs/forms'
 
 import { cn } from 'src/lib/utils'
+
+/**
+ * Redefined from https://github.com/redwoodjs/redwood/blob/b6457700abf209da0c23bfa8dc0fc3883f663dc2/packages/forms/src/index.tsx#L627C1-L635C2
+ */
+const DEFAULT_MESSAGES = {
+  required: 'is required',
+  pattern: 'is not formatted correctly',
+  minLength: 'is too short',
+  maxLength: 'is too long',
+  min: 'is too low',
+  max: 'is too high',
+  validate: 'is not valid',
+}
+
+interface IFieldErrorProps
+  extends React.ComponentPropsWithoutRef<typeof motion.div> {
+  /**
+   * The name of the field the `<FieldError>`'s associated with.
+   */
+  name: string
+}
+
+/**
+ * This is a redefinition of FieldError from
+ * https://github.com/redwoodjs/redwood/blob/b6457700abf209da0c23bfa8dc0fc3883f663dc2/packages/forms/src/index.tsx#L671
+ *
+ * We redefine it so that we can use framer-motion's AnimatePresence to animate the error message.
+ */
+const FieldError = ({ name, ...rest }: IFieldErrorProps) => {
+  const {
+    formState: { errors },
+  } = useFormContext()
+
+  const validationError = get(errors, name)
+
+  const errorMessage =
+    validationError &&
+    (validationError.message ||
+      `${name} ${
+        DEFAULT_MESSAGES[validationError.type as keyof typeof DEFAULT_MESSAGES]
+      }`)
+
+  return (
+    <AnimatePresence>
+      {validationError && (
+        <motion.div
+          initial={{ opacity: 0, translateY: -5 }}
+          animate={{ opacity: 1, translateY: 0 }}
+          exit={{ opacity: 0, translateY: 0 }}
+          {...rest}
+        >
+          {errorMessage}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
 
 export interface IInputFieldWrapperProps {
   children: JSX.Element
@@ -42,13 +99,8 @@ const InputFieldWrapper = ({
   hideErrorMessage,
   className,
 }: IInputFieldWrapperProps) => {
-  // This is used to animate, for example, the appearance of error messages
-  const [animationParentRef] = useAutoAnimate()
   return (
-    <div
-      ref={animationParentRef}
-      className={cn('mb-3 w-full text-left', className)}
-    >
+    <div className={cn('mb-3 w-full text-left', className)}>
       {label && (
         <Label
           name={name}
@@ -81,7 +133,13 @@ const InputFieldWrapper = ({
         )}
       </div>
       {!hideErrorMessage && (
-        <FieldError name={name} className="mt-2 text-sm text-red-700" />
+        <AnimatePresence>
+          <FieldError
+            key="error"
+            name={name}
+            className="mt-2 text-sm text-red-700"
+          />
+        </AnimatePresence>
       )}
     </div>
   )

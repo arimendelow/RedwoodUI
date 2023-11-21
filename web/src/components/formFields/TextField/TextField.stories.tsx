@@ -13,6 +13,9 @@ const meta: Meta<typeof TextField> = {
     optional: {
       control: { type: 'boolean' },
     },
+    hideErrorMessage: {
+      control: { type: 'boolean' },
+    },
     inputTextSize: {
       name: 'input text size',
       options: ['base', 'grow'],
@@ -41,6 +44,21 @@ const meta: Meta<typeof TextField> = {
         ),
       },
     },
+    wrapperClassName: {
+      table: {
+        disable: true,
+      },
+    },
+    label: {
+      table: {
+        disable: true,
+      },
+    },
+    currentLength: {
+      table: {
+        disable: true,
+      },
+    },
   },
 }
 
@@ -51,17 +69,25 @@ type Story = StoryObj<typeof TextField>
 export const Primary: Story = {
   args: {
     optional: false,
+    hideErrorMessage: false,
     inputTextSize: 'base',
     maxLength: undefined,
     endComponent: undefined,
   },
-  render: ({ optional, inputTextSize, maxLength, endComponent }) => {
+  render: ({
+    optional,
+    hideErrorMessage,
+    inputTextSize,
+    maxLength,
+    endComponent,
+  }) => {
     return (
       <TextField
         label="Username"
         name="username"
         placeholder="arimendelow"
         optional={optional}
+        hideErrorMessage={hideErrorMessage}
         inputTextSize={inputTextSize}
         maxLength={maxLength}
         endComponent={endComponent}
