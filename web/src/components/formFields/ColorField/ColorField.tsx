@@ -23,7 +23,7 @@ interface IColorFieldProps
       IInputFieldWrapperProps,
       'children' | 'className' | 'maxLength' | 'currentLength'
     >,
-    Omit<InputFieldVariantsPropType, 'inputTextSize'> {
+    InputFieldVariantsPropType {
   /**
    * The initial color to show in the picker, as a hex string.
    * We use hex because that's what HTML color inputs use:
@@ -47,6 +47,7 @@ const ColorField = ({
   /** END for wrapper */
   initialColor,
   placeholder,
+  inputTextSize,
   className,
 }: IColorFieldProps) => {
   const [color, setColor] = React.useState(initialColor)
@@ -82,6 +83,7 @@ const ColorField = ({
               'cursor-pointer',
               inputFieldVariants({
                 colorTreatment: fieldError ? 'error' : 'default',
+                inputTextSize,
                 className,
               })
             )}

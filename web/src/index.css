@@ -25,6 +25,12 @@
   .text-color-default {
     @apply text-dark dark:text-light
   }
+  .input-placeholder-text {
+    @apply text-neutral-500
+  }
+  .input-placeholder-text-error {
+    @apply text-red-700/50
+  }
   .text-color-default-invert {
     @apply text-light dark:text-dark
   }
