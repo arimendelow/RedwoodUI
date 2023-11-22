@@ -24,6 +24,7 @@ const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>(
       /** START for wrapper */
       name,
       label,
+      description,
       maxLength,
       currentLength,
       optional,
@@ -42,6 +43,7 @@ const TextField = React.forwardRef<HTMLInputElement, ITextFieldProps>(
       <InputFieldWrapper
         name={name}
         label={label}
+        description={description}
         maxLength={maxLength}
         currentLength={currentLength}
         optional={optional}

@@ -54,6 +54,11 @@ const meta: Meta<typeof TextField> = {
         disable: true,
       },
     },
+    description: {
+      table: {
+        disable: true,
+      },
+    },
     currentLength: {
       table: {
         disable: true,
@@ -84,6 +89,7 @@ export const Primary: Story = {
     return (
       <TextField
         label="Username"
+        description="How other users will identify you."
         name="username"
         placeholder="arimendelow"
         optional={optional}

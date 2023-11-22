@@ -61,12 +61,49 @@ const FieldError = ({ name, ...rest }: IFieldErrorProps) => {
   )
 }
 
+interface IDescriptionProps {
+  name: string
+  children: React.ReactNode
+  errorClassName?: string
+  className?: string
+}
+
+/**
+ * Renders a `<p>` that can be styled differently if errors are present.
+ * Somewhat based on Label: https://github.com/redwoodjs/redwood/blob/b6457700abf209da0c23bfa8dc0fc3883f663dc2/packages/forms/src/index.tsx#L594
+ */
+const Description = ({
+  name,
+  children,
+  /**
+   * Classes that will be additionally applied if there are errors.
+   * Note that this is a bit different from `errorClassName` in the RW components
+   * because it's applied additionally, not instead of.
+   */
+  errorClassName,
+  className,
+}: IDescriptionProps) => {
+  const {
+    formState: { errors },
+  } = useFormContext()
+
+  const validationError = get(errors, name)
+
+  return (
+    <p className={cn(className, validationError && errorClassName)}>
+      {children}
+    </p>
+  )
+}
+
 export interface IInputFieldWrapperProps {
   children: JSX.Element
   /** Identifier name for this field */
   name: string
   /** Visual name for this field */
   label?: string
+  /** Description for this field */
+  description?: string
   /** Maximum length of the text in the field */
   maxLength?: number
   /**
@@ -92,6 +129,7 @@ const InputFieldWrapper = ({
   children,
   name,
   label,
+  description,
   maxLength,
   currentLength,
   optional = false,
@@ -115,6 +153,15 @@ const InputFieldWrapper = ({
             </span>
           )}
         </Label>
+      )}
+      {description && (
+        <Description
+          name={name}
+          className="mb-3 mt-1 text-sm leading-5 text-neutral-500 dark:text-neutral-400"
+          errorClassName="text-red-700 dark:text-red-700"
+        >
+          {description}
+        </Description>
       )}
       <div className={cn(!!label && 'mt-1', 'relative rounded-default')}>
         {children}
