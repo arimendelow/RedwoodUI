@@ -82,6 +82,7 @@ function Combobox<TValue extends React.ReactNode = string>({
   /** START for wrapper */
   name,
   label,
+  description,
   maxLength,
   currentLength,
   optional,
@@ -159,6 +160,7 @@ function Combobox<TValue extends React.ReactNode = string>({
             <InputFieldWrapper
               name={name}
               label={label}
+              description={description}
               maxLength={maxLength}
               currentLength={currentLength}
               optional={optional}
@@ -285,7 +287,11 @@ const ComboboxButton = React.forwardRef<
   React.ElementRef<typeof ComboboxPrimitive.Button>,
   React.PropsWithoutRef<ComboboxButtonPropsType>
 >(({ icon, className, ...props }, ref) => (
-  <ComboboxPrimitive.Button ref={ref} className={className} {...props}>
+  <ComboboxPrimitive.Button
+    ref={ref}
+    className={cn('pointer-events-auto', className)}
+    {...props}
+  >
     {icon}
   </ComboboxPrimitive.Button>
 ))

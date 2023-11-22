@@ -54,6 +54,11 @@ const meta: Meta<typeof PasswordField> = {
         disable: true,
       },
     },
+    description: {
+      table: {
+        disable: true,
+      },
+    },
     currentLength: {
       table: {
         disable: true,
@@ -84,6 +89,7 @@ export const Primary: Story = {
     return (
       <PasswordField
         label="Password"
+        description="Your super secret password."
         name="password"
         optional={optional}
         hideErrorMessage={hideErrorMessage}

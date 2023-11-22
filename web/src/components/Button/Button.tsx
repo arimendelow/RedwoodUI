@@ -51,7 +51,7 @@ const buttonSizeTreatments = {
 }
 
 const buttonVariants = cva(
-  'rounded-default inline-flex items-center justify-center font-semibold transition-colors duration-200 disabled:disabled-classes cursor-pointer',
+  'rounded-default inline-flex items-center justify-center font-semibold transition-colors duration-200 disabled:disabled-classes cursor-pointer pointer-events-auto',
   {
     variants: {
       colorTreatment: buttonColorTreatments,

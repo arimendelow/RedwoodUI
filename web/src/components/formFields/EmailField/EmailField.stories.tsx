@@ -54,6 +54,11 @@ const meta: Meta<typeof EmailField> = {
         disable: true,
       },
     },
+    description: {
+      table: {
+        disable: true,
+      },
+    },
     currentLength: {
       table: {
         disable: true,
@@ -84,6 +89,7 @@ export const Primary: Story = {
     return (
       <EmailField
         label="Email"
+        description="We will never share your email address with anyone."
         name="email"
         placeholder="ari@mendelow.me"
         optional={optional}

@@ -56,6 +56,11 @@ const meta: Meta<typeof ColorField> = {
         disable: true,
       },
     },
+    description: {
+      table: {
+        disable: true,
+      },
+    },
     placeholder: {
       table: {
         disable: true,
@@ -89,6 +94,7 @@ export const Primary: Story = {
     return (
       <ColorField
         label="Color"
+        description="Pick a color, any color."
         name="color"
         initialColor={initialColor}
         optional={optional}

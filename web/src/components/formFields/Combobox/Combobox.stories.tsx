@@ -20,12 +20,6 @@ const meta: Meta<typeof Combobox> = {
     disabled: {
       control: { type: 'boolean' },
     },
-    label: {
-      control: { type: 'text' },
-    },
-    placeholder: {
-      control: { type: 'text' },
-    },
     optional: {
       control: { type: 'boolean' },
     },
@@ -59,6 +53,21 @@ const meta: Meta<typeof Combobox> = {
           SimpleOptionRendererWithLeftCheckmark,
         'simple option renderer with right checkmark':
           SimpleOptionRendererWithRightCheckmark,
+      },
+    },
+    label: {
+      table: {
+        disable: true,
+      },
+    },
+    description: {
+      table: {
+        disable: true,
+      },
+    },
+    placeholder: {
+      table: {
+        disable: true,
       },
     },
     form: {
@@ -172,8 +181,6 @@ export const Primary: Story = {
   args: {
     multiple: false,
     disabled: false,
-    label: 'Person',
-    placeholder: 'Select person...',
     // @ts-expect-error - putting `undefined` here will cause no default to be selected. We need to put the string `'undefined'`, which corresponds with the option key defined in argTypes.
     buttonIcon: 'undefined',
     optional: false,
@@ -183,8 +190,6 @@ export const Primary: Story = {
   render: ({
     multiple,
     disabled,
-    label,
-    placeholder,
     buttonIcon,
     optional,
     hideErrorMessage,
@@ -223,8 +228,9 @@ export const Primary: Story = {
         }))}
         multiple={multiple}
         disabled={disabled}
-        label={label}
-        placeholder={placeholder}
+        label="Person"
+        description="Type to get suggestions, or open the dropdown to browse."
+        placeholder="Select person..."
         buttonIcon={buttonIcon}
         optional={optional}
         hideErrorMessage={hideErrorMessage}

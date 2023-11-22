@@ -24,6 +24,7 @@ const PasswordField = React.forwardRef<HTMLInputElement, IPasswordFieldProps>(
       /** START for wrapper */
       name,
       label,
+      description,
       maxLength,
       currentLength,
       optional,
@@ -43,6 +44,7 @@ const PasswordField = React.forwardRef<HTMLInputElement, IPasswordFieldProps>(
       <InputFieldWrapper
         name={name}
         label={label}
+        description={description}
         maxLength={maxLength}
         currentLength={currentLength}
         optional={optional}

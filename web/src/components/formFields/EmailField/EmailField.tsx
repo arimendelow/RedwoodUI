@@ -24,6 +24,7 @@ const EmailField = React.forwardRef<HTMLInputElement, IEmailFieldProps>(
       /** START for wrapper */
       name,
       label,
+      description,
       maxLength,
       currentLength,
       optional,
@@ -50,6 +51,7 @@ const EmailField = React.forwardRef<HTMLInputElement, IEmailFieldProps>(
       <InputFieldWrapper
         name={name}
         label={label}
+        description={description}
         maxLength={maxLength}
         currentLength={currentLength}
         optional={optional}

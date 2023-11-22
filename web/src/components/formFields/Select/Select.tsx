@@ -67,6 +67,7 @@ function Select<TValue extends React.ReactNode = string>({
   /** START for wrapper */
   name,
   label,
+  description,
   maxLength,
   currentLength,
   optional,
@@ -115,6 +116,7 @@ function Select<TValue extends React.ReactNode = string>({
               colorTreatment={fieldError ? 'error' : 'default'}
               name={name}
               label={label}
+              description={description}
               maxLength={maxLength}
               currentLength={currentLength}
               optional={optional}
@@ -198,6 +200,7 @@ const SelectButton = React.forwardRef<
       /** START for wrapper */
       name,
       label,
+      description,
       maxLength,
       currentLength,
       optional,
@@ -208,30 +211,36 @@ const SelectButton = React.forwardRef<
     },
     ref
   ) => (
-    <SelectPrimitive.Button ref={ref} className="w-full" {...props}>
-      <InputFieldWrapper
-        name={name}
-        label={label}
-        maxLength={maxLength}
-        currentLength={currentLength}
-        optional={optional}
-        hideErrorMessage={hideErrorMessage}
-        className={className}
-        endComponent={endComponent}
+    <InputFieldWrapper
+      name={name}
+      label={label}
+      description={description}
+      maxLength={maxLength}
+      currentLength={currentLength}
+      optional={optional}
+      hideErrorMessage={hideErrorMessage}
+      className={className}
+      endComponent={endComponent}
+    >
+      {/* This is what HeadlessUI will return control to when the dropdown is closed */}
+      <SelectPrimitive.Button
+        ref={ref}
+        className={inputFieldVariants({
+          colorTreatment,
+          inputTextSize,
+          className: cn('w-full cursor-pointer', className),
+        })}
+        {...props}
       >
         <input
           readOnly
           placeholder={placeholder}
-          className={inputFieldVariants({
-            colorTreatment,
-            inputTextSize,
-            className: cn('cursor-pointer select-none', className),
-          })}
           value={displayText}
           disabled={disabled}
+          className="pointer-events-none"
         />
-      </InputFieldWrapper>
-    </SelectPrimitive.Button>
+      </SelectPrimitive.Button>
+    </InputFieldWrapper>
   )
 )
 

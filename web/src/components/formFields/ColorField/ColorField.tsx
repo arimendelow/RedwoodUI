@@ -39,6 +39,7 @@ const ColorField = ({
   /** START for wrapper */
   name,
   label,
+  description,
   optional,
   endComponent,
   hideErrorMessage,
@@ -65,6 +66,7 @@ const ColorField = ({
       <InputFieldWrapper
         name={name}
         label={label}
+        description={description}
         optional={optional}
         endComponent={endComponent}
         hideErrorMessage={hideErrorMessage}

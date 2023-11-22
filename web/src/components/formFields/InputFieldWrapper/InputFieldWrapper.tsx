@@ -97,7 +97,7 @@ const Description = ({
 }
 
 export interface IInputFieldWrapperProps {
-  children: JSX.Element
+  children: React.ReactNode
   /** Identifier name for this field */
   name: string
   /** Visual name for this field */
@@ -114,8 +114,13 @@ export interface IInputFieldWrapperProps {
   currentLength?: number
   /** Use this to mark that the field is optional */
   optional?: boolean
-  /** Use this to include a custom component that will be placed inside the input, at the end */
-  endComponent?: JSX.Element
+  /**
+   * Use this to include a custom component that will be placed inside the input, at the end.
+   * This is given the `pointer-events-none` class, so it won't interfere with the input.
+   * If you need to add a click handler, you'll need to add `pointer-events-auto` to the component.
+   * (If you're using the `Button` component, it already has this class.)
+   */
+  endComponent?: React.ReactNode
   /**
    * Use this to hide the error message that appears below the input
    */
@@ -165,7 +170,7 @@ const InputFieldWrapper = ({
       )}
       <div className={cn(!!label && 'mt-1', 'relative rounded-default')}>
         {children}
-        <div className="absolute bottom-0 right-2 flex h-full items-center">
+        <div className="pointer-events-none absolute bottom-0 right-2 flex h-full items-center">
           {endComponent}
         </div>
         {maxLength !== undefined && currentLength !== undefined && (

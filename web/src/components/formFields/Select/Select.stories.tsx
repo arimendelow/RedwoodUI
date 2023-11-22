@@ -148,6 +148,16 @@ const meta: Meta<typeof Select> = {
         disable: true,
       },
     },
+    wrapperClassName: {
+      table: {
+        disable: true,
+      },
+    },
+    description: {
+      table: {
+        disable: true,
+      },
+    },
   },
 }
 
@@ -159,8 +169,6 @@ export const Primary: Story = {
   args: {
     multiple: false,
     disabled: false,
-    label: 'Person',
-    placeholder: 'Select person...',
     // @ts-expect-error - putting `undefined` here will cause no default to be selected. We need to put the string `'undefined'`, which corresponds with the option key defined in argTypes.
     buttonIcon: 'undefined',
     optional: false,
@@ -170,8 +178,6 @@ export const Primary: Story = {
   render: ({
     multiple,
     disabled,
-    label,
-    placeholder,
     buttonIcon,
     optional,
     hideErrorMessage,
@@ -210,8 +216,9 @@ export const Primary: Story = {
         }))}
         multiple={multiple}
         disabled={disabled}
-        label={label}
-        placeholder={placeholder}
+        label="Person"
+        description="Select a person from the list."
+        placeholder="Select person..."
         buttonIcon={buttonIcon}
         optional={optional}
         hideErrorMessage={hideErrorMessage}
