@@ -137,7 +137,7 @@ const InputFieldWrapper = ({
           <FieldError
             key="error"
             name={name}
-            className="mt-2 text-sm text-red-700"
+            className="mt-1 text-sm text-red-700"
           />
         </AnimatePresence>
       )}

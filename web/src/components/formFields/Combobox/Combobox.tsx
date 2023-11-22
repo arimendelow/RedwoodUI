@@ -38,11 +38,13 @@ interface IComboboxSpecificProps<TValue extends React.ReactNode = string> {
 }
 
 /**
- * (onChange is omitted because it's handled by the onValueChange prop)
+ * `onChange` is omitted because it's handled by the `onValueChange` prop.
+ * `nullable` is omitted because we already have an `optional` prop. If `optional` is `true`,
+ * then `nullable` is `true`
  */
 type ComboboxPropsType<TValue extends React.ReactNode = string> = Omit<
   ComboboxRootPropsType,
-  'onChange'
+  'onChange' | 'nullable'
 > &
   /**
    * We remove endComponent as it's always the ComboboxButton. The icon used in the button
@@ -120,7 +122,7 @@ function Combobox<TValue extends React.ReactNode = string>({
   } = useController({
     name,
     defaultValue: selectedValue,
-    rules: { required: !props.nullable },
+    rules: { required: !optional },
   })
   const { onChange: rhfOnChange, onBlur, ref } = field
 
@@ -134,6 +136,8 @@ function Combobox<TValue extends React.ReactNode = string>({
         rhfOnChange(value)
       }}
       value={selectedValue}
+      // @ts-expect-error there's weird typing on the HeadlessUI Combobox that makes it sometimes think nullable is either `false` or `undefined`, but it's actually `boolean` or `undefined`
+      nullable={optional}
       {...props}
       multiple={multiple}
     >

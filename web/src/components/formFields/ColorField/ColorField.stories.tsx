@@ -13,11 +13,8 @@ const meta: Meta<typeof ColorField> = {
     optional: {
       control: { type: 'boolean' },
     },
-    label: {
-      control: { type: 'text' },
-    },
-    placeholder: {
-      control: { type: 'text' },
+    hideErrorMessage: {
+      control: { type: 'boolean' },
     },
     initialColor: {
       name: 'initial color',
@@ -54,6 +51,26 @@ const meta: Meta<typeof ColorField> = {
         disable: true,
       },
     },
+    label: {
+      table: {
+        disable: true,
+      },
+    },
+    placeholder: {
+      table: {
+        disable: true,
+      },
+    },
+    className: {
+      table: {
+        disable: true,
+      },
+    },
+    name: {
+      table: {
+        disable: true,
+      },
+    },
   },
 }
 
@@ -64,20 +81,20 @@ type Story = StoryObj<typeof ColorField>
 export const Primary: Story = {
   args: {
     optional: false,
-    label: 'Color',
+    hideErrorMessage: false,
     initialColor: 'undefined',
     endComponent: undefined,
-    placeholder: 'Select color...',
   },
-  render: ({ optional, label, placeholder, initialColor, endComponent }) => {
+  render: ({ optional, hideErrorMessage, initialColor, endComponent }) => {
     return (
       <ColorField
-        label={label}
+        label="Color"
         name="color"
         initialColor={initialColor}
         optional={optional}
+        hideErrorMessage={hideErrorMessage}
         endComponent={endComponent}
-        placeholder={placeholder}
+        placeholder="Select color..."
       />
     )
   },
@@ -97,7 +114,6 @@ export const Primary: Story = {
             onSubmit={onSubmit}
           >
             <Story />
-            <Button>submit</Button>
           </Form>
         </FormProvider>
       )
