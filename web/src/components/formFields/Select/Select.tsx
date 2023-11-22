@@ -24,14 +24,6 @@ import { inputFieldVariants } from '../inputVariants'
 interface ISelectSpecificProps<TValue extends React.ReactNode = string> {
   options: IDropdownOption<TValue>[]
   placeholder?: string
-  /**
-   * If `true`, the user can select no option.
-   * - When `multiple` is `true`:
-   *   - the empty value will be an empty array
-   * - When `multiple` is `false`:
-   *   - the empty value will be `null`
-   */
-  nullable?: boolean
   buttonIcon?: JSX.Element
   initSelectedValueUncontrolled?: boolean
   selectedValue?: TValue | TValue[]
@@ -42,6 +34,9 @@ interface ISelectSpecificProps<TValue extends React.ReactNode = string> {
   onValueChange?: (value: TValue | TValue[]) => void
 }
 
+/**
+ * `onChange` is omitted because it's handled by the `onValueChange` prop.
+ */
 type SelectPropsType<TValue extends React.ReactNode = string> = Omit<
   SelectRootPropsType,
   'onChange'
@@ -59,7 +54,6 @@ function Select<TValue extends React.ReactNode = string>({
   /** START props for select */
   options,
   placeholder,
-  nullable,
   buttonIcon = (
     <ChevronUpDownIcon
       className="bg-default h-5 w-5 text-neutral-400"
@@ -94,7 +88,7 @@ function Select<TValue extends React.ReactNode = string>({
   } = useController({
     name,
     defaultValue: selectedValue,
-    rules: { required: !nullable },
+    rules: { required: !optional },
   })
   const { onChange: rhfOnChange, onBlur, ref } = field
 

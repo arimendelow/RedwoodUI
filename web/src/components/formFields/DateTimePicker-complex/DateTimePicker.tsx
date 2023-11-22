@@ -52,6 +52,9 @@ const DateTimePickerContent = ({
 )
 
 interface IDateTimePickerProps extends DatePickerStateOptions<DateValue> {
+  /**
+   * Use this to make the picker inline instead of a form popover
+   */
   inline?: boolean
 }
 

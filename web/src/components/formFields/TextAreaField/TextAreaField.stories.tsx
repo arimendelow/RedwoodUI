@@ -10,6 +10,9 @@ const meta: Meta<typeof TextAreaField> = {
     optional: {
       control: { type: 'boolean' },
     },
+    hideErrorMessage: {
+      control: { type: 'boolean' },
+    },
     inputTextSize: {
       name: 'input text size',
       options: ['base', 'grow'],
@@ -23,6 +26,21 @@ const meta: Meta<typeof TextAreaField> = {
       name: 'rows',
       control: { type: 'range', min: 1, max: 50, step: 1 },
     },
+    wrapperClassName: {
+      table: {
+        disable: true,
+      },
+    },
+    label: {
+      table: {
+        disable: true,
+      },
+    },
+    currentLength: {
+      table: {
+        disable: true,
+      },
+    },
   },
 }
 
@@ -33,17 +51,19 @@ type Story = StoryObj<typeof TextAreaField>
 export const Primary: Story = {
   args: {
     optional: false,
+    hideErrorMessage: false,
     inputTextSize: 'base',
     maxLength: undefined,
     rows: 7,
   },
-  render: ({ optional, inputTextSize, maxLength, rows }) => {
+  render: ({ optional, hideErrorMessage, inputTextSize, maxLength, rows }) => {
     return (
       <TextAreaField
         label="Bio"
         name="bio"
         placeholder="Hello there! I'm Redwood, a versatile JavaScript framework with a flair for modern web apps. Mixing GraphQL, React, and Prisma, I create seamless code symphonies. Off-duty, I enjoy refining deployment and musing over web development futures. Known for boosting productivity and a love for elegant coding, I'm your go-to for a delightful dev experience."
         optional={optional}
+        hideErrorMessage={hideErrorMessage}
         inputTextSize={inputTextSize}
         maxLength={maxLength}
         rows={rows}

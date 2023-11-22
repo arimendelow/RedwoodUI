@@ -14,9 +14,6 @@ import Select from './Select'
 const meta: Meta<typeof Select> = {
   component: Select,
   argTypes: {
-    nullable: {
-      control: { type: 'boolean' },
-    },
     multiple: {
       control: { type: 'boolean' },
     },
@@ -160,7 +157,6 @@ type Story = StoryObj<typeof Select>
 
 export const Primary: Story = {
   args: {
-    nullable: false,
     multiple: false,
     disabled: false,
     label: 'Person',
@@ -168,16 +164,17 @@ export const Primary: Story = {
     // @ts-expect-error - putting `undefined` here will cause no default to be selected. We need to put the string `'undefined'`, which corresponds with the option key defined in argTypes.
     buttonIcon: 'undefined',
     optional: false,
+    hideErrorMessage: false,
     renderOption: 'simple option renderer with left checkmark',
   },
   render: ({
-    nullable,
     multiple,
     disabled,
     label,
     placeholder,
     buttonIcon,
     optional,
+    hideErrorMessage,
     // @ts-expect-error - this is not a direct prop on the component, but is used in the render function
     renderOption,
   }) => {
@@ -211,13 +208,13 @@ export const Primary: Story = {
           disabled,
           renderOption,
         }))}
-        nullable={nullable}
         multiple={multiple}
         disabled={disabled}
         label={label}
         placeholder={placeholder}
         buttonIcon={buttonIcon}
         optional={optional}
+        hideErrorMessage={hideErrorMessage}
       />
     )
   },

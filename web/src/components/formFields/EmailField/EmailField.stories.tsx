@@ -13,6 +13,9 @@ const meta: Meta<typeof EmailField> = {
     optional: {
       control: { type: 'boolean' },
     },
+    hideErrorMessage: {
+      control: { type: 'boolean' },
+    },
     inputTextSize: {
       name: 'input text size',
       options: ['base', 'grow'],
@@ -41,6 +44,21 @@ const meta: Meta<typeof EmailField> = {
         ),
       },
     },
+    wrapperClassName: {
+      table: {
+        disable: true,
+      },
+    },
+    label: {
+      table: {
+        disable: true,
+      },
+    },
+    currentLength: {
+      table: {
+        disable: true,
+      },
+    },
   },
 }
 
@@ -51,21 +69,29 @@ type Story = StoryObj<typeof EmailField>
 export const Primary: Story = {
   args: {
     optional: false,
+    hideErrorMessage: false,
     inputTextSize: 'base',
     maxLength: undefined,
     endComponent: undefined,
   },
-  render: ({ optional, inputTextSize, maxLength, endComponent }) => {
+  render: ({
+    optional,
+    hideErrorMessage,
+    inputTextSize,
+    maxLength,
+    endComponent,
+  }) => {
     return (
       <EmailField
         label="Email"
         name="email"
         placeholder="ari@mendelow.me"
         optional={optional}
+        hideErrorMessage={hideErrorMessage}
         inputTextSize={inputTextSize}
         maxLength={maxLength}
         endComponent={endComponent}
-        // eslint-disable-next-line react-hooks/rules-of-hooks
+        // eslint-disable-next-line react-hooks/rules-of-hooks -- for storybook
         currentLength={useWatch({ name: 'email' })?.length || 0}
       />
     )
