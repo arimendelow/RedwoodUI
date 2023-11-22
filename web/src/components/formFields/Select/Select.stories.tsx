@@ -20,12 +20,6 @@ const meta: Meta<typeof Select> = {
     disabled: {
       control: { type: 'boolean' },
     },
-    label: {
-      control: { type: 'text' },
-    },
-    placeholder: {
-      control: { type: 'text' },
-    },
     optional: {
       control: { type: 'boolean' },
     },
@@ -153,7 +147,17 @@ const meta: Meta<typeof Select> = {
         disable: true,
       },
     },
+    label: {
+      table: {
+        disable: true,
+      },
+    },
     description: {
+      table: {
+        disable: true,
+      },
+    },
+    placeholder: {
       table: {
         disable: true,
       },

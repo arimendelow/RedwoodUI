@@ -36,6 +36,11 @@ const meta: Meta<typeof TextAreaField> = {
         disable: true,
       },
     },
+    description: {
+      table: {
+        disable: true,
+      },
+    },
     currentLength: {
       table: {
         disable: true,
@@ -60,6 +65,7 @@ export const Primary: Story = {
     return (
       <TextAreaField
         label="Bio"
+        description="A short description of yourself."
         name="bio"
         placeholder="Hello there! I'm Redwood, a versatile JavaScript framework with a flair for modern web apps. Mixing GraphQL, React, and Prisma, I create seamless code symphonies. Off-duty, I enjoy refining deployment and musing over web development futures. Known for boosting productivity and a love for elegant coding, I'm your go-to for a delightful dev experience."
         optional={optional}

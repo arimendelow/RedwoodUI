@@ -30,6 +30,7 @@ const TextAreaField = React.forwardRef<
       /** START for wrapper */
       name,
       label,
+      description,
       maxLength,
       currentLength,
       optional,
@@ -48,6 +49,7 @@ const TextAreaField = React.forwardRef<
       <InputFieldWrapper
         name={name}
         label={label}
+        description={description}
         maxLength={maxLength}
         currentLength={currentLength}
         optional={optional}
