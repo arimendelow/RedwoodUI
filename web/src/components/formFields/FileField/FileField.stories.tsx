@@ -44,6 +44,12 @@ const meta: Meta<typeof FileField> = {
         ),
       },
     },
+    multiple: {
+      control: { type: 'boolean' },
+    },
+    accept: {
+      control: { type: 'text' },
+    },
     wrapperClassName: {
       table: {
         disable: true,
@@ -73,8 +79,17 @@ export const Primary: Story = {
     inputTextSize: 'base',
     maxLength: undefined,
     endComponent: undefined,
+    multiple: false,
+    accept: undefined,
   },
-  render: ({ optional, hideErrorMessage, inputTextSize, endComponent }) => {
+  render: ({
+    optional,
+    hideErrorMessage,
+    inputTextSize,
+    endComponent,
+    multiple,
+    accept,
+  }) => {
     return (
       <FileField
         label="File"
@@ -85,6 +100,8 @@ export const Primary: Story = {
         hideErrorMessage={hideErrorMessage}
         inputTextSize={inputTextSize}
         endComponent={endComponent}
+        multiple={multiple}
+        accept={accept}
       />
     )
   },

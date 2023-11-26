@@ -48,7 +48,7 @@ const FileField = React.forwardRef<HTMLButtonElement, IFileFieldProps>(
     const {
       field,
       fieldState: { error: fieldError },
-    } = useController({
+    } = useController<{ [key: string]: FileList }>({
       name,
       rules: {
         required: !optional,
@@ -82,10 +82,9 @@ const FileField = React.forwardRef<HTMLButtonElement, IFileFieldProps>(
           type="file"
           ref={hiddenFileInputRef}
           name={name}
-          multiple
           className="hidden"
-          onChange={rhfOnChange}
-          value={value}
+          onChange={(e) => rhfOnChange(e.target.files)} // instead of the default of e.target.value
+          // value={value || ''} // i don't know how to make this work for file inputs
           {...props}
         />
         <button
@@ -114,8 +113,12 @@ const FileField = React.forwardRef<HTMLButtonElement, IFileFieldProps>(
           )}
           onBlur={onBlur}
         >
-          {value ? (
-            value
+          {value && value.length > 0 ? (
+            <span className="truncate">
+              {Array.from(value)
+                .map((file, _index) => file.name)
+                .join(', ')}
+            </span>
           ) : (
             <span
               className={
