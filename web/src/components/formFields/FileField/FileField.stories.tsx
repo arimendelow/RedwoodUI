@@ -21,10 +21,6 @@ const meta: Meta<typeof FileField> = {
       options: ['base', 'grow'],
       control: { type: 'radio' },
     },
-    maxLength: {
-      name: 'max input length',
-      control: { type: 'number' },
-    },
     endComponent: {
       name: 'end component',
       options: ['undefined', 'Icon', 'Button'],
@@ -77,7 +73,6 @@ export const Primary: Story = {
     optional: false,
     hideErrorMessage: false,
     inputTextSize: 'base',
-    maxLength: undefined,
     endComponent: undefined,
     multiple: false,
     accept: undefined,

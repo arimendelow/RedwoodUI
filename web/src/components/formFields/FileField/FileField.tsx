@@ -12,7 +12,7 @@ import { cn } from 'src/lib/utils'
 interface IFileFieldProps
   extends Omit<
       React.ComponentPropsWithoutRef<typeof RWFileField>,
-      'errorClassName'
+      'errorClassName' | 'maxLength'
     >,
     /**
      * We disable the maxLength and currentLength props as they don't make sense with FileField
@@ -32,7 +32,6 @@ const FileField = React.forwardRef<HTMLButtonElement, IFileFieldProps>(
       name,
       label,
       description,
-      maxLength,
       optional,
       endComponent,
       hideErrorMessage,
@@ -72,7 +71,6 @@ const FileField = React.forwardRef<HTMLButtonElement, IFileFieldProps>(
         name={name}
         label={label}
         description={description}
-        maxLength={maxLength}
         optional={optional}
         endComponent={endComponent}
         hideErrorMessage={hideErrorMessage}
