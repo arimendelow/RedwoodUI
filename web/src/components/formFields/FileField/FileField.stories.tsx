@@ -116,7 +116,6 @@ export const Primary: Story = {
             onSubmit={onSubmit}
           >
             <Story />
-            <button type="submit">Submit</button>
           </Form>
         </FormProvider>
       )
