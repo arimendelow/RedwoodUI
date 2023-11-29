@@ -40,6 +40,12 @@ const meta: Meta<typeof TextField> = {
         ),
       },
     },
+    step: {
+      control: { type: 'number' },
+    },
+    min: {
+      control: { type: 'number' },
+    },
     wrapperClassName: {
       table: {
         disable: true,
@@ -68,8 +74,17 @@ export const Primary: Story = {
     hideErrorMessage: false,
     inputTextSize: 'base',
     endComponent: undefined,
+    min: undefined,
+    step: undefined,
   },
-  render: ({ optional, hideErrorMessage, inputTextSize, endComponent }) => {
+  render: ({
+    optional,
+    hideErrorMessage,
+    inputTextSize,
+    endComponent,
+    min,
+    step,
+  }) => {
     return (
       <TextField
         label="Alien Encounter Age"
@@ -80,6 +95,8 @@ export const Primary: Story = {
         hideErrorMessage={hideErrorMessage}
         inputTextSize={inputTextSize}
         endComponent={endComponent}
+        min={min}
+        step={step}
       />
     )
   },
