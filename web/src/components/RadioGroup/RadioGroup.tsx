@@ -1,6 +1,17 @@
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 
+import { useController } from '@redwoodjs/forms'
+
 import { cn } from 'src/lib/utils'
+
+interface IRadioGroupFormFieldProps extends IRadioGroupProps {
+  name: string
+}
+
+const RadioGroupFormField = ({ name, ...props }: IRadioGroupFormFieldProps) => {
+  const { field } = useController({ name, defaultValue: props.defaultValue })
+  return <RadioGroup {...props} {...field} onValueChange={field.onChange} />
+}
 
 interface IRadioGroupOption {
   value: string
@@ -9,13 +20,18 @@ interface IRadioGroupOption {
   disabled?: boolean
 }
 
-interface IRadioGroupProps {
+interface IRadioGroupProps extends RadioGroupRootPropsType {
   options: IRadioGroupOption[]
   label?: string
   description?: string
 }
 
-const RadioGroup = ({ options, label, description }: IRadioGroupProps) => {
+const RadioGroup = ({
+  options,
+  label,
+  description,
+  ...props
+}: IRadioGroupProps) => {
   return (
     <div>
       {(label || description) && (
@@ -32,7 +48,7 @@ const RadioGroup = ({ options, label, description }: IRadioGroupProps) => {
           )}
         </div>
       )}
-      <RadioGroupRoot className="flex flex-col gap-2">
+      <RadioGroupRoot className="flex flex-col gap-2" {...props}>
         {options.map((option) => (
           <div
             key={option.value}
@@ -50,12 +66,12 @@ const RadioGroup = ({ options, label, description }: IRadioGroupProps) => {
             <div className="ml-3 text-sm leading-6">
               <label className="text-color-default" htmlFor={option.value}>
                 {option.label}
+                {option.description && (
+                  <p className="text-neutral-500 dark:text-neutral-400">
+                    {option.description}
+                  </p>
+                )}
               </label>
-              {option.description && (
-                <p className="text-neutral-500 dark:text-neutral-400">
-                  {option.description}
-                </p>
-              )}
             </div>
           </div>
         ))}
@@ -64,9 +80,13 @@ const RadioGroup = ({ options, label, description }: IRadioGroupProps) => {
   )
 }
 
+type RadioGroupRootPropsType = React.ComponentPropsWithRef<
+  typeof RadioGroupPrimitive.Root
+>
+
 const RadioGroupRoot = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
+  RadioGroupRootPropsType
 >(({ className, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Root
@@ -85,7 +105,7 @@ const RadioGroupItemIndicator = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        'focus-ring bg-default h-4 w-4 rounded-full border border-neutral-300 shadow-sm transition-colors hover:bg-neutral-100 [&[data-state=checked]]:border-none [&[data-state=checked]]:bg-primary-600 [&[data-state=checked]]:hover:bg-primary-800',
+        'focus-ring bg-default h-4 w-4 rounded-full border border-neutral-300 shadow-sm transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-700 [&[data-state=checked]]:border-none [&[data-state=checked]]:bg-primary-600 [&[data-state=checked]]:hover:bg-primary-800',
         className
       )}
       {...props}
@@ -96,4 +116,4 @@ const RadioGroupItemIndicator = React.forwardRef<
 })
 
 export default RadioGroup
-export { RadioGroupRoot, RadioGroupItemIndicator }
+export { RadioGroupFormField, RadioGroupRoot, RadioGroupItemIndicator }
