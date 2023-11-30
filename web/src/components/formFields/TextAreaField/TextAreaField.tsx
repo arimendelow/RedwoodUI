@@ -4,7 +4,7 @@ import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
 import {
-  InputFieldVariantsPropType,
+  InputFieldVariantsPropsType,
   inputFieldVariants,
 } from 'src/components/formFields/inputVariants'
 
@@ -17,7 +17,7 @@ interface ITextAreaFieldProps
      * We disable the endComponent prop as it doesn't work well with TextAreaField
      */
     Omit<IInputFieldWrapperProps, 'children' | 'className' | 'endComponent'>,
-    InputFieldVariantsPropType {
+    InputFieldVariantsPropsType {
   wrapperClassName?: string
 }
 

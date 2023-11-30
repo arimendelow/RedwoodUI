@@ -7,7 +7,7 @@ import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
 import {
-  InputFieldVariantsPropType,
+  InputFieldVariantsPropsType,
   inputFieldVariants,
 } from 'src/components/formFields/inputVariants'
 import {
@@ -23,7 +23,7 @@ interface IColorFieldProps
       IInputFieldWrapperProps,
       'children' | 'className' | 'maxLength' | 'currentLength'
     >,
-    InputFieldVariantsPropType {
+    InputFieldVariantsPropsType {
   /**
    * The initial color to show in the picker, as a hex string.
    * We use hex because that's what HTML color inputs use:

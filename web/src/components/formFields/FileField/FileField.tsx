@@ -4,7 +4,7 @@ import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
 import {
-  InputFieldVariantsPropType,
+  InputFieldVariantsPropsType,
   inputFieldVariants,
 } from 'src/components/formFields/inputVariants'
 import { cn } from 'src/lib/utils'
@@ -21,7 +21,7 @@ interface IFileFieldProps
       IInputFieldWrapperProps,
       'children' | 'className' | 'maxLength' | 'currentLength'
     >,
-    InputFieldVariantsPropType {
+    InputFieldVariantsPropsType {
   wrapperClassName?: string
 }
 

@@ -4,7 +4,7 @@ import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
 import {
-  InputFieldVariantsPropType,
+  InputFieldVariantsPropsType,
   inputFieldVariants,
 } from 'src/components/formFields/inputVariants'
 
@@ -14,7 +14,7 @@ interface IEmailFieldProps
       'errorClassName'
     >,
     Omit<IInputFieldWrapperProps, 'children' | 'className'>,
-    InputFieldVariantsPropType {
+    InputFieldVariantsPropsType {
   wrapperClassName?: string
 }
 

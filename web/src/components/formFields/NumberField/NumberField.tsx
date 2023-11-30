@@ -4,7 +4,7 @@ import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
 import {
-  InputFieldVariantsPropType,
+  InputFieldVariantsPropsType,
   inputFieldVariants,
 } from 'src/components/formFields/inputVariants'
 
@@ -17,7 +17,7 @@ interface INumberFieldProps
       IInputFieldWrapperProps,
       'children' | 'className' | 'maxLength' | 'currentLength'
     >,
-    InputFieldVariantsPropType {
+    InputFieldVariantsPropsType {
   wrapperClassName?: string
 }
 

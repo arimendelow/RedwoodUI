@@ -35,7 +35,7 @@ export const inputFieldVariants = cva(
  * We omit the `colorTreatment` variant because it's meant for internal use,
  * as it's used to apply the error color treatment, which the field handles automatically.
  */
-export type InputFieldVariantsPropType = Omit<
+export type InputFieldVariantsPropsType = Omit<
   VariantProps<typeof inputFieldVariants>,
   'colorTreatment'
 >
