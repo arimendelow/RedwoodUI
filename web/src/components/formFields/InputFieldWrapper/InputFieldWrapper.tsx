@@ -64,6 +64,11 @@ const FieldError = ({ name, ...rest }: IFieldErrorProps) => {
 interface IDescriptionProps {
   name: string
   children: React.ReactNode
+  /**
+   * Classes that will be additionally applied if there are errors.
+   * Note that this is a bit different from `errorClassName` in the RW components
+   * because it's applied additionally, not instead of.
+   */
   errorClassName?: string
   className?: string
 }
@@ -75,11 +80,6 @@ interface IDescriptionProps {
 const Description = ({
   name,
   children,
-  /**
-   * Classes that will be additionally applied if there are errors.
-   * Note that this is a bit different from `errorClassName` in the RW components
-   * because it's applied additionally, not instead of.
-   */
   errorClassName,
   className,
 }: IDescriptionProps) => {
@@ -148,7 +148,7 @@ const InputFieldWrapper = ({
         <Label
           name={name}
           className="block text-sm font-medium text-neutral-700 dark:text-light"
-          errorClassName="block text-sm font-medium text-red-700"
+          errorClassName="block text-sm font-medium text-color-error"
         >
           {label}
           {optional && (
@@ -162,8 +162,8 @@ const InputFieldWrapper = ({
       {description && (
         <Description
           name={name}
-          className="mb-3 mt-1 text-sm leading-5 text-neutral-500 dark:text-neutral-400"
-          errorClassName="text-red-700 dark:text-red-700"
+          className="text-color-secondary mb-3 mt-1 text-sm leading-5"
+          errorClassName="text-color-secondary-error"
         >
           {description}
         </Description>

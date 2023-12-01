@@ -2,16 +2,10 @@ import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 
 import { useController } from '@redwoodjs/forms'
 
+import { IInputFieldWrapperProps } from 'src/components/formFields/InputFieldWrapper'
 import { cn } from 'src/lib/utils'
 
-interface IRadioGroupFormFieldProps extends IRadioGroupProps {
-  name: string
-}
-
-const RadioGroupFormField = ({ name, ...props }: IRadioGroupFormFieldProps) => {
-  const { field } = useController({ name, defaultValue: props.defaultValue })
-  return <RadioGroup {...props} {...field} onValueChange={field.onChange} />
-}
+import InputFieldWrapper from '../formFields/InputFieldWrapper/InputFieldWrapper'
 
 interface IRadioGroupOption {
   value: string
@@ -20,35 +14,47 @@ interface IRadioGroupOption {
   disabled?: boolean
 }
 
-interface IRadioGroupProps extends RadioGroupRootPropsType {
+interface IRadioGroupProps
+  extends Omit<
+      IInputFieldWrapperProps,
+      'children' | 'className' | 'maxLength' | 'currentLength' | 'endComponent'
+    >,
+    // Omit the name prop from RadioGroupRootPropsType because we want the one from IInputFieldWrapperProps
+    Omit<RadioGroupRootPropsType, 'name'> {
   options: IRadioGroupOption[]
-  label?: string
-  description?: string
+  wrapperClassName?: string
 }
 
 const RadioGroup = ({
-  options,
+  /** START for wrapper */
+  name,
   label,
   description,
+  optional,
+  hideErrorMessage,
+  wrapperClassName,
+  /** END for wrapper */
+  options,
   ...props
 }: IRadioGroupProps) => {
+  const {
+    field,
+    fieldState: { error: fieldError },
+  } = useController({
+    name,
+    defaultValue: props.defaultValue,
+    rules: { required: !optional },
+  })
   return (
-    <div>
-      {(label || description) && (
-        <div className="pb-5">
-          {label && (
-            <label className="text-color-default text-base font-semibold">
-              {label}
-            </label>
-          )}
-          {description && (
-            <p className="text-neutral-500 dark:text-neutral-400">
-              {description}
-            </p>
-          )}
-        </div>
-      )}
-      <RadioGroupRoot className="flex flex-col gap-2" {...props}>
+    <InputFieldWrapper
+      name={name}
+      label={label}
+      description={description}
+      optional={optional}
+      hideErrorMessage={hideErrorMessage}
+      className={wrapperClassName}
+    >
+      <RadioGroupRoot className="flex flex-col gap-2" {...props} {...field}>
         {options.map((option) => (
           <div
             key={option.value}
@@ -64,10 +70,21 @@ const RadioGroup = ({
               className="mt-1"
             />
             <div className="ml-3 text-sm leading-6">
-              <label className="text-color-default" htmlFor={option.value}>
+              <label
+                className={cn(
+                  fieldError ? 'text-color-error' : 'text-color-default'
+                )}
+                htmlFor={option.value}
+              >
                 {option.label}
                 {option.description && (
-                  <p className="text-neutral-500 dark:text-neutral-400">
+                  <p
+                    className={cn(
+                      fieldError
+                        ? 'text-color-secondary-error'
+                        : 'text-color-secondary'
+                    )}
+                  >
                     {option.description}
                   </p>
                 )}
@@ -76,7 +93,7 @@ const RadioGroup = ({
           </div>
         ))}
       </RadioGroupRoot>
-    </div>
+    </InputFieldWrapper>
   )
 }
 
@@ -116,4 +133,4 @@ const RadioGroupItemIndicator = React.forwardRef<
 })
 
 export default RadioGroup
-export { RadioGroupFormField, RadioGroupRoot, RadioGroupItemIndicator }
+export { RadioGroupRoot, RadioGroupItemIndicator }

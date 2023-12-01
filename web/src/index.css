@@ -25,11 +25,20 @@
   .text-color-default {
     @apply text-dark dark:text-light
   }
-  .input-placeholder-text {
-    @apply text-neutral-500
+  .text-color-error {
+    @apply text-red-700 dark:text-red-700
   }
-  .input-placeholder-text-error {
-    @apply text-red-700/50
+  .text-color-secondary {
+    @apply text-neutral-500 dark:text-neutral-400
+  }
+  .text-color-secondary-error {
+    @apply text-red-700/60 dark:text-red-700/70
+  }
+  .input-placeholder-text-color {
+    @apply text-neutral-500 dark:text-neutral-400
+  }
+  .text-color-secondary-error {
+    @apply text-red-700/60 dark:text-red-700/70
   }
   .text-color-default-invert {
     @apply text-light dark:text-dark

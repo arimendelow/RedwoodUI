@@ -121,8 +121,8 @@ const FileField = React.forwardRef<HTMLButtonElement, IFileFieldProps>(
             <span
               className={
                 fieldError
-                  ? 'input-placeholder-text-error'
-                  : 'input-placeholder-text'
+                  ? 'text-color-secondary-error'
+                  : 'text-color-secondary'
               }
             >
               {props.placeholder}
