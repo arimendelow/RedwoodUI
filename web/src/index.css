@@ -22,20 +22,27 @@
   .bg-default {
     @apply bg-light dark:bg-dark
   }
-  .text-color-default {
-    @apply text-dark dark:text-light
+  /* Calling this 'primary' should not be confused with the `primary` color. This refers to the primary *text* color, which should not be a branded color. */
+  .text-color-primary {
+    @apply text-neutral-900 dark:text-light
   }
-  .text-color-error {
+  .text-color-primary-invert {
+    @apply text-light dark:text-neutral-900
+  }
+  .text-color-primary-error {
     @apply text-red-700 dark:text-red-700
   }
   .text-color-secondary {
-    @apply text-neutral-500 dark:text-neutral-400
+    @apply text-neutral-700 dark:text-neutral-200
   }
   .text-color-secondary-error {
-    @apply text-red-700/60 dark:text-red-700/70
+    @apply text-red-700 dark:text-red-700
   }
-  .text-color-default-invert {
-    @apply text-light dark:text-dark
+  .text-color-tertiary {
+    @apply text-neutral-500 dark:text-neutral-400
+  }
+  .text-color-tertiary-error {
+    @apply text-red-700/60 dark:text-red-700/70
   }
   .prose-default {
     @apply prose dark:prose-invert leading-normal text-sm sm:text-base
@@ -57,7 +64,7 @@
    * Can't put overflow-clip on this or it'll interfere with the deliberate overflow of the ActionSheet
    */
   .dialog-content {
-    @apply bg-default text-color-default absolute z-[1000] shadow-lg text-center sm:text-left
+    @apply bg-default text-color-primary absolute z-[1000] shadow-lg text-center sm:text-left
   }
   .dialog-position {
     @apply fixed overflow-clip rounded-default sm:min-w-0 inset-x-5 inset-y-0 m-auto flex max-h-fit max-w-fit flex-col justify-center
@@ -81,7 +88,7 @@
   * Used by the dropdown menu to style the selectable items
   */
   .dropdown-menu-item {
-    @apply text-color-default relative flex cursor-pointer select-none items-center rounded-default py-1.5 text-sm leading-none outline-none transition-colors focus:text-color-default-invert dark:focus:text-color-default focus:bg-primary-600 active:bg-primary-700 data-[disabled]:pointer-events-none data-[disabled]:opacity-50
+    @apply text-color-primary relative flex cursor-pointer select-none items-center rounded-default py-1.5 text-sm leading-none outline-none transition-colors focus:text-color-primary-invert dark:focus:text-color-primary focus:bg-primary-600 active:bg-primary-700 data-[disabled]:pointer-events-none data-[disabled]:opacity-50
   }
   /* START For the ColorField's color picker */
 

@@ -35,7 +35,7 @@ const Collapsible = ({
   return (
     <CollapsibleRoot {...rootProps}>
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-color-default">{title}</span>
+        <span className="text-color-primary">{title}</span>
         <CollapsibleTrigger>
           <Button colorTreatment="minimal">
             <ChevronUpDownIcon className="h-5 w-5" />

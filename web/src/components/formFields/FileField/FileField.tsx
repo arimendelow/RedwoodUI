@@ -120,9 +120,7 @@ const FileField = React.forwardRef<HTMLButtonElement, IFileFieldProps>(
           ) : (
             <span
               className={
-                fieldError
-                  ? 'text-color-secondary-error'
-                  : 'text-color-secondary'
+                fieldError ? 'text-color-tertiary-error' : 'text-color-tertiary'
               }
             >
               {props.placeholder}

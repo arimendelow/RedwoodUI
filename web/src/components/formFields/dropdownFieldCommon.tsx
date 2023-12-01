@@ -10,9 +10,9 @@ const SimpleOptionRendererWithRightCheckmark: RenderOptionType<string> = ({
 }) => (
   <div
     className={cn(
-      'text-color-default relative m-1 select-none py-2 pl-2 pr-8',
+      'text-color-primary relative m-1 select-none py-2 pl-2 pr-8',
       active &&
-        'text-color-default-invert dark:text-color-default rounded-default bg-primary-600',
+        'text-color-primary-invert dark:text-color-primary rounded-default bg-primary-600',
       disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
     )}
   >
@@ -24,7 +24,7 @@ const SimpleOptionRendererWithRightCheckmark: RenderOptionType<string> = ({
         className={cn(
           'absolute inset-y-0 right-0 flex items-center pr-4',
           active
-            ? 'text-color-default-invert dark:text-color-default'
+            ? 'text-color-primary-invert dark:text-color-primary'
             : 'text-primary-600'
         )}
       >
@@ -42,9 +42,9 @@ const SimpleOptionRendererWithLeftCheckmark: RenderOptionType<string> = ({
 }) => (
   <div
     className={cn(
-      'text-color-default relative m-1 select-none py-2 pl-2 pr-8',
+      'text-color-primary relative m-1 select-none py-2 pl-2 pr-8',
       active &&
-        'text-color-default-invert dark:text-color-default rounded-default bg-primary-600',
+        'text-color-primary-invert dark:text-color-primary rounded-default bg-primary-600',
       disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
     )}
   >
@@ -53,7 +53,7 @@ const SimpleOptionRendererWithLeftCheckmark: RenderOptionType<string> = ({
         className={cn(
           'absolute inset-y-0 left-0 flex items-center pl-2',
           active
-            ? 'text-color-default-invert dark:text-color-default'
+            ? 'text-color-primary-invert dark:text-color-primary'
             : 'text-primary-600'
         )}
       >

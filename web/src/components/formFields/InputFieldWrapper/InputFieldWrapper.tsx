@@ -147,8 +147,8 @@ const InputFieldWrapper = ({
       {label && (
         <Label
           name={name}
-          className="block text-sm font-medium text-neutral-700 dark:text-light"
-          errorClassName="block text-sm font-medium text-color-error"
+          className="text-color-secondary block text-sm font-medium"
+          errorClassName="block text-sm font-medium text-color-secondary-error"
         >
           {label}
           {optional && (
@@ -162,8 +162,8 @@ const InputFieldWrapper = ({
       {description && (
         <Description
           name={name}
-          className="text-color-secondary mb-3 mt-1 text-sm leading-5"
-          errorClassName="text-color-secondary-error"
+          className="text-color-tertiary mb-3 mt-1 text-sm leading-5"
+          errorClassName="text-color-tertiary-error"
         >
           {description}
         </Description>

@@ -48,7 +48,7 @@ const Avatar = React.forwardRef<
         onLoadingStatusChange={onLoadingStatusChange}
       />
       <AvatarPrimitive.Fallback
-        className="text-color-default flex h-full w-full items-center justify-center border-inherit font-semibold text-opacity-80 "
+        className="text-color-primary flex h-full w-full items-center justify-center border-inherit font-semibold text-opacity-80 "
         delayMs={fallbackDelayMs}
       >
         {fallback}

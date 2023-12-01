@@ -72,7 +72,7 @@ const RadioGroupField = ({
             <div className="ml-3 text-sm leading-6">
               <label
                 className={cn(
-                  fieldError ? 'text-color-error' : 'text-color-default'
+                  fieldError ? 'text-color-primary-error' : 'text-color-primary'
                 )}
                 htmlFor={option.value}
               >
@@ -81,8 +81,8 @@ const RadioGroupField = ({
                   <p
                     className={cn(
                       fieldError
-                        ? 'text-color-secondary-error'
-                        : 'text-color-secondary'
+                        ? 'text-color-tertiary-error'
+                        : 'text-color-tertiary'
                     )}
                   >
                     {option.description}

@@ -4,15 +4,15 @@ import { VariantProps, cva } from 'class-variance-authority'
  * This is a list of all the variants that is applied to all input fields
  */
 export const inputFieldVariants = cva(
-  'flex w-full rounded-default border bg-default px-3 py-2 placeholder:text-color-secondary disabled:disabled-classes focus-ring transition-colors min-h-[42px]',
+  'flex w-full rounded-default border bg-default px-3 py-2 placeholder:text-color-tertiary disabled:disabled-classes focus-ring transition-colors min-h-[42px]',
   {
     variants: {
       colorTreatment: {
-        default: ['border-neutral-300', 'text-dark', 'dark:text-light'],
+        default: ['border-neutral-300', 'text-color-primary'],
         error: [
           'border-red-700',
-          'placeholder:text-color-secondary-error',
-          'text-color-error',
+          'placeholder:text-color-tertiary-error',
+          'text-color-primary-error',
         ],
       },
       /**
