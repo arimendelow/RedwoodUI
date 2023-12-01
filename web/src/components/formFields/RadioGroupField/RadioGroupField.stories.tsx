@@ -1,25 +1,13 @@
-// Pass props to your component by passing an `args` object to your story
-//
-// ```tsx
-// export const Primary: Story = {
-//  args: {
-//    propName: propValue
-//  }
-// }
-// ```
-//
-// See https://storybook.js.org/docs/react/writing-stories/args.
-
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { Form, FormProvider, useForm } from '@redwoodjs/forms'
 
 import Button from 'src/components/Button'
 
-import RadioGroup from './RadioGroupField'
+import RadioGroupField from './RadioGroupField'
 
-const meta: Meta<typeof RadioGroup> = {
-  component: RadioGroup,
+const meta: Meta<typeof RadioGroupField> = {
+  component: RadioGroupField,
   argTypes: {
     optional: {
       control: { type: 'boolean' },
@@ -43,7 +31,7 @@ const meta: Meta<typeof RadioGroup> = {
 
 export default meta
 
-type Story = StoryObj<typeof RadioGroup>
+type Story = StoryObj<typeof RadioGroupField>
 
 export const Primary: Story = {
   args: {
@@ -52,7 +40,7 @@ export const Primary: Story = {
     defaultValue: undefined,
   },
   render: ({ optional, hideErrorMessage, defaultValue }) => (
-    <RadioGroup
+    <RadioGroupField
       name="resale"
       label="Resale and transfers"
       description="Decide if people buy tickets from you or from scalpers."
