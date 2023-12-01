@@ -54,13 +54,7 @@ const RadioGroupField = ({
       hideErrorMessage={hideErrorMessage}
       className={wrapperClassName}
     >
-      <RadioGroupRoot
-        className="flex flex-col gap-2"
-        {...props}
-        {...field}
-        value={field.value}
-        onValueChange={field.onChange}
-      >
+      <RadioGroupRoot onValueChange={field.onChange} {...field} {...props}>
         {options.map((option) => (
           <div
             key={option.value}
