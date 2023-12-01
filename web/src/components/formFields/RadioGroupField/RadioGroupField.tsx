@@ -5,7 +5,7 @@ import { useController } from '@redwoodjs/forms'
 import { IInputFieldWrapperProps } from 'src/components/formFields/InputFieldWrapper'
 import { cn } from 'src/lib/utils'
 
-import InputFieldWrapper from '../formFields/InputFieldWrapper/InputFieldWrapper'
+import InputFieldWrapper from '../InputFieldWrapper/InputFieldWrapper'
 
 interface IRadioGroupOption {
   value: string
@@ -25,7 +25,7 @@ interface IRadioGroupProps
   wrapperClassName?: string
 }
 
-const RadioGroup = ({
+const RadioGroupField = ({
   /** START for wrapper */
   name,
   label,
@@ -54,7 +54,13 @@ const RadioGroup = ({
       hideErrorMessage={hideErrorMessage}
       className={wrapperClassName}
     >
-      <RadioGroupRoot className="flex flex-col gap-2" {...props} {...field}>
+      <RadioGroupRoot
+        className="flex flex-col gap-2"
+        {...props}
+        {...field}
+        value={field.value}
+        onValueChange={field.onChange}
+      >
         {options.map((option) => (
           <div
             key={option.value}
@@ -122,7 +128,7 @@ const RadioGroupItemIndicator = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        'focus-ring bg-default h-4 w-4 rounded-full border border-neutral-300 shadow-sm transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-700 [&[data-state=checked]]:border-none [&[data-state=checked]]:bg-primary-600 [&[data-state=checked]]:hover:bg-primary-800',
+        'focus-ring bg-default h-4 w-4 flex-shrink-0 rounded-full border border-neutral-300 shadow-sm transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-700 [&[data-state=checked]]:border-none [&[data-state=checked]]:bg-primary-600 [&[data-state=checked]]:hover:bg-primary-800',
         className
       )}
       {...props}
@@ -132,5 +138,5 @@ const RadioGroupItemIndicator = React.forwardRef<
   )
 })
 
-export default RadioGroup
+export default RadioGroupField
 export { RadioGroupRoot, RadioGroupItemIndicator }

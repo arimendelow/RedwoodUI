@@ -16,7 +16,7 @@ import { Form, FormProvider, useForm } from '@redwoodjs/forms'
 
 import Button from 'src/components/Button'
 
-import RadioGroup from './RadioGroup'
+import RadioGroup from './RadioGroupField'
 
 const meta: Meta<typeof RadioGroup> = {
   component: RadioGroup,
