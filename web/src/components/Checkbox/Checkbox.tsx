@@ -5,7 +5,15 @@ import { cn } from 'src/lib/utils'
 
 interface ICheckboxProps
   extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {
+  /**
+   * Use this to make Checkbox a controlled component.
+   * If you pass in `checked`, you must also pass in `setChecked`.
+   */
   checked?: CheckboxPrimitive.CheckedState
+  /**
+   * Use this to make Checkbox a controlled component.
+   * If you pass in `setChecked`, you must also pass in `checked`.
+   */
   setChecked?: React.Dispatch<
     React.SetStateAction<CheckboxPrimitive.CheckedState>
   >
