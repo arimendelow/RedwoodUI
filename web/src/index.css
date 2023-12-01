@@ -34,12 +34,6 @@
   .text-color-secondary-error {
     @apply text-red-700/60 dark:text-red-700/70
   }
-  .input-placeholder-text-color {
-    @apply text-neutral-500 dark:text-neutral-400
-  }
-  .text-color-secondary-error {
-    @apply text-red-700/60 dark:text-red-700/70
-  }
   .text-color-default-invert {
     @apply text-light dark:text-dark
   }
