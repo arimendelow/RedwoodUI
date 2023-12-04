@@ -19,8 +19,8 @@ interface IRadioGroupProps
       IInputFieldWrapperProps,
       'children' | 'className' | 'maxLength' | 'currentLength' | 'endComponent'
     >,
-    // Omit the name prop from RadioGroupRootPropsType because we want the one from IInputFieldWrapperProps
-    Omit<RadioGroupRootPropsType, 'name' | 'asChild'> {
+    // Omit the name prop from IRadioGroupRootProps because we want the one from IInputFieldWrapperProps
+    Omit<IRadioGroupRootProps, 'name' | 'asChild'> {
   options: IRadioGroupOption[]
   wrapperClassName?: string
 }
@@ -97,13 +97,12 @@ const RadioGroupField = ({
   )
 }
 
-type RadioGroupRootPropsType = React.ComponentPropsWithRef<
-  typeof RadioGroupPrimitive.Root
->
+interface IRadioGroupRootProps
+  extends React.ComponentPropsWithRef<typeof RadioGroupPrimitive.Root> {}
 
 const RadioGroupRoot = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
-  RadioGroupRootPropsType
+  IRadioGroupRootProps
 >(({ className, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Root
