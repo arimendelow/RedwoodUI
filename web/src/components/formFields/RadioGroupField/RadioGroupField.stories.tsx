@@ -26,6 +26,16 @@ const meta: Meta<typeof RadioGroupField> = {
         forbid: 'forbid',
       },
     },
+    wrapperClassName: {
+      table: {
+        disable: true,
+      },
+    },
+    options: {
+      table: {
+        disable: true,
+      },
+    },
   },
 }
 

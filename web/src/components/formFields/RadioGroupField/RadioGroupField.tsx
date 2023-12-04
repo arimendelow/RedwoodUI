@@ -20,7 +20,7 @@ interface IRadioGroupProps
       'children' | 'className' | 'maxLength' | 'currentLength' | 'endComponent'
     >,
     // Omit the name prop from RadioGroupRootPropsType because we want the one from IInputFieldWrapperProps
-    Omit<RadioGroupRootPropsType, 'name'> {
+    Omit<RadioGroupRootPropsType, 'name' | 'asChild'> {
   options: IRadioGroupOption[]
   wrapperClassName?: string
 }
