@@ -5,10 +5,10 @@ import { FormProvider, Form, useForm, useWatch } from '@redwoodjs/forms'
 import Button from 'src/components/Button/Button'
 import { RedwoodJSLogo } from 'src/components/logos/RedwoodJSLogo'
 
-import TelField from './TelField'
+import UrlField from './UrlField'
 
-const meta: Meta<typeof TelField> = {
-  component: TelField,
+const meta: Meta<typeof UrlField> = {
+  component: UrlField,
   argTypes: {
     optional: {
       control: { type: 'boolean' },
@@ -69,7 +69,7 @@ const meta: Meta<typeof TelField> = {
 
 export default meta
 
-type Story = StoryObj<typeof TelField>
+type Story = StoryObj<typeof UrlField>
 
 export const Primary: Story = {
   args: {
@@ -87,25 +87,25 @@ export const Primary: Story = {
     endComponent,
   }) => {
     return (
-      <TelField
-        label="Cell number"
-        description="What is your cell phone number?"
-        name="cell"
-        placeholder="+1 123 456 7890"
+      <UrlField
+        label="Favorite Website"
+        description="What is your favorite website?"
+        name="favSite"
+        placeholder="https://redwoodjs.com"
         optional={optional}
         hideErrorMessage={hideErrorMessage}
         inputTextSize={inputTextSize}
         maxLength={maxLength}
         endComponent={endComponent}
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        currentLength={useWatch({ name: 'cell' })?.length || 0}
+        currentLength={useWatch({ name: 'favSite' })?.length || 0}
       />
     )
   },
   decorators: [
     (Story) => {
       interface ISampleForm {
-        cell: string
+        favSite: string
       }
 
       const methods = useForm<ISampleForm>()
