@@ -120,6 +120,7 @@ export const Primary: Story = {
             onSubmit={onSubmit}
           >
             <Story />
+            <Button>Submit</Button>
           </Form>
         </FormProvider>
       )
