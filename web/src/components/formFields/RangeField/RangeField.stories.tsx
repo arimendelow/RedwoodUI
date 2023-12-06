@@ -16,13 +16,8 @@ type Story = StoryObj<typeof RangeField>
 
 export const Primary: Story = {
   render: () => {
-    const ref = React.useRef<HTMLSpanElement>(null)
-    React.useEffect(() => {
-      setTimeout(() => ref.current?.focus(), 100)
-    }, [])
     return (
       <RangeField
-        ref={ref}
         name="fireIntensity"
         label="Dragon's Fire Intensity"
         description="Slide to set the intensity of your dragon's fire breath. Caution: Dragons may get a bit toasty!"

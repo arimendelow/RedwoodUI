@@ -52,18 +52,27 @@ const RangeField = React.forwardRef<HTMLSpanElement, IRangeFieldProps>(
         hideErrorMessage={hideErrorMessage}
         className={wrapperClassName}
       >
-        <RangeRoot
-          onValueChange={field.onChange}
-          {...rhfFieldProps}
-          {...props}
-          ref={ref}
-        >
+        <RangeRoot onValueChange={field.onChange} {...rhfFieldProps} {...props}>
           <SliderTrack
             className={cn(fieldError && 'bg-red-800/20 dark:bg-red-700/20')}
           >
             <RangeSlider className={cn(fieldError && 'bg-red-700')} />
           </SliderTrack>
-          <SliderThumb className={cn(fieldError && 'bg-red-700')} />
+          <SliderThumb
+            // Need to do this to allow RHF to focus the error input.
+            ref={(el) => {
+              rhfRef(el)
+              if (ref) {
+                // Handling external ref if provided
+                if (typeof ref === 'function') {
+                  ref(el)
+                } else {
+                  ref.current = el
+                }
+              }
+            }}
+            className={cn(fieldError && 'bg-red-700')}
+          />
         </RangeRoot>
       </InputFieldWrapper>
     )
@@ -124,14 +133,19 @@ interface ISliderThumbProps
 /**
  * A draggable thumb. You can render multiple thumbs.
  */
-const SliderThumb = ({ className, ...props }: ISliderThumbProps) => (
-  <RangePrimitive.Thumb
-    className={cn(
-      'focus-ring block h-5 w-5 rounded-full bg-primary-700 ring-2 ring-light dark:ring-dark',
-      className
-    )}
-    {...props}
-  />
+const SliderThumb = React.forwardRef<HTMLSpanElement, ISliderThumbProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <RangePrimitive.Thumb
+        ref={ref}
+        className={cn(
+          'focus-ring block h-5 w-5 rounded-full bg-primary-700 ring-2 ring-light dark:ring-dark',
+          className
+        )}
+        {...props}
+      />
+    )
+  }
 )
 
 export default RangeField

@@ -63,7 +63,13 @@ const FileField = React.forwardRef<HTMLButtonElement, IFileFieldProps>(
       },
     })
     // on rhfRef: assign to component's input ref to allow hook form to focus the error input.
-    const { onChange: rhfOnChange, onBlur, ref: rhfRef, value } = field
+    const {
+      onChange: rhfOnChange,
+      onBlur,
+      ref: rhfRef,
+      value,
+      ...rhfFieldProps
+    } = field
 
     const hiddenFileInputRef = React.useRef<HTMLInputElement>(null)
     return (
@@ -79,13 +85,13 @@ const FileField = React.forwardRef<HTMLButtonElement, IFileFieldProps>(
         <input
           type="file"
           ref={hiddenFileInputRef}
-          name={name}
           className="hidden"
           onChange={(e) => rhfOnChange(e.target.files)} // instead of the default of e.target.value
-          // value={value || ''} // i don't know how to make this work for file inputs
           {...props}
+          {...rhfFieldProps}
         />
         <button
+          // Need to do this to allow RHF to focus the error input.
           ref={(el) => {
             rhfRef(el)
             if (ref) {
