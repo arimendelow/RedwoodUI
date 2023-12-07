@@ -19,6 +19,9 @@ const Switch = React.forwardRef<
 interface ISwitchRootProps
   extends React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root> {}
 
+/**
+ * Contains all the parts of a switch. An input will also render when used within a form to ensure events propagate correctly.
+ */
 const SwitchRoot = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Root>,
   ISwitchRootProps
@@ -38,6 +41,9 @@ const SwitchRoot = React.forwardRef<
 interface ISwitchThumbProps
   extends React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Thumb> {}
 
+/**
+ * The thumb that is used to visually indicate whether the switch is on or off.
+ */
 const SwitchThumb = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Thumb>,
   ISwitchThumbProps
