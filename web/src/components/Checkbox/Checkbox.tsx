@@ -24,14 +24,10 @@ const Checkbox = React.forwardRef<
   ICheckboxProps
 >(
   (
-    {
-      checked: checkedControlled,
-      setChecked: setCheckedControlled,
-      className,
-      ...props
-    },
+    { checked: checkedControlled, setChecked: setCheckedControlled, ...props },
     ref
   ) => {
+    // We use state to surface the `checked` state for usage with Framer Motion
     const [checkedUncontrolled, setCheckedUncontrolled] =
       React.useState<CheckboxPrimitive.CheckedState>(
         props.defaultChecked ?? false
@@ -48,18 +44,13 @@ const Checkbox = React.forwardRef<
     const setChecked = setCheckedControlled ?? setCheckedUncontrolled
 
     return (
-      <CheckboxPrimitive.Root
+      <CheckboxRoot
         ref={ref}
-        className={cn(
-          'focus-ring disabled:disabled-classes flex h-5 w-5 shrink-0 items-center justify-center rounded-default border shadow-sm transition-colors duration-500',
-          'border-neutral-300 bg-light text-light data-[state=checked]:border-primary-700 data-[state=checked]:bg-primary-700 data-[state=checked]:active:bg-primary-900 data-[state=unchecked]:active:bg-neutral-200',
-          className
-        )}
         checked={checked}
         onCheckedChange={setChecked}
         {...props}
       >
-        <CheckboxPrimitive.Indicator
+        <CheckboxIndicator
           forceMount
           className={cn('flex items-center justify-center text-current')}
         >
@@ -92,10 +83,54 @@ const Checkbox = React.forwardRef<
               )}
             </AnimatePresence>
           </svg>
-        </CheckboxPrimitive.Indicator>
-      </CheckboxPrimitive.Root>
+        </CheckboxIndicator>
+      </CheckboxRoot>
     )
   }
 )
 
+interface ICheckboxRootProps
+  extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {}
+
+/**
+ * Contains all the parts of a checkbox. An input will also render when used within a form to ensure events propagate correctly.
+ */
+const CheckboxRoot = React.forwardRef<
+  React.ElementRef<typeof CheckboxPrimitive.Root>,
+  ICheckboxRootProps
+>(({ className, ...props }, ref) => {
+  return (
+    <CheckboxPrimitive.Root
+      ref={ref}
+      className={cn(
+        'focus-ring disabled:disabled-classes flex h-5 w-5 shrink-0 items-center justify-center rounded-default border shadow-sm transition-colors duration-200',
+        'border-neutral-300 bg-light text-light data-[state=checked]:border-primary-700 data-[state=checked]:bg-primary-700 data-[state=checked]:active:bg-primary-900 data-[state=unchecked]:active:bg-neutral-200',
+        className
+      )}
+      {...props}
+    />
+  )
+})
+
+interface ICheckboxIndicatorProps
+  extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Indicator> {}
+
+/**
+ * Renders when the checkbox is in a checked or indeterminate state. It is intended to be used as a wrapper to put an icon into,
+ * so that the icon can be animated when the checkbox is checked.
+ */
+const CheckboxIndicator = React.forwardRef<
+  React.ElementRef<typeof CheckboxPrimitive.Indicator>,
+  ICheckboxIndicatorProps
+>(({ className, ...props }, ref) => {
+  return (
+    <CheckboxPrimitive.Indicator
+      ref={ref}
+      className={cn('flex items-center justify-center text-current', className)}
+      {...props}
+    />
+  )
+})
+
 export default Checkbox
+export { CheckboxRoot, CheckboxIndicator }

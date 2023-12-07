@@ -8,9 +8,9 @@ interface ISwitchProps
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Root>,
   ISwitchProps
->(({ className, ...props }, ref) => {
+>(({ ...props }, ref) => {
   return (
-    <SwitchRoot ref={ref} className={className} {...props}>
+    <SwitchRoot ref={ref} {...props}>
       <SwitchThumb />
     </SwitchRoot>
   )
@@ -55,3 +55,4 @@ const SwitchThumb = React.forwardRef<
 })
 
 export default Switch
+export { SwitchRoot, SwitchThumb }
