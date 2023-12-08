@@ -9,9 +9,25 @@ import CheckboxGroupField from './CheckboxGroupField'
 const meta: Meta<typeof CheckboxGroupField> = {
   component: CheckboxGroupField,
   argTypes: {
+    optional: {
+      control: { type: 'boolean' },
+    },
+    hideErrorMessage: {
+      control: { type: 'boolean' },
+    },
     indicator: {
       control: { type: 'radio' },
       options: ['checkbox', 'switch'],
+    },
+    wrapperClassName: {
+      table: {
+        disable: true,
+      },
+    },
+    options: {
+      table: {
+        disable: true,
+      },
     },
   },
 }
@@ -22,33 +38,53 @@ type Story = StoryObj<typeof CheckboxGroupField>
 
 export const Primary: Story = {
   args: {
+    optional: false,
+    hideErrorMessage: false,
     indicator: 'checkbox',
   },
   render: ({ indicator }) => (
     <CheckboxGroupField
-      name="resale"
-      label="Resale and transfers"
-      description="Decide if people buy tickets from you or from scalpers."
+      name="options"
+      label="Account Options"
+      description="Customize your experience by selecting from the options below."
       indicator={indicator}
       options={[
         {
-          value: 'permit',
-          label: 'Allow tickets to be resold',
+          value: 'nightOwlMode',
+          label: 'Night Owl Mode',
           description:
-            "Customers can resell or transfer their tickets if they can't make it to the event.",
+            'Activates a darker theme for late-night app usage. Perfect for browsing without waking up the neighborhood owls.',
         },
         {
+          value: 'memoryLane',
+          label: 'Memory Lane',
+          description:
+            "Displays nostalgic content from your earlier activity on the app, because who doesn't like a trip down memory lane?",
+        },
+        {
+          value: 'mysteryFeature',
+          label: 'Mystery Feature',
+          description:
+            'Enables a random, fun feature every week. Could be anything from retro sound effects to vintage filters!',
+        },
+        {
+          value: 'invisibleInk',
+          label: 'Invisible Ink',
+          description:
+            "Makes all text on the app invisible. Because sometimes you just don't want to read anything.",
           disabled: true,
-          value: 'invalidate',
-          label: 'Invalidate resold tickets',
-          description:
-            'Tickets that are resold will be invalidated and the new buyer will not be able to use them.',
         },
         {
-          value: 'forbid',
-          label: "Don't allow tickets to be resold",
+          value: 'silentGuardian',
+          label: 'Silent Guardian',
           description:
-            'Tickets cannot be resold or transferred to another person.',
+            'Silently filters out spoilers from your feed. Because no one likes unsolicited plot reveals.',
+        },
+        {
+          value: 'whimsicalWidgets',
+          label: 'Whimsical Widgets',
+          description:
+            'Add fun, animated widgets to your dashboard. They serve no purpose but to make you smile.',
         },
       ]}
     />

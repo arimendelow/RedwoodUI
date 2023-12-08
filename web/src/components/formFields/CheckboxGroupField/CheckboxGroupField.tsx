@@ -21,6 +21,10 @@ interface ICheckboxGroupProps
   > {
   options: ICheckboxGroupOption[]
   /**
+   * The default value of the checkbox group, as an array of strings, where each string is the value of the checkbox you want to set.
+   */
+  defaultValue?: string[]
+  /**
    * The indicator to use for the checkbox.
    * - `checkbox` is the default
    */
@@ -38,6 +42,7 @@ const CheckboxGroupField = ({
   wrapperClassName,
   /** END for wrapper */
   options,
+  defaultValue = [],
   indicator = 'checkbox',
 }: ICheckboxGroupProps) => {
   const {
@@ -45,7 +50,7 @@ const CheckboxGroupField = ({
     fieldState: { error: fieldError },
   } = useController({
     name,
-    defaultValue: [],
+    defaultValue,
     rules: { required: !optional },
   })
   return (
