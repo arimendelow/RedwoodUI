@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import CheckboxField from './CheckboxField'
+import CheckboxGroupField from './CheckboxGroupField'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('CheckboxField', () => {
+describe('CheckboxGroupField', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<CheckboxField />)
+      render(<CheckboxGroupField />)
     }).not.toThrow()
   })
 })

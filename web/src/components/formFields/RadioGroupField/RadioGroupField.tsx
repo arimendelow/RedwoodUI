@@ -2,10 +2,10 @@ import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 
 import { useController } from '@redwoodjs/forms'
 
+import { GroupFieldOptionLabel } from 'src/components/formFields/groupFieldCommon'
 import { IInputFieldWrapperProps } from 'src/components/formFields/InputFieldWrapper'
+import InputFieldWrapper from 'src/components/formFields/InputFieldWrapper'
 import { cn } from 'src/lib/utils'
-
-import InputFieldWrapper from '../InputFieldWrapper/InputFieldWrapper'
 
 interface IRadioGroupOption {
   value: string
@@ -69,27 +69,12 @@ const RadioGroupField = ({
               id={option.value}
               className="mt-1"
             />
-            <div className="ml-3 text-sm leading-6">
-              <label
-                className={cn(
-                  fieldError ? 'text-color-primary-error' : 'text-color-primary'
-                )}
-                htmlFor={option.value}
-              >
-                {option.label}
-                {option.description && (
-                  <p
-                    className={cn(
-                      fieldError
-                        ? 'text-color-tertiary-error'
-                        : 'text-color-tertiary'
-                    )}
-                  >
-                    {option.description}
-                  </p>
-                )}
-              </label>
-            </div>
+            <GroupFieldOptionLabel
+              optionValue={option.value}
+              optionLabel={option.label}
+              optionDescription={option.description}
+              hasError={!!fieldError}
+            />
           </div>
         ))}
       </RadioGroupRoot>

@@ -4,7 +4,10 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { cn } from 'src/lib/utils'
 
 interface ICheckboxProps
-  extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {
+  /**
+   * Omit `onCheckedChange` because we set it internally.
+   */
+  extends Omit<ICheckboxRootProps, 'onCheckedChange'> {
   /**
    * Use this to make Checkbox a controlled component.
    * If you pass in `checked`, you must also pass in `setChecked`.
@@ -14,11 +17,13 @@ interface ICheckboxProps
    * Use this to make Checkbox a controlled component.
    * If you pass in `setChecked`, you must also pass in `checked`.
    */
-  setChecked?: React.Dispatch<
-    React.SetStateAction<CheckboxPrimitive.CheckedState>
-  >
+  setChecked?: (checked: boolean) => void
 }
 
+/**
+ * Note that this component does not currently support indeterminate state,
+ * but Radix does support it.
+ */
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   ICheckboxProps

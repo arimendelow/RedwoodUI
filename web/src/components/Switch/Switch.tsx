@@ -30,7 +30,7 @@ const SwitchRoot = React.forwardRef<
     <SwitchPrimitive.Root
       ref={ref}
       className={cn(
-        'focus-ring group mr-4 inline-flex h-6 w-10 cursor-pointer touch-none items-center rounded-full border-2 border-transparent transition duration-300 [&[data-state="checked"]]:bg-primary-700 [&[data-state="unchecked"]]:bg-neutral-300/40',
+        'focus-ring group inline-flex h-6 w-10 cursor-pointer touch-none items-center rounded-full border-2 border-transparent transition duration-300 [&[data-state="checked"]]:bg-primary-700 [&[data-state="unchecked"]]:bg-neutral-300/40',
         className
       )}
       {...props}
