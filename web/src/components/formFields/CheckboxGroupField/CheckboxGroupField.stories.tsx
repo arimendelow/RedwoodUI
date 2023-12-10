@@ -41,13 +41,17 @@ export const Primary: Story = {
     optional: false,
     hideErrorMessage: false,
     indicator: 'checkbox',
+    defaultValue: ['nightOwlMode', 'silentGuardian'],
   },
-  render: ({ indicator }) => (
+  render: ({ optional, hideErrorMessage, indicator, defaultValue }) => (
     <CheckboxGroupField
       name="options"
       label="Account Options"
       description="Customize your experience by selecting from the options below."
       indicator={indicator}
+      optional={optional}
+      hideErrorMessage={hideErrorMessage}
+      defaultValue={defaultValue}
       options={[
         {
           value: 'nightOwlMode',
