@@ -62,53 +62,51 @@ const CheckboxGroupField = ({
       hideErrorMessage={hideErrorMessage}
       className={wrapperClassName}
     >
-      <div id="checkbox-group-options">
-        {options.map((option) => {
-          const checked = field.value.includes(option.value)
-          const onCheckedChange = (checked: boolean) => {
-            return checked
-              ? field.onChange([...field.value, option.value])
-              : field.onChange(
-                  field.value?.filter((value: string) => value !== option.value)
-                )
-          }
-          return (
-            <div
-              key={option.value}
-              className={cn(
-                'flex items-start',
-                option.disabled && 'disabled-classes'
-              )}
-            >
-              {indicator === 'checkbox' ? (
-                <Checkbox
-                  id={option.value}
-                  value={option.value}
-                  checked={checked}
-                  // See the Checkbox component for why we need to use setChecked instead of onCheckedChange
-                  setChecked={onCheckedChange}
-                  disabled={option.disabled}
-                  className="mt-0.5"
-                />
-              ) : (
-                <Switch
-                  id={option.value}
-                  value={option.value}
-                  checked={checked}
-                  onCheckedChange={onCheckedChange}
-                  disabled={option.disabled}
-                />
-              )}
-              <GroupFieldOptionLabel
-                optionValue={option.value}
-                optionLabel={option.label}
-                optionDescription={option.description}
-                hasError={!!fieldError}
+      {options.map((option) => {
+        const checked = field.value.includes(option.value)
+        const onCheckedChange = (checked: boolean) => {
+          return checked
+            ? field.onChange([...field.value, option.value])
+            : field.onChange(
+                field.value?.filter((value: string) => value !== option.value)
+              )
+        }
+        return (
+          <div
+            key={option.value}
+            className={cn(
+              'flex items-start',
+              option.disabled && 'disabled-classes'
+            )}
+          >
+            {indicator === 'checkbox' ? (
+              <Checkbox
+                id={option.value}
+                value={option.value}
+                checked={checked}
+                // See the Checkbox component for why we need to use setChecked instead of onCheckedChange
+                setChecked={onCheckedChange}
+                disabled={option.disabled}
+                className="mt-0.5"
               />
-            </div>
-          )
-        })}
-      </div>
+            ) : (
+              <Switch
+                id={option.value}
+                value={option.value}
+                checked={checked}
+                onCheckedChange={onCheckedChange}
+                disabled={option.disabled}
+              />
+            )}
+            <GroupFieldOptionLabel
+              optionValue={option.value}
+              optionLabel={option.label}
+              optionDescription={option.description}
+              hasError={!!fieldError}
+            />
+          </div>
+        )
+      })}
     </InputFieldWrapper>
   )
 }
