@@ -120,15 +120,18 @@ interface IMenuProps extends IMenuTypeProp, IMenuRootProps {
   /**
    * The element that will trigger the menu to open.
    * You *do not* need to pass `onClick` to this element, it will be handled for you.
+   * - For a Context menu: The area that opens the context menu when right-clicking (or using the relevant keyboard shortcuts).
+   * - For a Dropdown menu: The button that toggles the dropdown menu. By default, the `MenuContent` will position itself against the trigger.
+   *
    */
-  openButton: React.ReactNode
+  trigger: React.ReactNode
   /**
-   * The preferred side of the trigger to render against when open.
+   * When rendering a Dropdown Menu, the preferred side of the trigger to render against when open.
    * Will be reversed when collisions occur and `avoidCollisions` is enabled.
    */
-  side: PopperContentProps['side']
+  side?: PopperContentProps['side']
   /**
-   * The offset between the trigger and the content, in pixels.
+   * When rendering a Dropdown Menu, the offset between the trigger and the content, in pixels.
    */
   sideOffset?: number
   /**
@@ -139,7 +142,7 @@ interface IMenuProps extends IMenuTypeProp, IMenuRootProps {
 
 const Menu = ({
   menuType,
-  openButton,
+  trigger,
   side = 'bottom',
   sideOffset,
   menuContent,
@@ -150,7 +153,12 @@ const Menu = ({
     menuType === 'context' ? ContextMenuTrigger : DropdownMenuTrigger
   return (
     <MenuRoot menuType={menuType} open={open} onOpenChange={setOpen} {...props}>
-      <MenuTrigger asChild>{openButton}</MenuTrigger>
+      <MenuTrigger
+        // When a Dropdown menu, the trigger will be a button, so we want to use `asChild` to avoid a wrapping div.
+        asChild={menuType === 'dropdown'}
+      >
+        {trigger}
+      </MenuTrigger>
       <MenuPortal menuType={menuType} forceMount>
         <AnimatePresence>
           {open && (
