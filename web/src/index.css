@@ -73,25 +73,34 @@
     @apply mb-2 text-xl font-semibold leading-none tracking-tight text-center sm:text-start
   }
   .loading {
-    @apply animate-pulse cursor-wait bg-neutral-200 !text-transparent select-none dark:bg-neutral-600 border-none;
+    @apply animate-pulse cursor-wait bg-neutral-200 !text-transparent select-none dark:bg-neutral-600 border-none
   }
+  /* Base styling for dropdowns */
   .dropdown-content-base {
     @apply relative z-[10000] rounded-default border border-neutral-900/10 bg-neutral-100/70 px-2 pb-2 pt-1 shadow-lg backdrop-blur-lg backdrop-saturate-200 dark:border-neutral-50/10 dark:bg-neutral-800/60
   }
+  /* Styling for dropdowns in form fields, for example Select and Combobox */
   .dropdown-content-field {
     @apply dropdown-content-base max-h-60 w-full overflow-auto text-base sm:text-sm
   }
+  /* Styling for dropdowns in menus, for example Menu (Context+Dropdown) and Menubar */
   .dropdown-content-menu {
     @apply dropdown-content-base min-w-[12rem] overflow-hidden
   }
-  /*
-  * Used by the dropdown menu to style the selectable items
-  */
+  /* Used by dropdowns (Menu, Menubar) to style the selectable items. TODO explore using this for dropdown field option renderers */
   .dropdown-menu-item {
     @apply text-color-primary relative flex cursor-pointer select-none items-center rounded-default py-1.5 text-sm leading-none outline-none transition-colors focus:text-color-primary-invert dark:focus:text-color-primary focus:bg-primary-600 active:bg-primary-700 data-[disabled]:pointer-events-none data-[disabled]:opacity-50
   }
-  /* START For the ColorField's color picker */
+  /* Used by dropdowns to style their section labels */
+  .dropdown-menu-label {
+    @apply text-color-primary px-2 pb-0.5 pt-1.5 text-start text-sm font-semibold
+  }
+  /* Used by dropdowns to style their separators */
+  .dropdown-menu-separator {
+    @apply mx-2 my-1 h-px bg-neutral-900/10 dark:bg-neutral-50/20
+  }
 
+  /* START For the ColorField's color picker */
   .react-colorful .react-colorful__saturation {
     @apply rounded-t-default
   }

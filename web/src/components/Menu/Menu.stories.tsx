@@ -19,9 +19,8 @@ const meta: Meta<typeof Menu> = {
   component: Menu,
   argTypes: {
     menuType: {
-      control: {
-        type: 'radio',
-        options: ['dropdown', 'context'],
+      table: {
+        disable: true,
       },
     },
     trigger: {
@@ -53,7 +52,7 @@ export const Dropdown: Story = {
       control: { type: 'range', min: 0, max: 100, step: 1 },
     },
   },
-  args: { menuType: 'dropdown', side: 'bottom', sideOffset: 10 },
+  args: { side: 'bottom', sideOffset: 10 },
   // See https://github.com/storybookjs/storybook/issues/17720#issuecomment-1525784750
   parameters: {
     docs: {
@@ -62,7 +61,7 @@ export const Dropdown: Story = {
       },
     },
   },
-  render: ({ side, sideOffset, menuType }) => {
+  render: ({ side, sideOffset }) => {
     const [selectedRadioValue, setSelectedRadioValue] =
       React.useState('first item')
     const [firstItemChecked, setFirstItemChecked] = React.useState(false)
@@ -70,7 +69,7 @@ export const Dropdown: Story = {
     const [thirdItemChecked, setThirdItemChecked] = React.useState(false)
     return (
       <Menu
-        menuType={menuType}
+        menuType="dropdown"
         trigger={
           <Button pill className="h-10 w-10">
             <Bars3Icon className="h-4 w-4" />
@@ -408,7 +407,6 @@ export const Context: Story = {
       },
     },
   },
-  args: { menuType: 'context' },
   // See https://github.com/storybookjs/storybook/issues/17720#issuecomment-1525784750
   parameters: {
     docs: {
@@ -417,7 +415,7 @@ export const Context: Story = {
       },
     },
   },
-  render: ({ menuType }) => {
+  render: () => {
     const [selectedRadioValue, setSelectedRadioValue] =
       React.useState('first item')
     const [firstItemChecked, setFirstItemChecked] = React.useState(false)
@@ -425,7 +423,7 @@ export const Context: Story = {
     const [thirdItemChecked, setThirdItemChecked] = React.useState(false)
     return (
       <Menu
-        menuType={menuType}
+        menuType="context"
         trigger={
           <ChildrenPlaceholder className="h-72 w-96" text="Right click here." />
         }

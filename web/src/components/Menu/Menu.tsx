@@ -1,5 +1,4 @@
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
-import { CheckIcon } from '@heroicons/react/24/outline'
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu'
 import type {
   ContextMenuProps as IContextMenuRootProps,
@@ -42,6 +41,8 @@ import { PopperContentProps } from '@radix-ui/react-popper'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { cn } from 'src/lib/utils'
+
+import { MenuItemIndicatorRenderer } from '../menuCommon'
 
 interface IMenuItemBase {
   textValue: string
@@ -387,7 +388,7 @@ interface IMenuContentProps
     IDropdownMenuContentProps {}
 
 /**
- * The component that pops out when the  menu is open.
+ * The component that pops out when the menu is open.
  */
 const MenuContent = React.forwardRef<HTMLDivElement, IMenuContentProps>(
   ({ menuType, className, sideOffset = 10, ...props }, ref) => {
@@ -410,7 +411,7 @@ interface IMenuArrowProps
     IDropdownMenuArrowProps {}
 
 /**
- * An optional arrow element to render alongside the  menu.
+ * An optional arrow element to render alongside the menu.
  * This can be used to help visually link the trigger with the `MenuContent`.
  * Must be rendered inside `MenuContent`.
  */
@@ -428,7 +429,7 @@ interface IMenuItemProps
     IDropdownMenuItemProps {}
 
 /**
- * The component that contains the  menu items.
+ * The component that contains the menu items.
  */
 const MenuItem = React.forwardRef<HTMLDivElement, IMenuItemProps>(
   ({ menuType, className, ...props }, ref) => {
@@ -475,10 +476,7 @@ const MenuLabel = React.forwardRef<HTMLDivElement, IMenuLabelProps>(
     return (
       <MenuPrimitive.Label
         ref={ref}
-        className={cn(
-          'text-color-primary px-2 pb-0.5 pt-1.5 text-start text-sm font-semibold',
-          className
-        )}
+        className={cn('dropdown-menu-label', className)}
         {...props}
       />
     )
@@ -565,22 +563,7 @@ const MenuItemIndicator = React.forwardRef<
     menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
   return (
     <MenuPrimitive.ItemIndicator ref={ref} {...props}>
-      {indicatorType === 'check' ? (
-        <CheckIcon className="h-4 w-4" />
-      ) : (
-        // dot icon
-        <svg
-          className="h-4 w-4"
-          viewBox="0 0 15 15"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M9.875 7.5C9.875 8.81168 8.81168 9.875 7.5 9.875C6.18832 9.875 5.125 8.81168 5.125 7.5C5.125 6.18832 6.18832 5.125 7.5 5.125C8.81168 5.125 9.875 6.18832 9.875 7.5Z"
-            fill="currentColor"
-          />
-        </svg>
-      )}
+      <MenuItemIndicatorRenderer indicatorType={indicatorType} />
     </MenuPrimitive.ItemIndicator>
   )
 })
@@ -591,7 +574,7 @@ interface IMenuSeparatorProps
     IDropdownMenuSeparatorProps {}
 
 /**
- * Used to visually separate items in the  menu.
+ * Used to visually separate items in the menu.
  */
 const MenuSeparator = React.forwardRef<HTMLDivElement, IMenuSeparatorProps>(
   ({ menuType, className, ...props }, ref) => {
@@ -600,10 +583,7 @@ const MenuSeparator = React.forwardRef<HTMLDivElement, IMenuSeparatorProps>(
     return (
       <MenuPrimitive.Separator
         ref={ref}
-        className={cn(
-          'mx-2 my-1 h-px bg-neutral-900/10 dark:bg-neutral-50/20',
-          className
-        )}
+        className={cn('dropdown-menu-separator', className)}
         {...props}
       />
     )
