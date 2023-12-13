@@ -255,12 +255,12 @@ const Menubar = ({
         lastOpenedSectionRef.current = value
         setOpenSection(value)
       }}
-      className="flex rounded-md border border-neutral-200 bg-light p-1"
+      className="flex space-x-1 rounded-md border border-neutral-200 bg-light p-1 dark:border-neutral-700 dark:bg-dark"
     >
       {menuContent.menuSections.map((menuSection) => {
         return (
           <MenubarMenu key={menuSection.label} value={menuSection.label}>
-            <MenubarTrigger className="flex select-none items-center justify-between gap-[2px] rounded px-3 py-2 text-[13px] font-medium leading-none text-dark outline-none data-[highlighted]:bg-primary-700 data-[state=open]:bg-primary-700">
+            <MenubarTrigger className="text-color-primary flex cursor-pointer select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium outline-none focus:bg-primary-600 data-[state=open]:bg-primary-600 data-[state=open]:text-light">
               {menuSection.label}
             </MenubarTrigger>
             <AnimatePresence>

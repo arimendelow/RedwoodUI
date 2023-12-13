@@ -9,7 +9,7 @@ const AspectRatio = React.forwardRef<
   <AspectRatioPrimitive.Root
     asChild
     ref={ref}
-    className={cn('h-full w-full rounded-default object-cover', className)}
+    className={cn('h-full w-full rounded-md object-cover', className)}
     {...props}
   />
 ))

@@ -168,7 +168,7 @@ const InputFieldWrapper = ({
           {description}
         </Description>
       )}
-      <div className={cn(!!label && 'mt-1', 'relative rounded-default')}>
+      <div className={cn(!!label && 'mt-1', 'relative rounded-md')}>
         {children}
         <div className="pointer-events-none absolute bottom-0 right-2 flex h-full items-center">
           {endComponent}

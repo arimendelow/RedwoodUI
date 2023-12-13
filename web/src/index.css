@@ -67,7 +67,7 @@
     @apply bg-default text-color-primary absolute z-[1000] shadow-lg text-center sm:text-left
   }
   .dialog-position {
-    @apply fixed overflow-clip rounded-default sm:min-w-0 inset-x-5 inset-y-0 m-auto flex max-h-fit max-w-fit flex-col justify-center
+    @apply fixed overflow-clip rounded-md sm:min-w-0 inset-x-5 inset-y-0 m-auto flex max-h-fit max-w-fit flex-col justify-center
   }
   .dialog-title {
     @apply mb-2 text-xl font-semibold leading-none tracking-tight text-center sm:text-start
@@ -77,7 +77,7 @@
   }
   /* Base styling for dropdowns */
   .dropdown-content-base {
-    @apply relative z-[10000] rounded-default border border-neutral-900/10 bg-neutral-100/70 px-2 pb-2 pt-1 shadow-lg backdrop-blur-lg backdrop-saturate-200 dark:border-neutral-50/10 dark:bg-neutral-800/60
+    @apply relative z-[10000] rounded-md border border-neutral-900/10 bg-neutral-100/70 px-2 pb-2 pt-1 shadow-lg backdrop-blur-lg backdrop-saturate-200 dark:border-neutral-50/10 dark:bg-neutral-800/60
   }
   /* Styling for dropdowns in form fields, for example Select and Combobox */
   .dropdown-content-field {
@@ -89,7 +89,7 @@
   }
   /* Used by dropdowns (Menu, Menubar) to style the selectable items. TODO explore using this for dropdown field option renderers */
   .dropdown-menu-item {
-    @apply text-color-primary relative flex cursor-pointer select-none items-center rounded-default py-1.5 text-sm leading-none outline-none transition-colors focus:text-color-primary-invert dark:focus:text-color-primary focus:bg-primary-600 active:bg-primary-700 data-[disabled]:pointer-events-none data-[disabled]:opacity-50
+    @apply text-color-primary relative flex cursor-pointer select-none items-center rounded-md py-1.5 text-sm leading-none outline-none transition-colors focus:text-color-primary-invert dark:focus:text-color-primary focus:bg-primary-600 active:bg-primary-700 data-[disabled]:pointer-events-none data-[disabled]:opacity-50
   }
   /* Used by dropdowns to style their section labels */
   .dropdown-menu-label {
@@ -102,7 +102,7 @@
 
   /* START For the ColorField's color picker */
   .react-colorful .react-colorful__saturation {
-    @apply rounded-t-default
+    @apply rounded-t-md
   }
   .react-colorful .react-colorful__hue {
     @apply mx-5 my-3 h-3 rounded-full

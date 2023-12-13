@@ -12,7 +12,7 @@ const SimpleOptionRendererWithRightCheckmark: RenderOptionType<string> = ({
     className={cn(
       'text-color-primary relative m-1 select-none py-2 pl-2 pr-8',
       active &&
-        'text-color-primary-invert dark:text-color-primary rounded-default bg-primary-600',
+        'text-color-primary-invert dark:text-color-primary rounded-md bg-primary-600',
       disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
     )}
   >
@@ -44,7 +44,7 @@ const SimpleOptionRendererWithLeftCheckmark: RenderOptionType<string> = ({
     className={cn(
       'text-color-primary relative m-1 select-none py-2 pl-2 pr-8',
       active &&
-        'text-color-primary-invert dark:text-color-primary rounded-default bg-primary-600',
+        'text-color-primary-invert dark:text-color-primary rounded-md bg-primary-600',
       disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
     )}
   >

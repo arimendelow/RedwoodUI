@@ -39,10 +39,22 @@ module.exports = {
       },
       borderRadius: {
         /**
-         * Change this to the default border radius for your components.
-         * For example, if you want all corners to be sharp, set this to 0.
+         * This is a default value from Tailwind, copied here for easier reference should you
+         * want to change it.
+         *
+         * For example, if you want to make everything have sharp corners, you could change everything to 0px,
+         * or if you want to make everything even more rounded, you can increase the values.
+         * https://github.com/tailwindlabs/tailwindcss/blob/e6075cbfb99e42f401b290689c743fa50df4d8b1/stubs/config.full.js#L87C20-L87C20
          */
-        default: defaults.theme.borderRadius.md,
+        none: '0px',
+        sm: '0.125rem',
+        DEFAULT: '0.25rem',
+        md: '0.375rem',
+        lg: '0.5rem',
+        xl: '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+        full: '9999px',
       },
       /**
        * START for accordion+collapsible components
