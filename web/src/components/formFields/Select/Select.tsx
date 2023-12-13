@@ -17,9 +17,8 @@ import {
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'src/components/formFields/InputFieldWrapper/InputFieldWrapper'
+import { inputFieldVariants } from 'src/components/formFields/inputVariants'
 import { cn } from 'src/lib/utils'
-
-import { inputFieldVariants } from '../inputVariants'
 
 interface ISelectSpecificProps<TValue extends React.ReactNode = string> {
   options: IDropdownOption<TValue>[]

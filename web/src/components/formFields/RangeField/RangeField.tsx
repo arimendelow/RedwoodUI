@@ -2,11 +2,10 @@ import * as RangePrimitive from '@radix-ui/react-slider'
 
 import { useController } from '@redwoodjs/forms'
 
-import { cn } from 'src/lib/utils'
-
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
-} from '../InputFieldWrapper/InputFieldWrapper'
+} from 'src/components/formFields/InputFieldWrapper'
+import { cn } from 'src/lib/utils'
 
 interface IRangeFieldProps
   extends Omit<

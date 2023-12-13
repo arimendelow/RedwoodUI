@@ -18,17 +18,62 @@ import type {
   MenubarSubTriggerProps as IMenubarSubTriggerProps,
   MenubarSubContentProps as IMenubarSubContentProps,
 } from '@radix-ui/react-menubar'
+import { PopperContentProps } from '@radix-ui/react-popover'
 
+import {
+  AnyMenuGroupType,
+  MenuItemIndicatorRenderer,
+} from 'src/components/menus/menuCommon'
 import { cn } from 'src/lib/utils'
 
-import { MenuItemIndicatorRenderer } from '../menuCommon'
+interface IMenuSection {
+  /**
+   * The label to use for the trigger of this section.
+   */
+  label: string
+  /**
+   * The content of the section.
+   */
+  sectionContent: AnyMenuGroupType[]
+}
 
-const Menubar = () => {
+interface IMenuBarProps extends IMenubarRootProps {
+  menuSections: IMenuSection[]
+  /**
+   * The preferred side of the trigger to render content against when open.
+   * Will be reversed when collisions occur and avoidCollisions is enabled.
+   */
+  side?: PopperContentProps['side']
+  /**
+   * The offset between a given trigger and its content, in pixels.
+   */
+  sideOffset?: number
+}
+
+const Menubar = ({
+  menuSections,
+  side,
+  sideOffset,
+  ...props
+}: IMenuBarProps) => {
   return (
-    <div>
-      <h2>{'Menubar'}</h2>
-      <p>{'Find me in ./web/src/components/Menubar/Menubar.tsx'}</p>
-    </div>
+    <MenubarRoot {...props}>
+      {menuSections.map((menuSection, index) => {
+        const sectionValue = `menubar-section-${index}`
+        return (
+          <MenubarMenu key={sectionValue} value={sectionValue}>
+            <MenubarTrigger>{menuSection.label}</MenubarTrigger>
+            <MenubarPortal>
+              <MenubarContent side={side} sideOffset={sideOffset}>
+                {menuSection.sectionContent.map((group, index) => (
+                  <MenubarGroupRenderer></MenubarGroupRenderer>
+                ))}
+              </MenubarContent>
+            </MenubarPortal>
+          </MenubarMenu>
+        )
+      })}
+    </MenubarRoot>
   )
 }
 

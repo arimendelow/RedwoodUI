@@ -37,78 +37,45 @@ import type {
   DropdownMenuSubTriggerProps as IDropdownMenuSubTriggerProps,
   DropdownMenuSubContentProps as IDropdownMenuSubContentProps,
 } from '@radix-ui/react-dropdown-menu'
+import * as MenubarPrimitive from '@radix-ui/react-menubar'
+import type {
+  MenubarProps as IMenubarRootProps,
+  MenubarMenuProps as IMenubarMenuProps,
+  MenubarTriggerProps as IMenubarTriggerProps,
+  MenubarPortalProps as IMenubarPortalProps,
+  MenubarContentProps as IMenubarContentProps,
+  MenubarArrowProps as IMenubarArrowProps,
+  MenubarItemProps as IMenubarItemProps,
+  MenubarGroupProps as IMenubarGroupProps,
+  MenubarLabelProps as IMenubarLabelProps,
+  MenubarCheckboxItemProps as IMenubarCheckboxItemProps,
+  MenubarRadioGroupProps as IMenubarRadioGroupProps,
+  MenubarRadioItemProps as IMenubarRadioItemProps,
+  MenubarItemIndicatorProps as IMenubarItemIndicatorProps,
+  MenubarSeparatorProps as IMenubarSeparatorProps,
+  MenubarSubProps as IMenubarSubProps,
+  MenubarSubTriggerProps as IMenubarSubTriggerProps,
+  MenubarSubContentProps as IMenubarSubContentProps,
+} from '@radix-ui/react-menubar'
 import { PopperContentProps } from '@radix-ui/react-popper'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, AnimationProps, motion } from 'framer-motion'
 
+import { MenuItemIndicatorRenderer } from 'src/components/menus/menuCommon'
+import type {
+  AnyMenuGroupType,
+  ICheckMenuItem,
+  IMenubarSection,
+  IRadioMenuItem,
+  IStandardMenuItem,
+  ISubMenuItem,
+} from 'src/components/menus/menuCommon'
 import { cn } from 'src/lib/utils'
 
-import { MenuItemIndicatorRenderer } from '../menuCommon'
-
-interface IMenuItemBase {
-  textValue: string
-  item: React.ReactNode
-  /**
-   * Something you want at the very end of the item,
-   * like a keyboard shortcut.
-   */
-  endText?: string
-  disabled?: boolean
-}
-
-interface ISubMenuItem {
-  /**
-   * An optional icon to render alongside the item.
-   */
-  icon?: React.ReactNode
-  label: string
-  /**
-   * The content of the submenu.
-   */
-  subMenuContent: AnyMenuGroupType[]
-  disabled?: boolean
-}
-
-interface IStandardMenuItem extends IMenuItemBase {
-  /**
-   * An optional icon to render alongside the item.
-   */
-  icon?: React.ReactNode
-}
-
-interface ICheckMenuItem extends IMenuItemBase {
-  checked: boolean
-  setChecked: (checked: boolean) => void
-}
-
-interface IRadioMenuItem extends IMenuItemBase {}
-
-interface IStandardMenuGroup {
-  label?: string
-  type: 'standard'
-  items: (IStandardMenuItem | ISubMenuItem)[]
-}
-
-interface ICheckMenuGroup {
-  label?: string
-  type: 'check'
-  items: (ICheckMenuItem | ISubMenuItem)[]
-}
-
-interface IRadioMenuGroup {
-  label?: string
-  type: 'radio'
-  items: (IRadioMenuItem | ISubMenuItem)[]
-  selectedItemTextValue: string
-  setSelectedItemTextValue: (textValue: string) => void
-}
-
-type AnyMenuGroupType = IStandardMenuGroup | ICheckMenuGroup | IRadioMenuGroup
-
-type MenuType = 'context' | 'dropdown'
+type MenuType = 'context' | 'dropdown' | 'menubar'
 
 interface IMenuTypeProp {
   /**
-   * The context and dropdown menu primitives are very similar. Rather than duplicating
+   * The context, dropdown, and menubar menus are very similar. Rather than duplicating
    * the code for both, we switch the primitives being used based on this prop.
    * See here: https://github.com/radix-ui/primitives/discussions/992
    *
@@ -117,75 +84,124 @@ interface IMenuTypeProp {
   menuType: MenuType
 }
 
-interface IMenuProps extends IMenuTypeProp, IMenuRootProps {
+/**
+ * Props for rendering either a Context or Dropdown menu.
+ */
+interface IContextDropdownMenuProps {
   /**
    * The element that will trigger the menu to open.
    * You *do not* need to pass `onClick` to this element, it will be handled for you.
    * - For a Context menu: The area that opens the context menu when right-clicking (or using the relevant keyboard shortcuts).
    * - For a Dropdown menu: The button that toggles the dropdown menu. By default, the `MenuContent` will position itself against the trigger.
-   *
    */
   trigger: React.ReactNode
+  /**
+   * The content of the menu.
+   */
+  content: AnyMenuGroupType[]
+}
+
+/**
+ * Props for rendering a Menubar.
+ * The primary difference is that it contains multiple sections, each with their own trigger and content.
+ */
+interface IMenubarProps {
+  menuSections: IMenubarSection[]
+}
+
+interface IMenuProps
+  extends IMenuTypeProp,
+    IMenuRootProps,
+    IDropdownPositioningProps {
+  menuContent: IContextDropdownMenuProps | IMenubarProps
+}
+
+interface IDropdownPositioningProps {
   /**
    * When rendering a Dropdown Menu, the preferred side of the trigger to render against when open.
    * Will be reversed when collisions occur and `avoidCollisions` is enabled.
    */
   side?: PopperContentProps['side']
   /**
-   * When rendering a Dropdown Menu, the offset between the trigger and the content, in pixels.
+   * When rendering a Dropdown Menu or Menubar, the offset between a trigger and related content, in pixels.
    */
   sideOffset?: number
-  /**
-   * The content of the menu.
-   */
-  menuContent: AnyMenuGroupType[]
 }
 
-const Menu = ({
+const Menu = (props: IMenuProps) => {
+  if (props.menuType === 'menubar') {
+    return <Menubar {...props} />
+  } else {
+    return <ContextDropdownMenu {...props} />
+  }
+}
+
+/**
+ * To support origin-aware animations, we need to set the transform origin to the correct value.
+ * Each type of menu primitive uses slightly different values:
+ * - Context menu: https://www.radix-ui.com/primitives/docs/components/context-menu#origin-aware-animations
+ * - Dropdown menu: https://www.radix-ui.com/primitives/docs/components/dropdown-menu#origin-aware-animations
+ * - Menubar: https://www.radix-ui.com/primitives/docs/components/menubar#origin-aware-animations
+ */
+const getMenuAnimationProps = (menuType: MenuType): AnimationProps => ({
+  initial: {
+    opacity: 0,
+    transform: 'scale(0.9)',
+    transformOrigin: `var(--radix-${menuType}-menu-content-transform-origin)`,
+  },
+  animate: {
+    opacity: 1,
+    transform: 'scale(1)',
+    transition: { duration: 0 },
+    transformOrigin: `var(--radix-${menuType}-menu-content-transform-origin)`,
+  },
+  exit: {
+    opacity: 0,
+    transform: 'scale(0.9)',
+    transformOrigin: `var(--radix-${menuType}-menu-content-transform-origin)`,
+  },
+  transition: { ease: 'easeInOut', duration: 0.1 },
+})
+
+/**
+ * The Context or Dropdown menu.
+ */
+const ContextDropdownMenu = ({
+  menuContent: menuContentProp,
   menuType,
-  trigger,
-  side = 'bottom',
   sideOffset,
-  menuContent,
-  ...props
+  side,
 }: IMenuProps) => {
-  const [open, setOpen] = React.useState(false)
   const MenuTrigger =
     menuType === 'context' ? ContextMenuTrigger : DropdownMenuTrigger
+
+  // We know this is a ContextDropdownMenu because we're in the ContextDropdownMenu component.
+  const menuContent = menuContentProp as IContextDropdownMenuProps
+
+  const [open, setOpen] = React.useState(false)
   return (
-    <MenuRoot menuType={menuType} open={open} onOpenChange={setOpen} {...props}>
+    <MenuRoot menuType={menuType} open={open} onOpenChange={setOpen}>
       <MenuTrigger
         // When a Dropdown menu, the trigger will be a button, so we want to use `asChild` to avoid a wrapping div.
         asChild={menuType === 'dropdown'}
+        onClick={(e) => {
+          console.log(e)
+        }}
       >
-        {trigger}
+        {menuContent.trigger}
       </MenuTrigger>
-      <MenuPortal menuType={menuType} forceMount>
-        <AnimatePresence>
-          {open && (
+      <AnimatePresence>
+        {open && (
+          <MenuPortal forceMount menuType={menuType}>
             <MenuContent
+              id="menu-content"
               menuType={menuType}
               sideOffset={sideOffset}
               asChild
               side={side}
             >
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  transform: 'scale(0.9)',
-                }}
-                animate={{
-                  opacity: 1,
-                  transform: 'scale(1)',
-                  transition: { duration: 0 },
-                }}
-                exit={{
-                  opacity: 0,
-                  transform: 'scale(0.9)',
-                }}
-                transition={{ ease: 'easeInOut', duration: 0.1 }}
-              >
-                {menuContent.map((group, index) => (
+              <motion.div {...getMenuAnimationProps(menuType)}>
+                {menuContent.content.map((group, index) => (
                   <MenuGroupRenderer
                     menuType={menuType}
                     key={index}
@@ -195,9 +211,66 @@ const Menu = ({
                 ))}
               </motion.div>
             </MenuContent>
-          )}
-        </AnimatePresence>
-      </MenuPortal>
+          </MenuPortal>
+        )}
+      </AnimatePresence>
+    </MenuRoot>
+  )
+}
+
+/**
+ * The Menubar
+ */
+const Menubar = ({
+  menuContent: menuContentProp,
+  menuType,
+  sideOffset,
+  side,
+}: IMenuProps) => {
+  // We know this is a Menubar because we're in the Menubar component.
+  const menuContent = menuContentProp as IMenubarProps
+
+  const [openSection, setOpenSection] = React.useState('')
+  return (
+    <MenuRoot
+      menuType={menuType}
+      value={openSection}
+      onValueChange={setOpenSection}
+      className="flex rounded-md border border-neutral-200 bg-light p-1"
+    >
+      {menuContent.menuSections.map((menuSection) => {
+        return (
+          <MenubarMenu key={menuSection.label} value={menuSection.label}>
+            <MenubarTrigger className="flex select-none items-center justify-between gap-[2px] rounded px-3 py-2 text-[13px] font-medium leading-none text-dark outline-none data-[highlighted]:bg-primary-700 data-[state=open]:bg-primary-700">
+              {menuSection.label}
+            </MenubarTrigger>
+            <AnimatePresence>
+              {openSection === menuSection.label && (
+                <MenuPortal forceMount menuType={menuType}>
+                  <MenuContent
+                    id="menu-content"
+                    menuType={menuType}
+                    sideOffset={sideOffset}
+                    asChild
+                    side={side}
+                  >
+                    <motion.div {...getMenuAnimationProps(menuType)}>
+                      {menuSection.sectionContent.map((group, index) => (
+                        <MenuGroupRenderer
+                          menuType={menuType}
+                          key={index}
+                          group={group}
+                          groupIndex={index}
+                        />
+                      ))}
+                    </motion.div>
+                  </MenuContent>
+                </MenuPortal>
+              )}
+            </AnimatePresence>
+          </MenubarMenu>
+        )
+      })}
     </MenuRoot>
   )
 }
@@ -330,25 +403,44 @@ const SubMenuRenderer = ({ menuType, item }: ISubMenuRendererProps) => (
   </MenuSub>
 )
 
+const getMenuPrimitive = (menuType: MenuType) => {
+  switch (menuType) {
+    case 'context':
+      return ContextMenuPrimitive
+    case 'dropdown':
+      return DropdownMenuPrimitive
+    case 'menubar':
+      return MenubarPrimitive
+  }
+}
+
 interface IMenuRootProps
   extends IMenuTypeProp,
     IContextMenuRootProps,
-    IDropdownMenuRootProps {}
+    IDropdownMenuRootProps,
+    IMenubarRootProps {}
 
 /**
- * Contains all the parts of a  menu.
+ * Contains all the parts of a menu.
  */
 const MenuRoot = ({ menuType, ...props }: IMenuRootProps) => {
-  const MenuPrimitive =
-    menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+  const MenuPrimitive = getMenuPrimitive(menuType)
   return <MenuPrimitive.Root {...props} />
 }
+
+/**
+ * For a Menubar, this is the top level menu item, containing the trigger with content combination
+ * for a given section.
+ */
+const MenubarMenu = (props: IMenubarMenuProps) => (
+  <MenubarPrimitive.Menu {...props} />
+)
 
 /**
  * The area that opens the context menu.
  * Wrap it around the target you want the context menu to open from when right-clicking (or using the relevant keyboard shortcuts).
  *
- * Unlike the other components, the Trigger is actually different for the context and dropdown menu primitives.
+ * Unlike the other components, the Trigger is actually different for the types of menu.
  * Therefore, rather than using the `IMenuTypeProp` to switch between them, we just use the correct component directly.
  */
 const ContextMenuTrigger = React.forwardRef<
@@ -360,7 +452,7 @@ const ContextMenuTrigger = React.forwardRef<
  * The button that toggles the dropdown menu.
  * By default, the `MenuContent` will position itself against the trigger.
  *
- * Unlike the other components, the Trigger is actually different for the context and dropdown menu primitives.
+ * Unlike the other components, the Trigger is actually different for the types of menu.
  * Therefore, rather than using the `IMenuTypeProp` to switch between them, we just use the correct component directly.
  */
 const DropdownMenuTrigger = React.forwardRef<
@@ -368,32 +460,41 @@ const DropdownMenuTrigger = React.forwardRef<
   IDropdownMenuTriggerProps
 >((props, ref) => <DropdownMenuPrimitive.Trigger ref={ref} {...props} />)
 
+/**
+ * The button that toggles the content for a Menubar section.
+ * By default, the `MenubarContent` will position itself against the trigger.
+ */
+const MenubarTrigger = React.forwardRef<
+  HTMLButtonElement,
+  IMenubarTriggerProps
+>((props, ref) => <MenubarPrimitive.Trigger ref={ref} {...props} />)
+
 interface IMenuPortalProps
   extends IMenuTypeProp,
     IContextMenuPortalProps,
-    IDropdownMenuPortalProps {}
+    IDropdownMenuPortalProps,
+    IMenubarPortalProps {}
 
 /**
  * When used, portals the content part into the `body`.
  * */
 const MenuPortal = ({ menuType, ...props }: IMenuPortalProps) => {
-  const MenuPrimitive =
-    menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+  const MenuPrimitive = getMenuPrimitive(menuType)
   return <MenuPrimitive.Portal {...props} />
 }
 
 interface IMenuContentProps
   extends IMenuTypeProp,
     IContextMenuContentProps,
-    IDropdownMenuContentProps {}
+    IDropdownMenuContentProps,
+    IMenubarContentProps {}
 
 /**
  * The component that pops out when the menu is open.
  */
 const MenuContent = React.forwardRef<HTMLDivElement, IMenuContentProps>(
   ({ menuType, className, sideOffset = 10, ...props }, ref) => {
-    const MenuPrimitive =
-      menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+    const MenuPrimitive = getMenuPrimitive(menuType)
     return (
       <MenuPrimitive.Content
         ref={ref}
@@ -408,7 +509,8 @@ const MenuContent = React.forwardRef<HTMLDivElement, IMenuContentProps>(
 interface IMenuArrowProps
   extends IMenuTypeProp,
     IContextMenuArrowProps,
-    IDropdownMenuArrowProps {}
+    IDropdownMenuArrowProps,
+    IMenubarArrowProps {}
 
 /**
  * An optional arrow element to render alongside the menu.
@@ -417,8 +519,7 @@ interface IMenuArrowProps
  */
 const MenuArrow = React.forwardRef<SVGSVGElement, IMenuArrowProps>(
   ({ menuType, ...props }, ref) => {
-    const MenuPrimitive =
-      menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+    const MenuPrimitive = getMenuPrimitive(menuType)
     return <MenuPrimitive.Arrow ref={ref} {...props} />
   }
 )
@@ -426,15 +527,15 @@ const MenuArrow = React.forwardRef<SVGSVGElement, IMenuArrowProps>(
 interface IMenuItemProps
   extends IMenuTypeProp,
     IContextMenuItemProps,
-    IDropdownMenuItemProps {}
+    IDropdownMenuItemProps,
+    IMenubarItemProps {}
 
 /**
  * The component that contains the menu items.
  */
 const MenuItem = React.forwardRef<HTMLDivElement, IMenuItemProps>(
   ({ menuType, className, ...props }, ref) => {
-    const MenuPrimitive =
-      menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+    const MenuPrimitive = getMenuPrimitive(menuType)
     return (
       <MenuPrimitive.Item
         ref={ref}
@@ -448,15 +549,15 @@ const MenuItem = React.forwardRef<HTMLDivElement, IMenuItemProps>(
 interface IMenuGroupProps
   extends IMenuTypeProp,
     IContextMenuGroupProps,
-    IDropdownMenuGroupProps {}
+    IDropdownMenuGroupProps,
+    IMenubarGroupProps {}
 
 /**
  * Used to group multiple `MenuItem`s.
  */
 const MenuGroup = React.forwardRef<HTMLDivElement, IMenuGroupProps>(
   ({ menuType, ...props }, ref) => {
-    const MenuPrimitive =
-      menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+    const MenuPrimitive = getMenuPrimitive(menuType)
     return <MenuPrimitive.Group ref={ref} {...props} />
   }
 )
@@ -464,15 +565,15 @@ const MenuGroup = React.forwardRef<HTMLDivElement, IMenuGroupProps>(
 interface IMenuLabelProps
   extends IMenuTypeProp,
     IContextMenuLabelProps,
-    IDropdownMenuLabelProps {}
+    IDropdownMenuLabelProps,
+    IMenubarLabelProps {}
 
 /**
  * Used to render a label. It won't be focusable using arrow keys.
  */
 const MenuLabel = React.forwardRef<HTMLDivElement, IMenuLabelProps>(
   ({ menuType, className, ...props }, ref) => {
-    const MenuPrimitive =
-      menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+    const MenuPrimitive = getMenuPrimitive(menuType)
     return (
       <MenuPrimitive.Label
         ref={ref}
@@ -486,7 +587,8 @@ const MenuLabel = React.forwardRef<HTMLDivElement, IMenuLabelProps>(
 interface IMenuCheckboxItemProps
   extends IMenuTypeProp,
     IContextMenuCheckboxItemProps,
-    IDropdownMenuCheckboxItemProps {}
+    IDropdownMenuCheckboxItemProps,
+    IMenubarCheckboxItemProps {}
 
 /**
  * An item that can be controlled and rendered like a checkbox.
@@ -495,8 +597,7 @@ const MenuCheckboxItem = React.forwardRef<
   HTMLDivElement,
   IMenuCheckboxItemProps
 >(({ menuType, className, ...props }, ref) => {
-  const MenuPrimitive =
-    menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+  const MenuPrimitive = getMenuPrimitive(menuType)
   return (
     <MenuPrimitive.CheckboxItem
       ref={ref}
@@ -509,15 +610,15 @@ const MenuCheckboxItem = React.forwardRef<
 interface IMenuRadioGroupProps
   extends IMenuTypeProp,
     IContextMenuRadioGroupProps,
-    IDropdownMenuRadioGroupProps {}
+    IDropdownMenuRadioGroupProps,
+    IMenubarRadioGroupProps {}
 
 /**
  * Used to group multiple `MenuRadioItem`s.
  */
 const MenuRadioGroup = React.forwardRef<HTMLDivElement, IMenuRadioGroupProps>(
   ({ menuType, ...props }, ref) => {
-    const MenuPrimitive =
-      menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+    const MenuPrimitive = getMenuPrimitive(menuType)
     return <MenuPrimitive.RadioGroup ref={ref} {...props} />
   }
 )
@@ -525,15 +626,15 @@ const MenuRadioGroup = React.forwardRef<HTMLDivElement, IMenuRadioGroupProps>(
 interface IMenuRadioItemProps
   extends IMenuTypeProp,
     IContextMenuRadioItemProps,
-    IDropdownMenuRadioItemProps {}
+    IDropdownMenuRadioItemProps,
+    IMenubarRadioItemProps {}
 
 /**
  * An item that can be controlled and rendered like a radio.
  */
 const MenuRadioItem = React.forwardRef<HTMLDivElement, IMenuRadioItemProps>(
   ({ menuType, className, ...props }, ref) => {
-    const MenuPrimitive =
-      menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+    const MenuPrimitive = getMenuPrimitive(menuType)
     return (
       <MenuPrimitive.RadioItem
         ref={ref}
@@ -547,7 +648,8 @@ const MenuRadioItem = React.forwardRef<HTMLDivElement, IMenuRadioItemProps>(
 interface IMenuItemIndicatorProps
   extends IMenuTypeProp,
     IContextMenuItemIndicatorProps,
-    IDropdownMenuItemIndicatorProps {
+    IDropdownMenuItemIndicatorProps,
+    IMenubarItemIndicatorProps {
   indicatorType: 'check' | 'radio'
 }
 
@@ -559,8 +661,7 @@ const MenuItemIndicator = React.forwardRef<
   HTMLDivElement,
   IMenuItemIndicatorProps
 >(({ menuType, indicatorType, ...props }, ref) => {
-  const MenuPrimitive =
-    menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+  const MenuPrimitive = getMenuPrimitive(menuType)
   return (
     <MenuPrimitive.ItemIndicator ref={ref} {...props}>
       <MenuItemIndicatorRenderer indicatorType={indicatorType} />
@@ -571,15 +672,15 @@ const MenuItemIndicator = React.forwardRef<
 interface IMenuSeparatorProps
   extends IMenuTypeProp,
     IContextMenuSeparatorProps,
-    IDropdownMenuSeparatorProps {}
+    IDropdownMenuSeparatorProps,
+    IMenubarSeparatorProps {}
 
 /**
  * Used to visually separate items in the menu.
  */
 const MenuSeparator = React.forwardRef<HTMLDivElement, IMenuSeparatorProps>(
   ({ menuType, className, ...props }, ref) => {
-    const MenuPrimitive =
-      menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+    const MenuPrimitive = getMenuPrimitive(menuType)
     return (
       <MenuPrimitive.Separator
         ref={ref}
@@ -593,29 +694,29 @@ const MenuSeparator = React.forwardRef<HTMLDivElement, IMenuSeparatorProps>(
 interface IMenuSubProps
   extends IMenuTypeProp,
     IContextMenuSubProps,
-    IDropdownMenuSubProps {}
+    IDropdownMenuSubProps,
+    IMenubarSubProps {}
 
 /**
  * Contains all the parts of a submenu.
  */
 const MenuSub = ({ menuType, ...props }: IMenuSubProps) => {
-  const MenuPrimitive =
-    menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+  const MenuPrimitive = getMenuPrimitive(menuType)
   return <MenuPrimitive.Sub {...props} />
 }
 
 interface IMenuSubTriggerProps
   extends IMenuTypeProp,
     IContextMenuSubTriggerProps,
-    IDropdownMenuSubTriggerProps {}
+    IDropdownMenuSubTriggerProps,
+    IMenubarSubTriggerProps {}
 
 /**
  * An item that opens a submenu. Must be rendered inside `MenuSub`.
  */
 const MenuSubTrigger = React.forwardRef<HTMLDivElement, IMenuSubTriggerProps>(
   ({ menuType, className, ...props }, ref) => {
-    const MenuPrimitive =
-      menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+    const MenuPrimitive = getMenuPrimitive(menuType)
     return (
       <MenuPrimitive.SubTrigger
         ref={ref}
@@ -629,15 +730,15 @@ const MenuSubTrigger = React.forwardRef<HTMLDivElement, IMenuSubTriggerProps>(
 interface IMenuSubContentProps
   extends IMenuTypeProp,
     IContextMenuSubContentProps,
-    IDropdownMenuSubContentProps {}
+    IDropdownMenuSubContentProps,
+    IMenubarSubContentProps {}
 
 /**
  * The component that pops out when a submenu is open. Must be rendered inside `MenuSub`.
  */
 const MenuSubContent = React.forwardRef<HTMLDivElement, IMenuSubContentProps>(
   ({ menuType, className, ...props }, ref) => {
-    const MenuPrimitive =
-      menuType === 'context' ? ContextMenuPrimitive : DropdownMenuPrimitive
+    const MenuPrimitive = getMenuPrimitive(menuType)
     return (
       <MenuPrimitive.SubContent
         ref={ref}
