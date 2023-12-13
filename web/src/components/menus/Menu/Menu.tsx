@@ -137,31 +137,27 @@ const Menu = (props: IMenuProps) => {
 }
 
 /**
- * To support origin-aware animations, we need to set the transform origin to the correct value.
- * Each type of menu primitive uses slightly different values:
- * - Context menu: https://www.radix-ui.com/primitives/docs/components/context-menu#origin-aware-animations
- * - Dropdown menu: https://www.radix-ui.com/primitives/docs/components/dropdown-menu#origin-aware-animations
- * - Menubar: https://www.radix-ui.com/primitives/docs/components/menubar#origin-aware-animations
+ * Spread this on the `motion.div` holding the menu content to animate it.
  */
-const getMenuAnimationProps = (menuType: MenuType): AnimationProps => ({
+const menuAnimationProps: AnimationProps = {
   initial: {
     opacity: 0,
     transform: 'scale(0.9)',
-    transformOrigin: `var(--radix-${menuType}-menu-content-transform-origin)`,
+    transformOrigin: `var(--radix-popper-transform-origin)`,
   },
   animate: {
     opacity: 1,
     transform: 'scale(1)',
     transition: { duration: 0 },
-    transformOrigin: `var(--radix-${menuType}-menu-content-transform-origin)`,
+    transformOrigin: `var(--radix-popper-transform-origin)`,
   },
   exit: {
     opacity: 0,
     transform: 'scale(0.9)',
-    transformOrigin: `var(--radix-${menuType}-menu-content-transform-origin)`,
+    transformOrigin: `var(--radix-popper-transform-origin)`,
   },
   transition: { ease: 'easeInOut', duration: 0.1 },
-})
+}
 
 /**
  * The Context or Dropdown menu.
@@ -200,7 +196,7 @@ const ContextDropdownMenu = ({
               asChild
               side={side}
             >
-              <motion.div {...getMenuAnimationProps(menuType)}>
+              <motion.div {...menuAnimationProps}>
                 {menuContent.content.map((group, index) => (
                   <MenuGroupRenderer
                     menuType={menuType}
@@ -231,11 +227,25 @@ const Menubar = ({
   const menuContent = menuContentProp as IMenubarProps
 
   const [openSection, setOpenSection] = React.useState('')
+
+  const [animationDuration, setAnimationDuration] = React.useState(0.1)
+
+  React.useEffect(() => {
+    console.log('animation duration', animationDuration)
+  }, [animationDuration])
+
   return (
     <MenuRoot
       menuType={menuType}
       value={openSection}
-      onValueChange={setOpenSection}
+      onValueChange={(value) => {
+        if (value === '') {
+          setAnimationDuration(0.1)
+        } else {
+          setAnimationDuration(0)
+        }
+        setOpenSection(value)
+      }}
       className="flex rounded-md border border-neutral-200 bg-light p-1"
     >
       {menuContent.menuSections.map((menuSection) => {
@@ -248,13 +258,38 @@ const Menubar = ({
               {openSection === menuSection.label && (
                 <MenuPortal forceMount menuType={menuType}>
                   <MenuContent
-                    id="menu-content"
+                    onFocusOutside={(event) => {
+                      // Without disabling onFocusOutside, there's weird behavior when going from one menu to another.
+                      event.preventDefault()
+                    }}
                     menuType={menuType}
                     sideOffset={sideOffset}
-                    asChild
                     side={side}
+                    asChild
                   >
-                    <motion.div {...getMenuAnimationProps(menuType)}>
+                    <motion.div
+                      key={menuSection.label}
+                      initial={{
+                        opacity: 0,
+                        transform: 'scale(0.9)',
+                        transformOrigin: `var(--radix-popper-transform-origin)`,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        transform: 'scale(1)',
+                        transition: { duration: 0 },
+                        transformOrigin: `var(--radix-popper-transform-origin)`,
+                      }}
+                      exit={{
+                        opacity: 0,
+                        transform: 'scale(0.9)',
+                        transformOrigin: `var(--radix-popper-transform-origin)`,
+                      }}
+                      transition={{
+                        ease: 'easeInOut',
+                        duration: animationDuration,
+                      }}
+                    >
                       {menuSection.sectionContent.map((group, index) => (
                         <MenuGroupRenderer
                           menuType={menuType}
