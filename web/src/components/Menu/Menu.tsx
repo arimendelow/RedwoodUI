@@ -68,7 +68,7 @@ import {
   usePresence,
 } from 'framer-motion'
 
-import { MenuItemIndicatorRenderer } from 'src/components/menus/menuCommon'
+import { MenuItemIndicatorRenderer } from 'src/components/Menu/menuCommon'
 import type {
   AnyMenuGroupType,
   ICheckMenuItem,
@@ -76,7 +76,7 @@ import type {
   IRadioMenuItem,
   IStandardMenuItem,
   ISubMenuItem,
-} from 'src/components/menus/menuCommon'
+} from 'src/components/Menu/menuCommon'
 import { cn } from 'src/lib/utils'
 
 type MenuType = 'context' | 'dropdown' | 'menubar'
