@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu'
 import type {
@@ -58,7 +60,13 @@ import type {
   MenubarSubContentProps as IMenubarSubContentProps,
 } from '@radix-ui/react-menubar'
 import { PopperContentProps } from '@radix-ui/react-popper'
-import { AnimatePresence, AnimationProps, motion } from 'framer-motion'
+import {
+  AnimatePresence,
+  AnimationProps,
+  motion,
+  useAnimate,
+  usePresence,
+} from 'framer-motion'
 
 import { MenuItemIndicatorRenderer } from 'src/components/menus/menuCommon'
 import type {
@@ -180,9 +188,6 @@ const ContextDropdownMenu = ({
       <MenuTrigger
         // When a Dropdown menu, the trigger will be a button, so we want to use `asChild` to avoid a wrapping div.
         asChild={menuType === 'dropdown'}
-        onClick={(e) => {
-          console.log(e)
-        }}
       >
         {menuContent.trigger}
       </MenuTrigger>
@@ -228,22 +233,26 @@ const Menubar = ({
 
   const [openSection, setOpenSection] = React.useState('')
 
-  const [animationDuration, setAnimationDuration] = React.useState(0.1)
-
-  React.useEffect(() => {
-    console.log('animation duration', animationDuration)
-  }, [animationDuration])
+  /**
+   * We want to keep track of the last opened section so that we can animate closing when
+   * we're closing all menus, rather than just going from one menu to another.
+   *
+   * This needs to be done with a ref, rather than based on `openSection`,
+   * because `openSection` is what dictates a section being open, and so
+   * it will always be the value of the currently open section within the context of that section.
+   *
+   * What makes it tricky is that while it can *look* like two sections are open at once,
+   * if we're animating closing one section and opening another, that's not actually the case -
+   * Framer Motion is just keeping the old one around for the animation.
+   */
+  const lastOpenedSectionRef = React.useRef('')
 
   return (
     <MenuRoot
       menuType={menuType}
       value={openSection}
       onValueChange={(value) => {
-        if (value === '') {
-          setAnimationDuration(0.1)
-        } else {
-          setAnimationDuration(0)
-        }
+        lastOpenedSectionRef.current = value
         setOpenSection(value)
       }}
       className="flex rounded-md border border-neutral-200 bg-light p-1"
@@ -256,57 +265,101 @@ const Menubar = ({
             </MenubarTrigger>
             <AnimatePresence>
               {openSection === menuSection.label && (
-                <MenuPortal forceMount menuType={menuType}>
-                  <MenuContent
-                    onFocusOutside={(event) => {
-                      // Without disabling onFocusOutside, there's weird behavior when going from one menu to another.
-                      event.preventDefault()
-                    }}
-                    menuType={menuType}
-                    sideOffset={sideOffset}
-                    side={side}
-                    asChild
-                  >
-                    <motion.div
-                      key={menuSection.label}
-                      initial={{
-                        opacity: 0,
-                        transform: 'scale(0.9)',
-                        transformOrigin: `var(--radix-popper-transform-origin)`,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        transform: 'scale(1)',
-                        transition: { duration: 0 },
-                        transformOrigin: `var(--radix-popper-transform-origin)`,
-                      }}
-                      exit={{
-                        opacity: 0,
-                        transform: 'scale(0.9)',
-                        transformOrigin: `var(--radix-popper-transform-origin)`,
-                      }}
-                      transition={{
-                        ease: 'easeInOut',
-                        duration: animationDuration,
-                      }}
-                    >
-                      {menuSection.sectionContent.map((group, index) => (
-                        <MenuGroupRenderer
-                          menuType={menuType}
-                          key={index}
-                          group={group}
-                          groupIndex={index}
-                        />
-                      ))}
-                    </motion.div>
-                  </MenuContent>
-                </MenuPortal>
+                <MenubarDropdownRenderer
+                  lastOpenedSectionRef={lastOpenedSectionRef}
+                  menuType={menuType}
+                  sideOffset={sideOffset}
+                  side={side}
+                  menuSection={menuSection}
+                />
               )}
             </AnimatePresence>
           </MenubarMenu>
         )
       })}
     </MenuRoot>
+  )
+}
+
+interface IMenubarDropdownRendererProps {
+  /**
+   * We want to keep track of the last opened section so that we can animate closing when
+   * we're closing all menus, rather than just going from one menu to another.
+   */
+  lastOpenedSectionRef: React.RefObject<string>
+  menuType: MenuType
+  menuSection: IMenubarSection
+  sideOffset?: number
+  side?: PopperContentProps['side']
+}
+
+const MenubarDropdownRenderer = ({
+  lastOpenedSectionRef,
+  menuType,
+  menuSection,
+  sideOffset,
+  side,
+}: IMenubarDropdownRendererProps) => {
+  const [isPresent, safeToRemove] = usePresence()
+  const [scope, animate] = useAnimate()
+
+  useEffect(() => {
+    if (isPresent) {
+      const enterAnimation = async () => {
+        await animate(
+          scope.current,
+          {
+            opacity: 1,
+            transform: 'scale(1)',
+            transformOrigin: `var(--radix-popper-transform-origin)`,
+          },
+          { duration: 0 }
+        )
+      }
+      enterAnimation()
+    } else {
+      const exitAnimation = async () => {
+        await animate(
+          scope.current,
+          {
+            opacity: 0,
+            transform: 'scale(0.9)',
+            transformOrigin: `var(--radix-popper-transform-origin)`,
+          },
+          {
+            ease: 'easeInOut',
+            // We only want to animate closing if we're not going from one menu to another.
+            duration: lastOpenedSectionRef.current === '' ? 0.1 : 0,
+          }
+        )
+        safeToRemove()
+      }
+
+      exitAnimation()
+    }
+  }, [animate, isPresent, lastOpenedSectionRef, safeToRemove, scope])
+  return (
+    <MenuPortal forceMount menuType={menuType}>
+      <MenuContent
+        ref={scope}
+        onFocusOutside={(event) => {
+          // Without disabling onFocusOutside, there's weird behavior when going from one menu to another.
+          event.preventDefault()
+        }}
+        menuType={menuType}
+        sideOffset={sideOffset}
+        side={side}
+      >
+        {menuSection.sectionContent.map((group, index) => (
+          <MenuGroupRenderer
+            menuType={menuType}
+            key={index}
+            group={group}
+            groupIndex={index}
+          />
+        ))}
+      </MenuContent>
+    </MenuPortal>
   )
 }
 
