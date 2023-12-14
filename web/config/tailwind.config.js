@@ -57,22 +57,7 @@ module.exports = {
         full: '9999px',
       },
       /**
-       * START for accordion+collapsible components
-       * To instead use Framer Motion, you'd need to use the accordion/collapsable as a
-       * controlled component, which undermines a lot of what RadixUI does for us.
-       * It's unfeasible to use Framer Motion with these as uncontrolled
-       * components because of how it sets the height variable - it calculates it
-       * based on the height of the content, and then assigns it to a CSS variable,
-       * so you get a weird race condition if you animate the height
-       * using Framer Motion.
-       *
-       * (You'd also need to do `forceMount` on the content, should you use Framer Motion,
-       * otherwise it removes the content from the DOM when it's closed,
-       * which is where the re-calculation of the height comes from)
-       *
-       * This is the recommended way to animate these components, see here:
-       * https://www.radix-ui.com/primitives/docs/components/accordion#animating-content-size
-       * https://www.radix-ui.com/primitives/docs/components/collapsible#animating-content-size
+       * TODO migrate Accordion to use framer motion. See Collapsible for example.
        */
       keyframes: {
         'slide-down': {
