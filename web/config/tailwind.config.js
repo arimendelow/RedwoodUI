@@ -78,14 +78,12 @@ module.exports = {
         'slide-down': {
           from: { height: '0' },
           to: {
-            height:
-              'var(--radix-accordion-content-height, var(--radix-collapsible-content-height))',
+            height: 'var(--radix-accordion-content-height)',
           },
         },
         'slide-up': {
           from: {
-            height:
-              'var(--radix-accordion-content-height, var(--radix-collapsible-content-height))',
+            height: 'var(--radix-accordion-content-height)',
           },
           to: { height: '0' },
         },

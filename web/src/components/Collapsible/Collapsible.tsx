@@ -5,6 +5,7 @@ import type {
   CollapsibleTriggerProps as ICollapsibleTriggerProps,
   CollapsibleContentProps as ICollapsibleContentProps,
 } from '@radix-ui/react-collapsible'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import Button from 'src/components/Button'
 import { cn } from 'src/lib/utils'
@@ -36,8 +37,9 @@ const Collapsible = ({
   collapsibleContent,
   ...props
 }: ICollapsibleProps) => {
+  const [open, setOpen] = React.useState(false)
   return (
-    <CollapsibleRoot {...props}>
+    <CollapsibleRoot open={open} onOpenChange={setOpen} {...props}>
       <div className="mb-2 flex items-center justify-between">
         <span className="text-color-primary">{title}</span>
         <CollapsibleTrigger>
@@ -47,11 +49,31 @@ const Collapsible = ({
         </CollapsibleTrigger>
       </div>
       {staticContent}
-      <CollapsibleContent>{collapsibleContent}</CollapsibleContent>
+      <AnimatePresence>
+        {open && (
+          <CollapsibleContent forceMount asChild>
+            <motion.div
+              initial={{
+                height: 0,
+              }}
+              animate={{
+                height: 'var(--radix-collapsible-content-height)',
+              }}
+              exit={{
+                height: 0,
+              }}
+              transition={{ ease: 'easeInOut' }}
+            >
+              {collapsibleContent}
+            </motion.div>
+          </CollapsibleContent>
+        )}
+      </AnimatePresence>
     </CollapsibleRoot>
   )
 }
 
+/** Contains all the parts of a collapsible. */
 const CollapsibleRoot = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.Root>,
   ICollapsibleRootProps
@@ -59,6 +81,7 @@ const CollapsibleRoot = React.forwardRef<
   <CollapsiblePrimitive.Root ref={ref} className={className} {...props} />
 ))
 
+/** The button that toggles the collapsible. */
 const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.Trigger>,
   ICollapsibleTriggerProps
@@ -66,16 +89,14 @@ const CollapsibleTrigger = React.forwardRef<
   <CollapsiblePrimitive.Trigger ref={ref} className={className} {...props} />
 ))
 
+/** The component that contains the collapsible content. */
 const CollapsibleContent = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.Content>,
   ICollapsibleContentProps
 >(({ className, ...props }, ref) => (
   <CollapsiblePrimitive.Content
     ref={ref}
-    className={cn(
-      'overflow-hidden transition-all data-[state=closed]:animate-slide-up data-[state=open]:animate-slide-down',
-      className
-    )}
+    className={cn('overflow-hidden', className)}
     {...props}
   />
 ))
