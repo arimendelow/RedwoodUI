@@ -1,10 +1,15 @@
 import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
+import type {
+  CollapsibleProps as ICollapsibleRootProps,
+  CollapsibleTriggerProps as ICollapsibleTriggerProps,
+  CollapsibleContentProps as ICollapsibleContentProps,
+} from '@radix-ui/react-collapsible'
 
 import Button from 'src/components/Button'
 import { cn } from 'src/lib/utils'
 
-type CollapsiblePropsType = CollapsibleRootPropsType & {
+interface ICollapsibleProps extends ICollapsibleRootProps {
   /**
    * The title text to show in the header of the collapsible.
    */
@@ -27,13 +32,12 @@ type CollapsiblePropsType = CollapsibleRootPropsType & {
  */
 const Collapsible = ({
   title,
-
   staticContent,
   collapsibleContent,
-  ...rootProps
-}: CollapsiblePropsType) => {
+  ...props
+}: ICollapsibleProps) => {
   return (
-    <CollapsibleRoot {...rootProps}>
+    <CollapsibleRoot {...props}>
       <div className="mb-2 flex items-center justify-between">
         <span className="text-color-primary">{title}</span>
         <CollapsibleTrigger>
@@ -48,32 +52,23 @@ const Collapsible = ({
   )
 }
 
-type CollapsibleRootPropsType = React.ComponentPropsWithRef<
-  typeof CollapsiblePrimitive.Root
->
 const CollapsibleRoot = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.Root>,
-  React.PropsWithoutRef<CollapsibleRootPropsType>
+  ICollapsibleRootProps
 >(({ className, ...props }, ref) => (
   <CollapsiblePrimitive.Root ref={ref} className={className} {...props} />
 ))
 
-type CollapsibleTriggerPropsType = React.ComponentPropsWithRef<
-  typeof CollapsiblePrimitive.Trigger
->
 const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.Trigger>,
-  React.PropsWithoutRef<CollapsibleTriggerPropsType>
+  ICollapsibleTriggerProps
 >(({ className, ...props }, ref) => (
   <CollapsiblePrimitive.Trigger ref={ref} className={className} {...props} />
 ))
 
-type CollapsibleContentPropsType = React.ComponentPropsWithRef<
-  typeof CollapsiblePrimitive.Content
->
 const CollapsibleContent = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.Content>,
-  React.PropsWithoutRef<CollapsibleContentPropsType>
+  ICollapsibleContentProps
 >(({ className, ...props }, ref) => (
   <CollapsiblePrimitive.Content
     ref={ref}
