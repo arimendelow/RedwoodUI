@@ -62,7 +62,7 @@ import type {
 import { PopperContentProps } from '@radix-ui/react-popper'
 import {
   AnimatePresence,
-  AnimationProps,
+  Variants,
   motion,
   useAnimate,
   usePresence,
@@ -147,24 +147,18 @@ const Menu = (props: IMenuProps) => {
 /**
  * Spread this on the `motion.div` holding the menu content to animate it.
  */
-const menuAnimationProps: AnimationProps = {
-  initial: {
+const menuAnimationVariants: Variants = {
+  closed: {
     opacity: 0,
     transform: 'scale(0.9)',
     transformOrigin: `var(--radix-popper-transform-origin)`,
   },
-  animate: {
+  opened: {
     opacity: 1,
     transform: 'scale(1)',
     transition: { duration: 0 },
     transformOrigin: `var(--radix-popper-transform-origin)`,
   },
-  exit: {
-    opacity: 0,
-    transform: 'scale(0.9)',
-    transformOrigin: `var(--radix-popper-transform-origin)`,
-  },
-  transition: { ease: 'easeInOut', duration: 0.1 },
 }
 
 /**
@@ -201,7 +195,12 @@ const ContextDropdownMenu = ({
               asChild
               side={side}
             >
-              <motion.div {...menuAnimationProps}>
+              <motion.div
+                initial="closed"
+                animate="opened"
+                exit="closed"
+                variants={menuAnimationVariants}
+              >
                 {menuContent.content.map((group, index) => (
                   <MenuGroupRenderer
                     menuType={menuType}
