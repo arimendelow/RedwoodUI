@@ -260,7 +260,7 @@ const Menubar = ({
       {menuContent.menuSections.map((menuSection) => {
         return (
           <MenubarMenu key={menuSection.label} value={menuSection.label}>
-            <MenubarTrigger className="text-color-primary flex cursor-pointer select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium outline-none focus:bg-primary-600 data-[state=open]:bg-primary-600 data-[state=open]:text-light">
+            <MenubarTrigger className="text-color-primary flex cursor-pointer select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium outline-none focus:bg-primary-600 focus:text-light data-[state=open]:bg-primary-600 data-[state=open]:text-light">
               {menuSection.label}
             </MenubarTrigger>
             <AnimatePresence>
