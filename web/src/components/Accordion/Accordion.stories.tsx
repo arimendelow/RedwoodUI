@@ -47,21 +47,25 @@ export const Primary: Story = {
       collapsible
       sections={[
         {
+          value: 'a11y',
           trigger: 'Is it accessible?',
           content:
             "Yes. It adheres to the WAI-ARIA design pattern, as it's built with Radix UI.",
         },
         {
+          value: 'styled',
           trigger: 'Is it styled?',
           content:
             'Yes! It matches all other components, including built-in dark mode support 😉',
         },
         {
+          value: 'animated',
           trigger: 'Is it animated?',
           content:
             "Yes, with CSS - but you can disable it if you prefer. If you're interested in instead animating with Framer Motion, refer to the docs for why we didn't do that.",
         },
         {
+          value: 'component',
           trigger: (
             <div className="text-left">
               Can I use a component as the trigger and/or content?{' '}

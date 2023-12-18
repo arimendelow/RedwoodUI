@@ -7,10 +7,15 @@ import type {
   AccordionTriggerProps as IAccordionTriggerProps,
   AccordionContentProps as IAccordionContentProps,
 } from '@radix-ui/react-accordion'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { cn } from 'src/lib/utils'
 
 interface IAccordionSectionProps {
+  /**
+   * A unique string that can be used to identify this section.
+   */
+  value: string
   /**
    * The Trigger is the clickable part of the section.
    * It toggles the collapsed state of the Content.
@@ -32,15 +37,54 @@ type AccordionPropsType = AccordionRootPropsType & {
  * If you need a simple, easy to use component, use this.
  * Alternatively, you can use the AccordionRoot, AccordionItem, AccordionTrigger components etc.
  */
-const Accordion = ({ sections, ...props }: AccordionPropsType) => {
+const Accordion = ({
+  sections,
+  type,
+  defaultValue,
+  ...props
+}: AccordionPropsType) => {
+  /**
+   * This will either be a single value, if type === single, or an array, if type === multiple
+   */
+  const [openSections, setOpenSections] = React.useState<string | string[]>(
+    defaultValue ? defaultValue : type === 'single' ? '' : []
+  )
   return (
-    <AccordionRoot {...props}>
+    // @ts-expect-error the props are different for single vs multiple type, so this complains, but we're handling it ourselves. The other option is to have two separate components for SingleAccordion and MultipleAccordion
+    <AccordionRoot
+      type={type}
+      value={openSections}
+      onValueChange={setOpenSections}
+      {...props}
+    >
       {sections.map((section, index) => {
-        const { trigger, content } = section
+        const { value, trigger, content } = section
         return (
-          <AccordionItem key={index} value={index.toString()}>
+          <AccordionItem key={index} value={value}>
             <AccordionTrigger>{trigger}</AccordionTrigger>
-            <AccordionContent>{content}</AccordionContent>
+            <AnimatePresence>
+              {(openSections === value || openSections.includes(value)) && (
+                <AccordionContent forceMount asChild>
+                  <motion.div
+                    initial={{
+                      height: 0,
+                      marginBottom: 0,
+                    }}
+                    animate={{
+                      height: 'var(--radix-collapsible-content-height)',
+                      marginBottom: '0.25rem', // Update this to whatever margin you want on the bottom of the content.
+                    }}
+                    exit={{
+                      height: 0,
+                      marginBottom: 0,
+                    }}
+                    transition={{ ease: 'easeInOut' }}
+                  >
+                    {content}
+                  </motion.div>
+                </AccordionContent>
+              )}
+            </AnimatePresence>
           </AccordionItem>
         )
       })}
@@ -92,13 +136,10 @@ const AccordionContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Content
     ref={ref}
-    className={cn(
-      'prose-default overflow-hidden transition-all data-[state=closed]:animate-slide-up data-[state=open]:animate-slide-down',
-      className
-    )}
+    className={cn('prose-default overflow-hidden', className)}
     {...props}
   >
-    <div className="pb-4 pt-0">{children}</div>
+    {children}
   </AccordionPrimitive.Content>
 ))
 

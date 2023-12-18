@@ -56,31 +56,6 @@ module.exports = {
         '3xl': '1.5rem',
         full: '9999px',
       },
-      /**
-       * TODO migrate Accordion to use framer motion. See Collapsible for example.
-       */
-      keyframes: {
-        'slide-down': {
-          from: { height: '0' },
-          to: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-        },
-        'slide-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-          to: { height: '0' },
-        },
-      },
-      animation: {
-        'slide-down': 'slide-down 0.2s ease-in-out',
-        'slide-up': 'slide-up 0.2s ease-in-out',
-      },
-
-      /**
-       * END for accordion+collapsible components
-       */
     },
   },
   plugins: [require('@tailwindcss/typography')],
