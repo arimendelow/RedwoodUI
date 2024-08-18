@@ -61,8 +61,7 @@ export const Primary: Story = {
         {
           value: 'animated',
           trigger: 'Is it animated?',
-          content:
-            "Yes, with CSS - but you can disable it if you prefer. If you're interested in instead animating with Framer Motion, refer to the docs for why we didn't do that.",
+          content: 'Yes, with Framer Motion.',
         },
         {
           value: 'component',
