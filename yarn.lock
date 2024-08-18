@@ -9299,6 +9299,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/manager-api@npm:^7.6.17":
+  version: 7.6.20
+  resolution: "@storybook/manager-api@npm:7.6.20"
+  dependencies:
+    "@storybook/channels": "npm:7.6.20"
+    "@storybook/client-logger": "npm:7.6.20"
+    "@storybook/core-events": "npm:7.6.20"
+    "@storybook/csf": "npm:^0.1.2"
+    "@storybook/global": "npm:^5.0.0"
+    "@storybook/router": "npm:7.6.20"
+    "@storybook/theming": "npm:7.6.20"
+    "@storybook/types": "npm:7.6.20"
+    dequal: "npm:^2.0.2"
+    lodash: "npm:^4.17.21"
+    memoizerific: "npm:^1.11.3"
+    store2: "npm:^2.14.2"
+    telejson: "npm:^7.2.0"
+    ts-dedent: "npm:^2.0.0"
+  checksum: 10c0/3b773f203b7e95f6e55faca76875282a25ffb9f91061bbdac868976ae2d3e388b0a2306695e5472edbd74312d800eceb539f39c6d5a23f6be00260270eba5531
+  languageName: node
+  linkType: hard
+
 "@storybook/manager@npm:7.6.17":
   version: 7.6.17
   resolution: "@storybook/manager@npm:7.6.17"
@@ -9557,6 +9579,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/router@npm:7.6.20":
+  version: 7.6.20
+  resolution: "@storybook/router@npm:7.6.20"
+  dependencies:
+    "@storybook/client-logger": "npm:7.6.20"
+    memoizerific: "npm:^1.11.3"
+    qs: "npm:^6.10.0"
+  checksum: 10c0/0057c348acc84c0a733a9833d405fc20ccc1e434c8a9cf7c8011ed04450a71d05cfc6bbccae1cbff5594b6a4a1bdfeff43a36a8e645cc2643879d13f384ef58e
+  languageName: node
+  linkType: hard
+
 "@storybook/telemetry@npm:7.6.17":
   version: 7.6.17
   resolution: "@storybook/telemetry@npm:7.6.17"
@@ -9604,7 +9637,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/theming@npm:7.6.17, @storybook/theming@npm:^7.0.12, @storybook/theming@npm:^7.4.6":
+"@storybook/theming@npm:7.6.17, @storybook/theming@npm:^7.0.12":
   version: 7.6.17
   resolution: "@storybook/theming@npm:7.6.17"
   dependencies:
@@ -9616,6 +9649,21 @@ __metadata:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/f18c52b236554056a97d9df23c5ecf186ffe2ef22eae3812a961b5d9beff96c2a05134ce2a39ad246c2b4ae0d5904a4e7148f7eb3d38d9c7b676d6d0a6c30595
+  languageName: node
+  linkType: hard
+
+"@storybook/theming@npm:7.6.20, @storybook/theming@npm:^7.6.17":
+  version: 7.6.20
+  resolution: "@storybook/theming@npm:7.6.20"
+  dependencies:
+    "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.0.0"
+    "@storybook/client-logger": "npm:7.6.20"
+    "@storybook/global": "npm:^5.0.0"
+    memoizerific: "npm:^1.11.3"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/7ab97d6a93837900391212ac1638a247d2ccac55bd1261bb34739a11f226040c47da5fc5fde120d4829a3f068b55ce34a2d42c0b14bcfa71e97b18a4288161f3
   languageName: node
   linkType: hard
 
@@ -23001,7 +23049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook-framework-redwoodjs-vite@npm:8.0.0-rc.1114+86b2bcf7e":
+"storybook-framework-redwoodjs-vite@npm:8.0.0-rc.1114, storybook-framework-redwoodjs-vite@npm:8.0.0-rc.1114+86b2bcf7e":
   version: 8.0.0-rc.1114
   resolution: "storybook-framework-redwoodjs-vite@npm:8.0.0-rc.1114"
   dependencies:
@@ -24997,9 +25045,10 @@ __metadata:
     "@storybook/addon-styling": "npm:^1.3.7"
     "@storybook/addons": "npm:^7.4.6"
     "@storybook/builder-vite": "npm:^7.6.17"
+    "@storybook/manager-api": "npm:^7.6.17"
     "@storybook/react": "npm:^7.6.17"
     "@storybook/react-vite": "npm:^7.6.17"
-    "@storybook/theming": "npm:^7.4.6"
+    "@storybook/theming": "npm:^7.6.17"
     "@tailwindcss/typography": "npm:^0.5.10"
     "@types/react-datepicker": "npm:^4.19.3"
     add: "npm:^2.0.6"
@@ -25018,6 +25067,7 @@ __metadata:
     react-dom: "npm:18.2.0"
     react-stately: "npm:^3.28.0"
     storybook: "npm:^7.6.17"
+    storybook-framework-redwoodjs-vite: "npm:8.0.0-rc.1114"
     tailwind-merge: "npm:^1.14.0"
     tailwindcss: "npm:^3.4.10"
     yarn: "npm:^1.22.21"
