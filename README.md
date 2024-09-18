@@ -1,6 +1,6 @@
-# RedwoodJS Components
+# RedwoodUI
 
-This is currently a PoC of using TailwindCSS to create a branding system for bespoke RedwoodJS specific components.
+This is currently a WiP library of bespoke RedwoodJS components.
 
 Demo here: [https://youtu.be/r6f7GSTwVBw](https://youtu.be/r6f7GSTwVBw)
 
@@ -9,11 +9,9 @@ View existing components by building this repo and running `yarn rw storybook`.
 Alternatively, the Storybook automatically publishes to Chromatic [here](https://main--6525bb94aba230a3c956f05b.chromatic.com/).
 Please note that because customizing happens at build-time, you can't change the design system in Storybook, but you can toggle between light and dark mode.
 
-NOTE: We haven't yet removed the API side, but it is not in use. There have also been no pages added - this PoC is currently Storybook only.
-
 # Customizing the design system
 
-We're leaning on built-in TailwindCSS configs for customizing the design system, so all config lives in:
+All config lives in:
 
 - `web/config/tailwind.config.js`
   - This is where the color system is configured, and there's instructions there

@@ -4,9 +4,9 @@
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "baseUrl": "./",
     "skipLibCheck": false,
     "rootDirs": [
