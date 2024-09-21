@@ -1,10 +1,10 @@
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import type { Meta, StoryObj } from '@storybook/react'
-
 import Button from 'ui/Button'
-import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
 
 import Dialog, { DialogDescription, DialogTitle } from './Dialog'
+
+import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
 
 const meta: Meta<typeof Dialog> = {
   component: Dialog,

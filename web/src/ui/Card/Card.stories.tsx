@@ -2,8 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react'
 import AspectRatio from 'ui/AspectRatio'
 import Button from 'ui/Button'
 
-import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
-
 import Card, {
   CardHeader,
   CardFooter,
@@ -11,6 +9,8 @@ import Card, {
   CardDescription,
   CardContent,
 } from './Card'
+
+import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
 
 const meta: Meta<typeof Card> = {
   component: Card,

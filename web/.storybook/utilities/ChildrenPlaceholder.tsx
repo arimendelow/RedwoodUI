@@ -1,6 +1,10 @@
-import { cn } from './utils'
+import React from 'react'
+import { cn } from '../../src/lib/utils'
 
-export const ChildrenPlaceholder = ({
+/**
+ * Useful for when you want to show a placeholder for children in a component's story.
+ */
+const ChildrenPlaceholder = ({
   text,
   className,
 }: {
@@ -43,3 +47,5 @@ export const ChildrenPlaceholder = ({
     </div>
   </div>
 )
+
+export default ChildrenPlaceholder

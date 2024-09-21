@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
-
 import Button from 'ui/Button'
-import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
 
 import AlertDialog, { AlertContentWithActions } from './AlertDialog'
+
+import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
 
 const meta: Meta<typeof AlertDialog> = {
   component: AlertDialog,

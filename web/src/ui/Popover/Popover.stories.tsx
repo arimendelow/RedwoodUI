@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-
 import Button from 'ui/Button'
-import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
 
 import {
   PopoverRoot,
@@ -12,6 +10,8 @@ import {
   // PopoverArrow,
   // PopoverClose,
 } from './Popover'
+
+import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
 
 const meta: Meta<typeof PopoverRoot> = {
   component: PopoverRoot,

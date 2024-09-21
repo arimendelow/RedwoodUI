@@ -3,9 +3,9 @@ import type { Meta, StoryObj } from '@storybook/react'
 import Button from 'ui/Button'
 import { DialogDescription, DialogTitle } from 'ui/Dialog'
 
-import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
-
 import ActionSheet from './ActionSheet'
+
+import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
 
 const meta: Meta<typeof ActionSheet> = {
   component: ActionSheet,

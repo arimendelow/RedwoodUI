@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { ChildrenPlaceholder } from 'src/lib/StorybookUtils'
-
 import HoverCard from './HoverCard'
+
+import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
 
 const meta: Meta<typeof HoverCard> = {
   component: HoverCard,
