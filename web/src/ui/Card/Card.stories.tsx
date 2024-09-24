@@ -10,7 +10,7 @@ import Card, {
   CardContent,
 } from './Card'
 
-import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
+import ChildrenPlaceholder from 'src/ui/storyUtils/ChildrenPlaceholder'
 
 const meta: Meta<typeof Card> = {
   component: Card,

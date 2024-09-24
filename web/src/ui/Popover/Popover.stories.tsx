@@ -11,7 +11,7 @@ import {
   // PopoverClose,
 } from './Popover'
 
-import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
+import ChildrenPlaceholder from 'src/ui/storyUtils/ChildrenPlaceholder'
 
 const meta: Meta<typeof PopoverRoot> = {
   component: PopoverRoot,

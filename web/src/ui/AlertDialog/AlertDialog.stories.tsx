@@ -3,7 +3,7 @@ import Button from 'ui/Button'
 
 import AlertDialog, { AlertContentWithActions } from './AlertDialog'
 
-import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
+import ChildrenPlaceholder from 'src/ui/storyUtils/ChildrenPlaceholder'
 
 const meta: Meta<typeof AlertDialog> = {
   component: AlertDialog,

@@ -1,5 +1,6 @@
 import React from 'react'
-import { cn } from '../../src/lib/utils'
+
+import { cn } from '../../lib/uiUtils'
 
 /**
  * Useful for when you want to show a placeholder for children in a component's story.

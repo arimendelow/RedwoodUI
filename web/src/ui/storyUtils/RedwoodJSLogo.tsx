@@ -1,3 +1,5 @@
+import React from "react";
+
 export const RedwoodJSLogo = ({ className }: { className?: string }) => (
   <svg
     fill="none"

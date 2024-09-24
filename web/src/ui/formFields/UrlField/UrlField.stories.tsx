@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { FormProvider, Form, useForm, useWatch } from '@redwoodjs/forms'
 
 import Button from 'src/ui/Button/Button'
-import { RedwoodJSLogo } from 'src/ui/logos/RedwoodJSLogo'
+import { RedwoodJSLogo } from 'src/ui/storyUtils/RedwoodJSLogo'
 
 import UrlField from './UrlField'
 

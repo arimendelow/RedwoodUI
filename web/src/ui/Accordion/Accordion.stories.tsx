@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { RedwoodJSLogo } from 'src/ui/logos/RedwoodJSLogo'
+import ChildrenPlaceholder from 'src/ui/storyUtils/ChildrenPlaceholder'
+import { RedwoodJSLogo } from 'src/ui/storyUtils/RedwoodJSLogo'
 
 import { Accordion } from './Accordion'
-
-import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
 
 const meta: Meta<typeof Accordion> = {
   component: Accordion,

@@ -4,7 +4,7 @@ import Button from 'ui/Button'
 
 import Dialog, { DialogDescription, DialogTitle } from './Dialog'
 
-import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
+import ChildrenPlaceholder from 'src/ui/storyUtils/ChildrenPlaceholder'
 
 const meta: Meta<typeof Dialog> = {
   component: Dialog,

@@ -12,7 +12,7 @@ import Button from 'ui/Button'
 
 import Menu from './Menu'
 
-import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
+import ChildrenPlaceholder from 'src/ui/storyUtils/ChildrenPlaceholder'
 
 const meta: Meta<typeof Menu> = {
   component: Menu,

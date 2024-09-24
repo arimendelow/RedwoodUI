@@ -9,7 +9,7 @@ import type {
 } from '@radix-ui/react-accordion'
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 interface IAccordionSectionProps {
   /**

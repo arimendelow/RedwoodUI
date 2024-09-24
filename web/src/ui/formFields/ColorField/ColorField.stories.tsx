@@ -3,9 +3,10 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { FormProvider, Form, useForm } from '@redwoodjs/forms'
 
 import Button from 'src/ui/Button/Button'
-import { RedwoodJSLogo } from 'src/ui/logos/RedwoodJSLogo'
 
 import ColorField from './ColorField'
+
+import { RedwoodJSLogo } from 'src/ui/storyUtils/RedwoodJSLogo'
 
 const meta: Meta<typeof ColorField> = {
   component: ColorField,

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import Collapsible from './Collapsible'
 
-import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
+import ChildrenPlaceholder from 'src/ui/storyUtils/ChildrenPlaceholder'
 
 const meta: Meta<typeof Collapsible> = {
   component: Collapsible,

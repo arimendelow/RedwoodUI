@@ -5,7 +5,7 @@ import { DialogDescription, DialogTitle } from 'ui/Dialog'
 
 import ActionSheet from './ActionSheet'
 
-import ChildrenPlaceholder from '.storybook/utilities/ChildrenPlaceholder'
+import ChildrenPlaceholder from 'src/ui/storyUtils/ChildrenPlaceholder'
 
 const meta: Meta<typeof ActionSheet> = {
   component: ActionSheet,
