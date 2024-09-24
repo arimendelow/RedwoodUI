@@ -6,7 +6,7 @@ import type {
   PopoverCloseProps as IPopoverCloseProps,
 } from '@radix-ui/react-popover'
 
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 /**
  * Contains all the parts of a popover.

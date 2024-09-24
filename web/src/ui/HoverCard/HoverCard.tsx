@@ -5,7 +5,7 @@ import {
 } from '@radix-ui/react-hover-card'
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 interface IHoverCardProps extends IHoverCardRootProps {
   /**

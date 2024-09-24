@@ -8,7 +8,7 @@ import type {
 import { AnimatePresence, motion } from 'framer-motion'
 import Button from 'ui/Button'
 
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 interface ICollapsibleProps extends ICollapsibleRootProps {
   /**

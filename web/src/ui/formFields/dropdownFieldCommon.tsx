@@ -1,6 +1,6 @@
 import { CheckIcon } from '@heroicons/react/24/outline'
 
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 const SimpleOptionRendererWithRightCheckmark: RenderOptionType<string> = ({
   active,

@@ -77,7 +77,7 @@ import type {
   IStandardMenuItem,
   ISubMenuItem,
 } from 'src/ui/Menu/menuCommon'
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 type MenuType = 'context' | 'dropdown' | 'menubar'
 

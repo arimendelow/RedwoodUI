@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import { Label, get, useFormContext } from '@redwoodjs/forms'
 
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 /**
  * Redefined from https://github.com/redwoodjs/redwood/blob/b6457700abf209da0c23bfa8dc0fc3883f663dc2/packages/forms/src/index.tsx#L627C1-L635C2

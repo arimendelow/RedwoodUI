@@ -5,7 +5,7 @@ import { useController } from '@redwoodjs/forms'
 import { GroupFieldOptionLabel } from 'src/ui/formFields/groupFieldCommon'
 import { IInputFieldWrapperProps } from 'ui/formFields/InputFieldWrapper'
 import InputFieldWrapper from 'ui/formFields/InputFieldWrapper'
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 interface IRadioGroupOption {
   value: string

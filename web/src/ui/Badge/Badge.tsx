@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 const badgeColorTreatments = {
   neutral: ['bg-neutral-100', 'text-neutral-600'],

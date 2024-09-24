@@ -17,7 +17,7 @@ import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'src/ui/formFields/InputFieldWrapper/InputFieldWrapper'
 import { inputFieldVariants } from 'src/ui/formFields/inputVariants'
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 interface IComboboxSpecificProps<TValue extends React.ReactNode = string> {
   options: IDropdownOption<TValue>[]

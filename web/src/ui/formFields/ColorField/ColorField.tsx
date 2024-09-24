@@ -16,7 +16,7 @@ import {
   PopoverPortal,
   PopoverTrigger,
 } from 'ui/Popover'
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 interface IColorFieldProps
   extends Omit<

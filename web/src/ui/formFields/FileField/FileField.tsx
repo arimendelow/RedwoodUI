@@ -7,7 +7,7 @@ import {
   InputFieldVariantsPropsType,
   inputFieldVariants,
 } from 'src/ui/formFields/inputVariants'
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 interface IFileFieldProps
   extends Omit<

@@ -7,7 +7,7 @@ import type {
   ScrollAreaCornerProps as IScrollAreaCornerProps,
 } from '@radix-ui/react-scroll-area'
 
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaRoot>,

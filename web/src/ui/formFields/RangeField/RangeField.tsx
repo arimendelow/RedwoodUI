@@ -5,7 +5,7 @@ import { useController } from '@redwoodjs/forms'
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'ui/formFields/InputFieldWrapper'
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 interface IRangeFieldProps
   extends Omit<

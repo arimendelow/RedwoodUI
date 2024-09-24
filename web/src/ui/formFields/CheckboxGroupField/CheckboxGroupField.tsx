@@ -5,7 +5,7 @@ import { GroupFieldOptionLabel } from 'src/ui/formFields/groupFieldCommon'
 import InputFieldWrapper from 'ui/formFields/InputFieldWrapper'
 import { IInputFieldWrapperProps } from 'ui/formFields/InputFieldWrapper'
 import Switch from 'ui/Switch'
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 interface ICheckboxGroupOption {
   value: string

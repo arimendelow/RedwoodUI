@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import Button from 'ui/Button'
 import { IDialogProps } from 'ui/Dialog'
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 /**
  * The AlertDialog has much in common with the Dialog, but it is designed to be used for

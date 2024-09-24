@@ -5,7 +5,7 @@ import type {
 } from '@radix-ui/react-progress'
 import { motion } from 'framer-motion'
 
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 interface IProgressProps extends IProgressRootProps {}
 

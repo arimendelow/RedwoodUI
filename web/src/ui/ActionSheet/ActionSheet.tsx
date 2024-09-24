@@ -10,7 +10,7 @@ import {
   BoundingBox,
 } from 'framer-motion'
 
-import { cn } from 'src/lib/utils'
+import { cn } from 'src/lib/uiUtils'
 
 /**
  * This is used internally by the component to determine what various values should be, based on the `side` prop.
