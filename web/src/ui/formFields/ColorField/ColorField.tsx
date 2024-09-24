@@ -1,8 +1,15 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { HexColorPicker } from 'react-colorful'
+import {
+  PopoverRoot,
+  PopoverContent,
+  PopoverPortal,
+  PopoverTrigger,
+} from 'ui/Popover'
 
 import { useController } from '@redwoodjs/forms'
 
+import { cn } from 'src/lib/uiUtils'
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'src/ui/formFields/InputFieldWrapper/InputFieldWrapper'
@@ -10,13 +17,6 @@ import {
   InputFieldVariantsPropsType,
   inputFieldVariants,
 } from 'src/ui/formFields/inputVariants'
-import {
-  PopoverRoot,
-  PopoverContent,
-  PopoverPortal,
-  PopoverTrigger,
-} from 'ui/Popover'
-import { cn } from 'src/lib/uiUtils'
 
 interface IColorFieldProps
   extends Omit<

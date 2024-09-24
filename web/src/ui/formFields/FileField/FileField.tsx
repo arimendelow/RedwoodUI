@@ -1,5 +1,6 @@
 import { FileField as RWFileField, useController } from '@redwoodjs/forms'
 
+import { cn } from 'src/lib/uiUtils'
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'src/ui/formFields/InputFieldWrapper/InputFieldWrapper'
@@ -7,7 +8,6 @@ import {
   InputFieldVariantsPropsType,
   inputFieldVariants,
 } from 'src/ui/formFields/inputVariants'
-import { cn } from 'src/lib/uiUtils'
 
 interface IFileFieldProps
   extends Omit<

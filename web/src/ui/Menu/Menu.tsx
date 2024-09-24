@@ -68,6 +68,7 @@ import {
   usePresence,
 } from 'framer-motion'
 
+import { cn } from 'src/lib/uiUtils'
 import { MenuItemIndicatorRenderer } from 'src/ui/Menu/menuCommon'
 import type {
   AnyMenuGroupType,
@@ -77,7 +78,6 @@ import type {
   IStandardMenuItem,
   ISubMenuItem,
 } from 'src/ui/Menu/menuCommon'
-import { cn } from 'src/lib/uiUtils'
 
 type MenuType = 'context' | 'dropdown' | 'menubar'
 
@@ -418,8 +418,8 @@ const MenuItemRenderer = ({
     groupType === 'standard'
       ? MenuItem
       : groupType === 'check'
-      ? MenuCheckboxItem
-      : MenuRadioItem
+        ? MenuCheckboxItem
+        : MenuRadioItem
 
   return (
     <ItemComp

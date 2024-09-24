@@ -1,8 +1,8 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { AnimatePresence, motion } from 'framer-motion'
 
-import ActionSheet from 'src/ui/ActionSheet/ActionSheet'
 import { cn, useSmallScreen } from 'src/lib/uiUtils'
+import ActionSheet from 'src/ui/ActionSheet/ActionSheet'
 
 // exported for reuse by AlertDialog
 export interface IDialogProps {

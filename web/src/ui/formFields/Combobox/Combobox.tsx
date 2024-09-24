@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import { useController } from '@redwoodjs/forms'
 
+import { cn } from 'src/lib/uiUtils'
 import {
   IDropdownOption,
   useGetDropdownDisplayValue,
@@ -17,7 +18,6 @@ import InputFieldWrapper, {
   IInputFieldWrapperProps,
 } from 'src/ui/formFields/InputFieldWrapper/InputFieldWrapper'
 import { inputFieldVariants } from 'src/ui/formFields/inputVariants'
-import { cn } from 'src/lib/uiUtils'
 
 interface IComboboxSpecificProps<TValue extends React.ReactNode = string> {
   options: IDropdownOption<TValue>[]

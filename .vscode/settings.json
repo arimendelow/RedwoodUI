@@ -7,5 +7,14 @@
   },
   "[prisma]": {
     "editor.formatOnSave": true
-  }
+  },
+  "formatFiles.excludedFolders": [
+    "node_modules",
+    ".vscode",
+    ".git",
+    "dist",
+    ".chrome",
+    "**/node_modules",
+    "web/node_modules"
+  ]
 }
