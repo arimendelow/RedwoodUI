@@ -7,8 +7,8 @@
     ]
   },
   "devDependencies": {
-    "@redwoodjs/cli-storybook-vite": "8.2.0",
-    "@redwoodjs/core": "8.2.0",
+    "@redwoodjs/cli-storybook-vite": "8.3.0",
+    "@redwoodjs/core": "8.3.0",
     "chromatic": "^7.3.0",
     "prettier-plugin-tailwindcss": "0.4.1"
   },

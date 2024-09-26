@@ -1,12 +1,11 @@
-import Checkbox from 'src/ui/Checkbox'
-import InputFieldWrapper from 'src/ui/formFields/InputFieldWrapper'
-import { IInputFieldWrapperProps } from 'src/ui/formFields/InputFieldWrapper'
-import Switch from 'src/ui/Switch'
-
 import { useController } from '@redwoodjs/forms'
 
 import { cn } from 'src/lib/uiUtils'
+import Checkbox from 'src/ui/Checkbox'
 import { GroupFieldOptionLabel } from 'src/ui/formFields/groupFieldCommon'
+import InputFieldWrapper from 'src/ui/formFields/InputFieldWrapper'
+import { IInputFieldWrapperProps } from 'src/ui/formFields/InputFieldWrapper'
+import Switch from 'src/ui/Switch'
 
 interface ICheckboxGroupOption {
   value: string

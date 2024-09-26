@@ -1,9 +1,9 @@
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import { AnimatePresence, motion } from 'framer-motion'
-import Button from 'src/ui/Button'
-import { IDialogProps } from 'src/ui/Dialog'
 
 import { cn } from 'src/lib/uiUtils'
+import Button from 'src/ui/Button'
+import { IDialogProps } from 'src/ui/Dialog'
 
 /**
  * The AlertDialog has much in common with the Dialog, but it is designed to be used for

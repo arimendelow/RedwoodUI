@@ -1,11 +1,11 @@
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
-import { IInputFieldWrapperProps } from 'src/ui/formFields/InputFieldWrapper'
-import InputFieldWrapper from 'src/ui/formFields/InputFieldWrapper'
 
 import { useController } from '@redwoodjs/forms'
 
 import { cn } from 'src/lib/uiUtils'
 import { GroupFieldOptionLabel } from 'src/ui/formFields/groupFieldCommon'
+import InputFieldWrapper from 'src/ui/formFields/InputFieldWrapper'
+import { IInputFieldWrapperProps } from 'src/ui/formFields/InputFieldWrapper'
 
 interface IRadioGroupOption {
   value: string
