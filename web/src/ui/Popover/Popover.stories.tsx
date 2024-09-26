@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import Button from 'ui/Button'
+import Button from 'src/ui/Button'
 
 import ChildrenPlaceholder from 'src/ui/storyUtils/ChildrenPlaceholder'
 

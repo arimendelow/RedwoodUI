@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/20/solid'
 import { AcademicCapIcon } from '@heroicons/react/24/outline'
 import type { Meta, StoryObj } from '@storybook/react'
-import Button from 'ui/Button'
+import Button from 'src/ui/Button'
 
 import ChildrenPlaceholder from 'src/ui/storyUtils/ChildrenPlaceholder'
 

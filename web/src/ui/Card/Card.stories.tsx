@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import AspectRatio from 'ui/AspectRatio'
-import Button from 'ui/Button'
+import AspectRatio from 'src/ui/AspectRatio'
+import Button from 'src/ui/Button'
 
 import ChildrenPlaceholder from 'src/ui/storyUtils/ChildrenPlaceholder'
 

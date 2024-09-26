@@ -1,7 +1,7 @@
 import * as RangePrimitive from '@radix-ui/react-slider'
 import InputFieldWrapper, {
   IInputFieldWrapperProps,
-} from 'ui/formFields/InputFieldWrapper'
+} from 'src/ui/formFields/InputFieldWrapper'
 
 import { useController } from '@redwoodjs/forms'
 

@@ -1,0 +1,1 @@
+Turns out you need `api/sb/schema.prisma`, even if it's empty, to run `yarn rw g types`. This should be fixed at some point, but until then, leaving this here.

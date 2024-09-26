@@ -5,7 +5,7 @@ import {
   PopoverContent,
   PopoverPortal,
   PopoverTrigger,
-} from 'ui/Popover'
+} from 'src/ui/Popover'
 
 import { useController } from '@redwoodjs/forms'
 

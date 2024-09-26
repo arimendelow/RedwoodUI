@@ -6,7 +6,7 @@ import type {
   CollapsibleContentProps as ICollapsibleContentProps,
 } from '@radix-ui/react-collapsible'
 import { AnimatePresence, motion } from 'framer-motion'
-import Button from 'ui/Button'
+import Button from 'src/ui/Button'
 
 import { cn } from 'src/lib/uiUtils'
 
