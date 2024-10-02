@@ -1,5 +1,5 @@
-import { withThemeByDataAttribute } from "@storybook/addon-styling";
-import { Preview, ReactRenderer } from "@storybook/react";
+import { withThemeByDataAttribute } from "@storybook/addon-themes"
+import { Preview, ReactRenderer } from "@storybook/react"
 
 import '../src/index.css'
 
@@ -16,4 +16,4 @@ const preview: Preview = {
   ],
 }
 
-export default preview;
+export default preview

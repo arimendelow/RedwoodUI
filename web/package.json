@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@redwoodjs/vite": "8.3.0",
-    "@storybook/addon-styling": "^1.3.7",
+    "@storybook/addon-themes": "^7.6.20",
     "@storybook/addons": "^7.4.6",
     "@storybook/builder-vite": "^7.6.20",
     "@storybook/manager-api": "^7.6.20",
